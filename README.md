@@ -1,5 +1,7 @@
 # integritywatch-fr
-FR Integrity Watch is designed to be a central hub for online tools that allow citizens, journalists and civil society to monitor the integrity of decisions made by politicians in FR.
+Integrity Watch France is an interactive database that provides a unique insight into the interests and activities declared by parliamentarians. This tool should make it possible to better identify the activities likely to generate conflicts of interest.
+
+Integrity Watch France est une base de données interactive qui offre un aperçu unique des intérêts et activités déclarés par les parlementaires. Cet outil doit permettre de mieux identifier les activités susceptibles de générer des conflits d’intérêts.
 
 
 ## Project setup
