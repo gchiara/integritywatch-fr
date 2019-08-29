@@ -164,26 +164,20 @@ $color_lobby: #42b983;
   &.chart-container-table {
     height: auto;
   }
-  &.meetings_1 {
-    height: 600px;
+  &.tabA_1 {
+    height: auto;
   }
-  &.meetings_2 {
-    height: 600px;
+  &.tabA_2 {
+    height: auto;
   }
-  &.meetings_3 {
-    height: 600px;
+  &.tabA_3 {
+    height: auto;
   }
-  &.meetings_4 {
-    height: 600px;
+  &.tabA_4 {
+    height: 450px;
   }
-  &.meetings_5 {
-    height: 630px;
-  }
-  &.meetings_6 {
-    height: 630px;
-  }
-  &.meetings_7 {
-    height: 630px;
+  &.tabA_5 {
+    height: 450px;
   }
   @media only screen and (max-width: 767px) {
     height: auto !important;
@@ -256,9 +250,11 @@ $color_lobby: #42b983;
       font-size: 14px;
       line-height: 110%;
       float: left;
-      &.count-box-lobbyists, &.count-box-accred {
-        @media only screen and (max-width: 1280px) {
-          display: none;
+      &.activities-counter {
+        width: 250px;
+        .activities-count {
+          display: block;
+          float: none;
         }
       }
       .filter-count {
@@ -601,7 +597,7 @@ table.dataTable tbody tr:hover {
 
 /* MEPS PAGE STYLE */
 
-.meps-page {
+.tabA-page {
   .footer-bar .footer-counts .count-box .filter-count {
     &.nbmin, &.nbmax {
       font-size: 18px;
@@ -662,6 +658,16 @@ table.dataTable tbody tr:hover {
     }
     .modal-table-else {
       text-align: left;
+    }
+  }
+  //Hide some table columns on mobile
+  .chart-table {
+    td, th {
+      &:nth-child(1), &:nth-child(3), &:nth-child(5), &:nth-child(6), &:nth-child(8), &:nth-child(9) {
+        @media only screen and (max-width: 768px) {
+          display: none;
+        }
+      }
     }
   }
 }

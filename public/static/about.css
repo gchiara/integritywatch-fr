@@ -420,26 +420,20 @@ div.dc-html-legend {
 .chart-container.chart-container-table {
   height: auto;
 }
-.chart-container.meetings_1 {
-  height: 600px;
+.chart-container.tabA_1 {
+  height: auto;
 }
-.chart-container.meetings_2 {
-  height: 600px;
+.chart-container.tabA_2 {
+  height: auto;
 }
-.chart-container.meetings_3 {
-  height: 600px;
+.chart-container.tabA_3 {
+  height: auto;
 }
-.chart-container.meetings_4 {
-  height: 600px;
+.chart-container.tabA_4 {
+  height: 450px;
 }
-.chart-container.meetings_5 {
-  height: 630px;
-}
-.chart-container.meetings_6 {
-  height: 630px;
-}
-.chart-container.meetings_7 {
-  height: 630px;
+.chart-container.tabA_5 {
+  height: 450px;
 }
 @media only screen and (max-width: 767px) {
   .chart-container {
@@ -519,10 +513,12 @@ div.dc-html-legend {
   line-height: 110%;
   float: left;
 }
-@media only screen and (max-width: 1280px) {
-  .footer-bar .footer-counts .count-box.count-box-lobbyists, .footer-bar .footer-counts .count-box.count-box-accred {
-    display: none;
-  }
+.footer-bar .footer-counts .count-box.activities-counter {
+  width: 250px;
+}
+.footer-bar .footer-counts .count-box.activities-counter .activities-count {
+  display: block;
+  float: none;
 }
 .footer-bar .footer-counts .count-box .filter-count {
   color: #205d85;
@@ -865,62 +861,83 @@ table.dataTable tbody tr:hover {
 }
 
 /* MEPS PAGE STYLE */
-.meps-page .footer-bar .footer-counts .count-box .filter-count.nbmin, .meps-page .footer-bar .footer-counts .count-box .filter-count.nbmax {
+.tabA-page .footer-bar .footer-counts .count-box .filter-count.nbmin, .tabA-page .footer-bar .footer-counts .count-box .filter-count.nbmax {
   font-size: 18px;
 }
-.meps-page #detailsModal {
+.tabA-page #detailsModal {
   margin-bottom: 80px;
 }
-.meps-page #detailsModal a {
+.tabA-page #detailsModal a {
   color: #2e7db0;
   font-weight: 600;
 }
-.meps-page #detailsModal .modal-title {
+.tabA-page #detailsModal .modal-title {
   font-weight: 600;
   color: #2e7db0;
 }
-.meps-page #detailsModal .details-line {
+.tabA-page #detailsModal .details-line {
   text-align: left;
 }
-.meps-page #detailsModal .modal-divider {
+.tabA-page #detailsModal .modal-divider {
   height: 1px;
   background: #eee;
   margin: 30px -25px;
 }
-.meps-page #detailsModal .modal-table-title {
+.tabA-page #detailsModal .modal-table-title {
   font-weight: 600;
   text-align: left;
   margin: 10px 0 10px 0;
 }
-.meps-page #detailsModal .modal-table {
+.tabA-page #detailsModal .modal-table {
   width: 100%;
 }
-.meps-page #detailsModal .modal-table thead tr th {
+.tabA-page #detailsModal .modal-table thead tr th {
   background: #2e7db0;
   color: #fff;
   padding: 5px 10px;
   border: 2px solid #fff;
   font-weight: 500;
 }
-.meps-page #detailsModal .modal-table tbody tr {
+.tabA-page #detailsModal .modal-table tbody tr {
   padding: 0;
 }
-.meps-page #detailsModal .modal-table tbody tr:nth-child(even) {
+.tabA-page #detailsModal .modal-table tbody tr:nth-child(even) {
   background: #fafafa;
 }
-.meps-page #detailsModal .modal-table tbody tr:nth-child(odd) {
+.tabA-page #detailsModal .modal-table tbody tr:nth-child(odd) {
   background: #f4f4f4;
 }
-.meps-page #detailsModal .modal-table tbody tr td {
+.tabA-page #detailsModal .modal-table tbody tr td {
   padding: 10px;
   border: 2px solid #fff;
   font-size: 13px;
 }
-.meps-page #detailsModal .modal-table-else {
+.tabA-page #detailsModal .modal-table-else {
   text-align: left;
+}
+@media only screen and (max-width: 768px) {
+  .tabA-page .chart-table td:nth-child(1), .tabA-page .chart-table td:nth-child(3), .tabA-page .chart-table td:nth-child(5), .tabA-page .chart-table td:nth-child(6), .tabA-page .chart-table td:nth-child(8), .tabA-page .chart-table td:nth-child(9), .tabA-page .chart-table th:nth-child(1), .tabA-page .chart-table th:nth-child(3), .tabA-page .chart-table th:nth-child(5), .tabA-page .chart-table th:nth-child(6), .tabA-page .chart-table th:nth-child(8), .tabA-page .chart-table th:nth-child(9) {
+    display: none;
+  }
 }.container {
   padding: 30px 0;
   padding-bottom: 50px;
+}
+
+.about-section-title {
+  font-size: 24px;
+  color: #205d85;
+  text-align: left;
+  font-weight: 600;
+  margin: 30px 0 20px 0;
+}
+.about-section-title:first-child {
+  margin: 10px 0 20px 0;
+}
+
+.about-section-spacer {
+  margin: 35px 0 30px 0;
+  border: 1px solid #205d85;
 }
 
 .panel-group .panel {

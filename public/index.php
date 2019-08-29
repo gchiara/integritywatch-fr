@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="static/meps.css">
 </head>
 <body>
-    <div id="app" class="meps-page">   
+    <div id="app" class="tabA-page">   
       <?php include 'header.php' ?>
       <div class="container-fluid dashboard-container-outer">
         <div class="row dashboard-container">
@@ -45,7 +45,7 @@
           <div class="col-md-6 chart-subrow">
             <div class="row chart-subrow-row">
               <div class="col-md-12 chart-col">
-                <div class="boxed-container chart-container meetings_1">
+                <div class="boxed-container chart-container tabA_1">
                   <chart-header :title="charts.map.title" :info="charts.map.info" ></chart-header>
                   <div class="map-buttons">
                     <button id="iledefrance">Ile de France</button>
@@ -60,25 +60,25 @@
           <div class="col-md-6 chart-subrow">
             <div class="row chart-subrow-row">
               <div class="col-md-6 chart-col">
-                <div class="boxed-container chart-container meetings_2">
+                <div class="boxed-container chart-container tabA_2">
                   <chart-header :title="charts.party.title" :info="charts.party.info" ></chart-header>
                   <div class="chart-inner" id="party_chart"></div>
                 </div>
               </div>
               <div class="col-md-6 chart-col">
-                <div class="boxed-container chart-container meetings_3">
+                <div class="boxed-container chart-container tabA_3">
                   <chart-header :title="charts.activities.title" :info="charts.activities.info" ></chart-header>
                   <div class="chart-inner" id="activities_chart"></div>
                 </div>
               </div>
               <div class="col-md-6 chart-col">
-                <div class="boxed-container chart-container meetings_4">
+                <div class="boxed-container chart-container tabA_4">
                   <chart-header :title="charts.mandate.title" :info="charts.mandate.info" ></chart-header>
                   <div class="chart-inner" id="mandate_chart"></div>
                 </div>
               </div>
               <div class="col-md-6 chart-col">
-                <div class="boxed-container chart-container meetings_5">
+                <div class="boxed-container chart-container tabA_5">
                   <chart-header :title="charts.gender.title" :info="charts.gender.info" ></chart-header>
                   <div class="chart-inner" id="gender_chart"></div>
                 </div>
@@ -232,14 +232,8 @@
             <div class="dc-data-count count-box">
               <div class="filter-count">0</div>out of <strong class="total-count">0</strong> meetings
             </div>
-            <div class="org-count count-box">
-              <div class="filter-count">0</div>out of <strong class="total-count">0</strong> organisations
-            </div>
-            <div class="count-box count-box-lobbyists">
-              <div class="filter-count nbfte">0</div> out of <strong class="total-count">0</strong> Lobbyists
-            </div>
-            <div class="count-box count-box-accred">
-              <div class="filter-count nbaccredited">0</div> out of <strong class="total-count">0</strong> EP passes
+            <div class="count-box activities-counter">
+              <div class="filter-count activities-count">0</div>out of <strong class="total-count">0</strong> activités annexes conservées
             </div>
           </div>
         </div>

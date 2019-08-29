@@ -46896,34 +46896,39 @@ $(function () {
 var charts = {
   map: {
     chart: dc.geoChoroplethChart("#map_chart"),
-    type: 'map'
+    type: 'map',
+    divId: 'map_chart'
   },
   party: {
     chart: dc.pieChart("#party_chart"),
-    type: 'row'
+    type: 'pie',
+    divId: 'party_chart'
   },
   activities: {
     chart: dc.pieChart("#activities_chart"),
-    type: 'row'
+    type: 'pie',
+    divId: 'activities_chart'
   },
   mandate: {
     chart: dc.pieChart("#mandate_chart"),
-    type: 'row'
+    type: 'pie',
+    divId: 'mandate_chart'
   },
   gender: {
     chart: dc.pieChart("#gender_chart"),
-    type: 'row'
+    type: 'pie',
+    divId: 'gender_chart'
   },
   mainTable: {
     chart: null,
-    type: 'table'
+    type: 'table',
+    divId: 'dc-data-table'
   } //Functions for responsivness
 
 };
 
-var recalcWidth = function recalcWidth() {
-  //Edit this function so that it supports different widths, perhaps use single chart id as parameters
-  return document.getElementById("party_chart").offsetWidth - vuedata.chartMargin;
+var recalcWidth = function recalcWidth(divId) {
+  return document.getElementById(divId).offsetWidth - vuedata.chartMargin;
 };
 
 var recalcWidthWordcloud = function recalcWidthWordcloud() {
@@ -46936,8 +46941,8 @@ var recalcCharsLength = function recalcCharsLength(width) {
   return parseInt(width / 8);
 };
 
-var calcPieSize = function calcPieSize() {
-  var newWidth = recalcWidth();
+var calcPieSize = function calcPieSize(divId) {
+  var newWidth = recalcWidth(divId);
   var sizes = {
     'width': newWidth,
     'height': 0,
@@ -46965,12 +46970,18 @@ var calcPieSize = function calcPieSize() {
 };
 
 var resizeGraphs = function resizeGraphs() {
-  var newWidth = recalcWidth();
-  var charsLength = recalcCharsLength(newWidth);
-  var sizes = calcPieSize();
-
   for (var c in charts) {
-    if (charts[c].type == 'row') {
+    var sizes = calcPieSize(charts[c].divId);
+    var newWidth = recalcWidth(charts[c].divId);
+    var charsLength = recalcCharsLength(newWidth);
+
+    if (charts[c].type == 'map') {
+      var newProjection = d3.geoMercator().center([11, 45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+      .translate([newWidth - 50, 220]).scale(newWidth * 3);
+      charts[c].chart.width(newWidth);
+      charts[c].chart.projection(newProjection);
+      charts[c].chart.redraw();
+    } else if (charts[c].type == 'row') {
       charts[c].chart.width(newWidth);
       charts[c].chart.label(function (d) {
         var thisKey = d.key;
@@ -47611,31 +47622,18 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 
             var createMapChart = function createMapChart() {
               (0, _d3Request.json)('./data/departements.topo.js', function (err, jsonmap) {
-                console.log(jsonmap);
                 var chart = charts.map.chart;
-                /*
-                var dimension = ndx.dimension(function (d) {
-                  if(d.departement_n && d.departement_n.length == 1){
-                    return '0'+d.departement_n;
-                  } else {
-                    return d.departement_n;
-                  }
-                });
-                */
-
+                var width = recalcWidth(charts.map.divId);
                 var group = mapDimension.group().reduceSum(function (d) {
                   return 1;
                 });
-                var width = 550;
-                var height = 600;
-                var projection = d3.geoMercator().center([11, 45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-                .scale(width * 2.8);
                 var dpt = topojson.feature(jsonmap, jsonmap.objects.departements).features;
+                var projection = d3.geoMercator().center([11, 45]).scale(width * 2.9).translate([width - 50, 220]);
                 var centered;
 
                 function clicked(d) {}
 
-                chart.width(550).height(400).dimension(mapDimension).group(group).projection(projection).colors(d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])).colorDomain([1, 20]).colorCalculator(function (d) {
+                chart.width(width).height(400).dimension(mapDimension).group(group).projection(projection).colors(d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])).colorDomain([1, 20]).colorCalculator(function (d) {
                   return d == 0 ? '#eee' : chart.colors()(d);
                 }).overlayGeoJson(dpt, "departement", function (d) {
                   return d.properties.code;
@@ -47695,7 +47693,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
               var group = dimension.group().reduceSum(function (d) {
                 return 1;
               });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.party.divId);
               chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
                 var thisKey = d.name;
 
@@ -47725,7 +47723,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
               var group = dimension.group().reduceSum(function (d) {
                 return 1;
               });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.activities.divId);
               chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
                 var thisKey = d.name;
 
@@ -47760,7 +47758,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
               var group = dimension.group().reduceSum(function (d) {
                 return 1;
               });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.mandate.divId);
               chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
                 var thisKey = d.name;
 
@@ -47791,7 +47789,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
               var group = dimension.group().reduceSum(function (d) {
                 return 1;
               });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.gender.divId);
               chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
                 var thisKey = d.name;
 
@@ -48025,70 +48023,53 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
             }); //Custom counters
 
             var iniCountSetup = false;
-            /*
-            function drawOrgCounter() {
-              var dim = ndx.dimension (function(d) {
-                if (!d.Id) {
-                  return "";
-                } else {
-                  return d.Id;
-                }
+
+            function drawCustomCounter() {
+              var dim = ndx.dimension(function (d) {
+                return d.name;
               });
-              var group = dim.group().reduce(
-                function(p,d) {  
-                  p.nb +=1;
-                  if (!d.Id || !vuedata.organizations[d.Id]) {
-                    return p;
-                  }
-                  p.fte = +vuedata.organizations[d.Id].FTE;
-                  p.accredited = +vuedata.organizations[d.Id].Accred;
-                  return p;
-                },
-                function(p,d) {  
-                  p.nb -=1;
-                  if (!d.Id || ! vuedata.organizations[d.Id]) {
-                    return p;
-                  }
-                  p.fte = +vuedata.organizations[d.Id].FTE;
-                  p.accredited = +vuedata.organizations[d.Id].Accred;
-                  return p;
-                },
-                function(p,d) {  
-                  return {nb: 0, fte: 0, accredited: 0}; 
+              var group = dim.group().reduce(function (p, d) {
+                p.nb += 1;
+                p.activities += +d.activities;
+                return p;
+              }, function (p, d) {
+                p.nb -= 1;
+                p.activities -= +d.activities;
+                return p;
+              }, function (p, d) {
+                return {
+                  nb: 0,
+                  activities: 0
+                };
+              });
+              group.order(function (p) {
+                return p.nb;
+              });
+              var activities = 0;
+              var counter = dc.dataCount(".activities-count").dimension(group).group({
+                value: function value() {
+                  return group.all().filter(function (kv) {
+                    if (kv.value.nb > 0) {
+                      activities += +kv.value.activities;
+                    }
+
+                    return kv.value.nb > 0;
+                  }).length;
                 }
-              );
-              group.order(function(p){ return p.nb });
-              var fte = 0;
-              var accredited = 0;
-              var counter = dc.dataCount(".org-count")
-              .dimension(group)
-              .group({value: function() {
-                return group.all().filter(function(kv) {
-                  if (kv.value.nb >0) {
-                    fte += +kv.value.fte;
-                    accredited += +kv.value.accredited;
-                  }
-                  return kv.value.nb > 0; 
-                }).length;
-              }})
-              .renderlet(function (chart) {
-                $(".nbfte").text(fte);
-                $(".nbfte").text(addcommas(Math.round(fte)));
-                $(".nbaccredited").text(addcommas(Math.round(accredited)));
-                //Set up initial count
-                if(iniCountSetup == false){
-                  $('.count-box-lobbyists .total-count').text(addcommas(Math.round(fte)));
-                  $('.count-box-accred .total-count').text(addcommas(Math.round(accredited)));
+              }).renderlet(function (chart) {
+                $(".activities-count").text(addcommas(Math.round(activities))); //Set up initial count
+
+                if (iniCountSetup == false) {
+                  $('.activities-counter .total-count').text(addcommas(Math.round(activities)));
                   iniCountSetup = true;
                 }
-                fte=0;
-                accredited=0;
+
+                activities = 0;
               });
               counter.render();
             }
-            drawOrgCounter();
-            */
-            //Window resize function
+
+            drawCustomCounter(); //Window resize function
 
             window.onresize = function (event) {
               resizeGraphs();
@@ -48127,7 +48108,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59784" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51043" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

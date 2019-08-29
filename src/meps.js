@@ -162,33 +162,38 @@ var charts = {
   map: {
     chart: dc.geoChoroplethChart("#map_chart"),
     type: 'map',
+    divId: 'map_chart'
   },
   party: {
     chart: dc.pieChart("#party_chart"),
-    type: 'row',
+    type: 'pie',
+    divId: 'party_chart'
   },
   activities: {
     chart: dc.pieChart("#activities_chart"),
-    type: 'row',
+    type: 'pie',
+    divId: 'activities_chart'
   },
   mandate: {
     chart: dc.pieChart("#mandate_chart"),
-    type: 'row',
+    type: 'pie',
+    divId: 'mandate_chart'
   },
   gender: {
     chart: dc.pieChart("#gender_chart"),
-    type: 'row',
+    type: 'pie',
+    divId: 'gender_chart'
   },
   mainTable: {
     chart: null,
     type: 'table',
+    divId: 'dc-data-table'
   }
 }
 
 //Functions for responsivness
-var recalcWidth = function() {
-  //Edit this function so that it supports different widths, perhaps use single chart id as parameters
-  return document.getElementById("party_chart").offsetWidth - vuedata.chartMargin;
+var recalcWidth = function(divId) {
+  return document.getElementById(divId).offsetWidth - vuedata.chartMargin;
 };
 var recalcWidthWordcloud = function() {
   //Replace element if with wordcloud column id
@@ -198,8 +203,8 @@ var recalcWidthWordcloud = function() {
 var recalcCharsLength = function(width) {
   return parseInt(width / 8);
 };
-var calcPieSize = function() {
-  var newWidth = recalcWidth();
+var calcPieSize = function(divId) {
+  var newWidth = recalcWidth(divId);
   var sizes = {
     'width': newWidth,
     'height': 0,
@@ -224,11 +229,19 @@ var calcPieSize = function() {
   return sizes;
 };
 var resizeGraphs = function() {
-  var newWidth = recalcWidth();
-  var charsLength = recalcCharsLength(newWidth);
-  var sizes = calcPieSize();
   for (var c in charts) {
-    if(charts[c].type == 'row'){
+    var sizes = calcPieSize(charts[c].divId);
+    var newWidth = recalcWidth(charts[c].divId);
+    var charsLength = recalcCharsLength(newWidth);
+    if(charts[c].type == 'map') {
+      var newProjection = d3.geoMercator()
+        .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+        .translate([newWidth - 50, 220])
+        .scale(newWidth*3);
+      charts[c].chart.width(newWidth);
+      charts[c].chart.projection(newProjection);
+      charts[c].chart.redraw();
+    } else if(charts[c].type == 'row'){
       charts[c].chart.width(newWidth);
       charts[c].chart.label(function (d) {
         var thisKey = d.key;
@@ -808,30 +821,20 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
             //MAP CHART
             var createMapChart = function() {
               json('./data/departements.topo.js', (err, jsonmap) => {
-                console.log(jsonmap);
                 var chart = charts.map.chart;
-                /*
-                var dimension = ndx.dimension(function (d) {
-                  if(d.departement_n && d.departement_n.length == 1){
-                    return '0'+d.departement_n;
-                  } else {
-                    return d.departement_n;
-                  }
-                });
-                */
+                var width = recalcWidth(charts.map.divId);
                 var group = mapDimension.group().reduceSum(function (d) { return 1; });
-                var width=550;
-                var height=600;
-                var projection = d3.geoMercator()
-                  .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-                  .scale(width*2.8);
                 var dpt = topojson.feature(jsonmap, jsonmap.objects.departements).features;
+                var projection = d3.geoMercator()
+                  .center([11,45])
+                  .scale(width*2.9)
+                  .translate([width - 50, 220]);
                 var centered;
                 function clicked(d) {
                 }
             
                 chart
-                  .width(550)
+                  .width(width)
                   .height(400)
                   .dimension(mapDimension)
                   .group(group)
@@ -896,7 +899,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
               });
               var order = ['LR','Autres','FN','UDI','EELV/UDE','FG/PCF','PRG','PS/SRC'];
               var group = dimension.group().reduceSum(function (d) { return 1; });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.party.divId);
               chart
                 .width(sizes.width)
                 .height(sizes.height)
@@ -931,7 +934,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
               });
               var order = ['0','1','2 - 5','6 - 10','> 10'];
               var group = dimension.group().reduceSum(function (d) { return 1; });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.activities.divId);
               chart
                 .width(sizes.width)
                 .height(sizes.height)
@@ -970,7 +973,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
                 return d.mandat;  
               });
               var group = dimension.group().reduceSum(function (d) { return 1; });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.mandate.divId);
               chart
                 .width(sizes.width)
                 .height(sizes.height)
@@ -1005,7 +1008,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
                 return d.civilite;  
               });
               var group = dimension.group().reduceSum(function (d) { return 1; });
-              var sizes = calcPieSize();
+              var sizes = calcPieSize(charts.gender.divId);
               chart
                 .width(sizes.width)
                 .height(sizes.height)
@@ -1257,69 +1260,50 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
 
             //Custom counters
             var iniCountSetup = false;
-            /*
-            function drawOrgCounter() {
+            function drawCustomCounter() {
               var dim = ndx.dimension (function(d) {
-                if (!d.Id) {
-                  return "";
-                } else {
-                  return d.Id;
-                }
+                return d.name;
               });
               var group = dim.group().reduce(
                 function(p,d) {  
                   p.nb +=1;
-                  if (!d.Id || !vuedata.organizations[d.Id]) {
-                    return p;
-                  }
-                  p.fte = +vuedata.organizations[d.Id].FTE;
-                  p.accredited = +vuedata.organizations[d.Id].Accred;
+                  p.activities += +d.activities;
                   return p;
                 },
                 function(p,d) {  
                   p.nb -=1;
-                  if (!d.Id || ! vuedata.organizations[d.Id]) {
-                    return p;
-                  }
-                  p.fte = +vuedata.organizations[d.Id].FTE;
-                  p.accredited = +vuedata.organizations[d.Id].Accred;
+                  p.activities -= +d.activities;
                   return p;
                 },
                 function(p,d) {  
-                  return {nb: 0, fte: 0, accredited: 0}; 
+                  return {nb: 0, activities: 0}; 
                 }
               );
               group.order(function(p){ return p.nb });
-              var fte = 0;
-              var accredited = 0;
-              var counter = dc.dataCount(".org-count")
+              var activities = 0;
+              var counter = dc.dataCount(".activities-count")
               .dimension(group)
               .group({value: function() {
                 return group.all().filter(function(kv) {
-                  if (kv.value.nb >0) {
-                    fte += +kv.value.fte;
-                    accredited += +kv.value.accredited;
+                  if (kv.value.nb > 0) {
+                    activities += +kv.value.activities;
                   }
                   return kv.value.nb > 0; 
                 }).length;
               }})
               .renderlet(function (chart) {
-                $(".nbfte").text(fte);
-                $(".nbfte").text(addcommas(Math.round(fte)));
-                $(".nbaccredited").text(addcommas(Math.round(accredited)));
+                $(".activities-count").text(addcommas(Math.round(activities)));
                 //Set up initial count
                 if(iniCountSetup == false){
-                  $('.count-box-lobbyists .total-count').text(addcommas(Math.round(fte)));
-                  $('.count-box-accred .total-count').text(addcommas(Math.round(accredited)));
+                  $('.activities-counter .total-count').text(addcommas(Math.round(activities)));
                   iniCountSetup = true;
                 }
-                fte=0;
-                accredited=0;
+                activities=0;
               });
               counter.render();
             }
-            drawOrgCounter();
-            */
+            drawCustomCounter();
+            
 
             //Window resize function
             window.onresize = function(event) {

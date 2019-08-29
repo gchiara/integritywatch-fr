@@ -2,6 +2,20 @@
   padding: 30px 0;
   padding-bottom: 50px;
 }
+.about-section-title {
+  font-size: 24px;
+  color: #205d85;
+  text-align: left;
+  font-weight: 600;
+  margin: 30px 0 20px 0;
+  &:first-child {
+    margin: 10px 0 20px 0;
+  }
+}
+.about-section-spacer {
+  margin: 35px 0 30px 0;
+  border: 1px solid #205d85;
+}
 .panel-group {
   .panel {
     background: #fff;
