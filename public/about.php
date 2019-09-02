@@ -30,16 +30,16 @@
                 <p>Integrity Watch vise à renforcer la transparence et la redevabilité des acteurs publics et privés ainsi qu’à prévenir les conflits d’intérêts en facilitant l’exercice d’un contrôle citoyen. L’objectif est de mettre à disposition de tous et de façon intelligible des données publiques existantes. L’outil a vocation à être enrichi dans les mois et années qui viennent avec de nouveaux jeux de données (futur registre des déports au Parlement, registre des représentants d’intérêts, agendas publics des élus, etc.), pour devenir à terme un véritable outil citoyen de prévention des conflits d’intérêts.</p>
                 <p>Transparency International France est une association agréée par la HATVP et peut la saisir pour toute question relative aux lois sur la transparence : déclarations d’intérêts et de patrimoine incomplètes, conflits d’intérêts, incompatibilités non respectées, pantouflages problématiques… Transparency International France invite dès lors tous les citoyens à exercer leur droit de regard et à lui faire part de tout manquement constaté par <a href="https://transparency-france.org/aider-victimes-de-corruption/cajac/" target="_blank">le biais de ce formulaire dédié.</a></p>
                 <p>Integrity Watch a été lancé en octobre 2014 par Transparency International UE (TI EU). Le projet est co-financé par <a href="https://www.opensocietyfoundations.org/about/programs/open-society-initiative-europe" target="_blank">l’Open Society Initiative for Europe (OSIFE)</a>, avec une contribution de la <a href="https://www.kbs-frb.be/" target="_blank">Fondation Roi Baudouin (FRB)</a>. Integrity Watch France est cofinancé avec le soutien de la Commission européenne. Le contenu de cette plateforme numérique représente uniquement les vues de l’auteur, à qui incombe l’unique responsabilité. La Commission européenne ne saurait être tenue responsable de l’utilisation qui pourrait être faite des informations contenues sur cette plateforme.</p>
-                <p style="text-align: center;"><a href="http://www.transparency-france.org">
-                <img src="./images/ti-fr.png" style="width: 200px;margin-bottom:20px;"></a></p>
+                <p class="center"><a href="http://www.transparency-france.org">
+                <img src="./images/ti-fr.png" class="fr-logo"></a></p>
                 <div class="about-eu-funding">
                   <img class="logo" src="./images/about/flag_yellow_low.jpg" />
-                  <p style="font-family: Arial">Cette plateforme numérique est cofinancée par le Fonds de Sécurité Intérieure – Police de l’Union européenne</p>
+                  <p>Cette plateforme numérique est cofinancée par le Fonds de Sécurité Intérieure – Police de l’Union européenne</p>
                 </div>
-                <p style="text-align: center;">
-                  <a href="http://www.transparencyinternational.eu"><img src="./images/about/ti-eu.jpg" style="display:inline-block;margin: 20px;"></a>
-                  <a href="https://www.opensocietyfoundations.org/"><img src="./images/about/osife.png" style="display:inline-block;margin: 20px;"></a>
-                  <a href="https://www.kbs-frb.be"><img src="./images/about/baudouin.png" style="display:inline-block;margin: 20px;"></a>
+                <p class="center">
+                  <a href="http://www.transparencyinternational.eu"><img src="./images/about/ti-eu.jpg" class="inline-logo"></a>
+                  <a href="https://www.opensocietyfoundations.org/"><img src="./images/about/osife.png" class="inline-logo"></a>
+                  <a href="https://www.kbs-frb.be"><img src="./images/about/baudouin.png" class="inline-logo"></a>
                 </p>
                 <p>Website design and development:<br />
                 <a href="http://www.chiaragirardelli.net">Chiara Girardelli</a><br /></p>
@@ -249,7 +249,7 @@
                   <li>Un tiers des parlementaires déclarent détenir des participations financières. Seule la moitié d’entre eux (53%) ont actualisé leur déclaration en 2018 ou 2019.</li>
                   <li>En moyenne, les parlementaires ont déposé deux déclarations (soit une déclaration initiale et une déclaration modificative). 40% des députés et 50% des sénateurs n’ont pas déposé de nouvelle déclaration après leur déclaration initiale. A l’inverse, un sénateur a déposé jusqu’à neuf déclarations.</li>
                 </ul>
-                <p style="text-align: center;"><img src="./images/about/about-table.jpg" style="width: 600px;" /></p>
+                <p class="center"><img src="./images/about/about-table.jpg" class="about-table" /></p>
               </div>
             </div>
           </div>
@@ -265,7 +265,7 @@
                 <ul>
                   <li>
                     Améliorer la qualité et la mise à jour des déclarations d'intérêts et d'activités des parlementaires, au besoin en modifiant la loi du 11 octobre 2013 et/ou le décret du 23 décembre 2013 :
-                    <ul style="margin-top: 20px;">
+                    <ul class="mt-20">
                       <li>Clarifier le fait que les revenus tirés des activités annexes doivent être déclarés sur une base au moins annuelle. Ce système de déclaration annuelle permettrait de s’assurer d'une meilleure actualisation de ces données.</li>
                       <li>Améliorer l’information des parlementaires sur leurs obligations déclaratives. Les services du Parlement en charge de la gestion administrative des contrats de travail des collaborateurs parlementaires pourraient par exemple prévoir d’adresser systématiquement une information aux parlementaires lorsque ceux-ci recrutent ou se séparent d’un collaborateur et/ou la HATVP pourrait prévoir d’adresser chaque année un rappel aux parlementaires.</li>
                       <li>Associer un numéro SIREN/SIRET aux entreprises et organisations mentionnées dans la déclaration, afin de faciliter le traitement statistique, et - à terme - le croisement des données avec d’autres bases de données, notamment le registre des représentants d’intérêt de la HATVP.</li>
@@ -274,7 +274,7 @@
                   </li>
                   <li>
                     Pour renforcer l’exemplarité du Parlement de manière générale, <a href="https://transparency-france.org/wp-content/uploads/2017/05/Rapport-parlementexemplaire.pdf" target="_blank">Transparency International France a publié en mai 2017 un rapport</a> contenant des recommandations relatives aux frais de mandat, au statut des collaborateurs parlementaires, et au renforcement de la déontologie. Parmi ces recommandations :
-                    <ul style="margin-top: 20px;">
+                    <ul class="mt-20">
                       <li>Mettre en place rapidement le registre des déports, prévu par la loi pour la confiance dans la vie politique de septembre 2017.</li>
                       <li>Plafonner les revenus annexes des parlementaires.</li>
                       <li>Assurer le contrôle effectif et la transparence des frais de mandat des parlementaires.</li>
