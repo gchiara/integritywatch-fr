@@ -233,10 +233,10 @@
           </div>
           <div class="footer-col col-4 col-sm-8 footer-counts">
             <div class="dc-data-count count-box">
-              <div class="filter-count">0</div>out of <strong class="total-count">0</strong> meetings
+              <div class="filter-count">0</div>parmi <strong class="total-count">0</strong> parlementaires
             </div>
             <div class="count-box activities-counter">
-              <div class="filter-count activities-count">0</div>out of <strong class="total-count">0</strong> activités annexes conservées
+              <div class="filter-count activities-count">0</div>parmi <strong class="total-count">0</strong> activités annexes conservées
             </div>
           </div>
         </div>
