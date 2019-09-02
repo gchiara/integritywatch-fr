@@ -2,7 +2,7 @@
   <div class="chart-header row">
     <div class="chart-title col-9">{{ title }}</div>
     <div class="chart-header-buttons col-3">
-      <button type="button" class="btn btn-secondary btn-info" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" :data-content="info">
+      <button v-if="info" type="button" class="btn btn-secondary btn-info" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" :data-content="info">
         i
       </button>
     </div>

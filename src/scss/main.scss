@@ -544,6 +544,9 @@ table.dataTable tbody tr:hover {
 .popover-body {
   color: #fff;
   font-family: 'Montserrat', sans-serif;
+  a {
+    color: #fff;
+  }
 }
 
 /* Mobile changes for tables */
@@ -575,6 +578,7 @@ table.dataTable tbody tr:hover {
 }
 
 /* MEPS PAGE STYLE */
+
 .map-buttons {
   text-align: right;
   padding: 10px 20px 0 20px;
@@ -594,8 +598,6 @@ table.dataTable tbody tr:hover {
     }
   }
 }
-
-/* MEPS PAGE STYLE */
 
 .tabA-page {
   .footer-bar .footer-counts .count-box .filter-count {
@@ -660,8 +662,15 @@ table.dataTable tbody tr:hover {
       text-align: left;
     }
   }
-  //Hide some table columns on mobile
+  //Hide some table columns on mobile and tweaks to the headers look
   .chart-table {
+    th {
+      font-size: 14px;
+      border: 1px solid #eee;
+      &:nth-child(2) {
+        width: 22%;
+      }
+    }
     td, th {
       &:nth-child(1), &:nth-child(3), &:nth-child(5), &:nth-child(6), &:nth-child(8), &:nth-child(9) {
         @media only screen and (max-width: 768px) {
@@ -669,6 +678,35 @@ table.dataTable tbody tr:hover {
         }
       }
     }
+  }
+}
+
+//Styling for table headers with info button
+.table-info-cell {
+  padding-right: 60px !important;
+  position: relative;
+}
+.table-info-btn {
+  padding: 2px 10px 1px 10px;
+  border-radius: 2px;
+  font-weight: 600;
+  background: #3b95d0;
+  border: none;
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  bottom: 15px;
+}
+
+//Info bar above table
+.table-info-bar {
+  background: #3b95d0;
+  color: #fff;
+  text-align: right;
+  padding: 5px 10px;
+  a {
+    color: #fff;
+    font-weight: 600;
   }
 }
 

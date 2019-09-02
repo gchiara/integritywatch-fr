@@ -88,7 +88,10 @@
           <!-- TABLE -->
           <div class="col-12 chart-col">
             <div class="boxed-container chart-container chart-container-table">
-              <chart-header :title="charts.mainTable.title" :info="charts.mainTable.info" ></chart-header>
+              <chart-header :title="charts.mainTable.title" ></chart-header>
+              <div class="table-info-bar">
+                <a href="./about.php?section=14">Que signifient ces données et comment les interpréter ?</a>
+              </div>
               <div class="chart-inner chart-table">
                 <table class="table table-hover dc-data-table" id="dc-data-table">
                   <thead>
@@ -97,8 +100,8 @@
                       <th class="header">Nom</th> 
                       <th class="header">Département</th>
                       <th class="header">Mandat</th>
-                      <th class="header" style="padding-right: 30px;">Parti politique de rattachement <span class="table-info-btn">i</span></th>
-                      <th class="header" style="padding-right: 30px;">Groupe parlementaire de rattachement <span class="table-info-btn">i</span></th>
+                      <th class="header table-info-cell">Parti politique de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
+                      <th class="header table-info-cell">Groupe parlementaire de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
                       <th class="header">Activités annexes conservées</th>
                       <th class="header">Détention de participations financières</th>
                       <th class="header">Activités annexes des collaborateurs</th>	

@@ -55,7 +55,7 @@ var vuedata = {
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'MEPs',
+      title: 'ACTIVITÉS ANNEXES DES PARLEMENTAIRES',
       info: 'Click on any meeting for additional information.'
     }
   },
