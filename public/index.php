@@ -34,8 +34,8 @@
               <!-- SHARE -->
               <div class="col-md-4 chart-col" v-if="showShare">
                 <div class="boxed-container share-container">
-                  <button class="twitter-btn" @click="share('twitter')">Share on Twitter</button>
-                  <button class="facebook-btn" @click="share('facebook')">Share on Facebook</button>
+                  <button class="twitter-btn" @click="share('twitter')">Partager sur Twitter</button>
+                  <button class="facebook-btn" @click="share('facebook')">Partager sur Facebook</button>
                   <i class="material-icons close-btn" @click="showShare = false">close</i>
                 </div>
               </div>
@@ -227,7 +227,7 @@
         <div class="row">
           <div class="footer-col col-8 col-sm-4">
             <div class="footer-input">
-              <input type="text" id="search-input" placeholder="Filter by Lobbyist, Host, Subject…">
+              <input type="text" id="search-input" placeholder="Nom du Parlementaire ou du Département">
               <i class="material-icons">search</i>
             </div>
           </div>
@@ -244,7 +244,7 @@
         <button class="reset-btn"><i class="material-icons">settings_backup_restore</i><span class="reset-btn-text">Reset filters</span></button>
       </div>
       <!-- Loader -->
-      <loader v-if="loader" :text="'Loading ...'" />
+      <loader v-if="loader" :text="'Veuillez patienter pendant que les données sont chargées...'" />
     </div>
 
     <script type="text/javascript" src="vendor/js/d3.v5.min.js"></script>

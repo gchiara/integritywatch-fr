@@ -35,6 +35,14 @@ $color_lobby: #42b983;
       }
     }
   }
+  .iw-fr-logo {
+    text-align: left;
+    max-width: 170px;
+    line-height: 110%;
+    a {
+      text-transform: uppercase;
+    }
+  }
 }
 
 /* MAIN & CHARTS */

@@ -126,7 +126,7 @@ new Vue({
       }
       if(platform == 'facebook'){
         //var toShareUrl = window.location.href.split('?')[0];
-        var toShareUrl = 'https://integritywatch.nl';
+        var toShareUrl = 'https://integritywatch.fr';
         var shareURL = 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(toShareUrl);
         window.open(shareURL, '_blank', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250,top=300,left=300');
         return;
