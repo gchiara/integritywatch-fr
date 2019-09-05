@@ -38,6 +38,84 @@
               </div>
             </div>
           </div>
+          <!-- CHARTS - FIRST ROW - LEFT -->
+          <div class="col-md-6 chart-subrow">
+            <div class="row chart-subrow-row">
+              <div class="col-md-12 subrow-title-container">
+                <div class="subrow-title">POUVOIRS PUBLICS</div>
+              </div>
+              <div class="col-md-6 chart-col">
+                <div class="boxed-container chart-container tabC_1">
+                  <chart-header :title="charts.repPublique.title" :info="charts.repPublique.info" ></chart-header>
+                  <div class="chart-inner" id="rep_publique_chart"></div>
+                </div>
+              </div>
+              <div class="col-md-6 chart-col">
+                <div class="boxed-container chart-container tabC_2">
+                  <chart-header :title="charts.topReps.title" :info="charts.topReps.info" ></chart-header>
+                  <div class="chart-inner" id="topreps_chart"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CHARTS - FIRST ROW - RIGHT -->
+          <div class="col-md-6 chart-subrow">
+            <div class="row chart-subrow-row">
+              <div class="col-md-12 subrow-title-container subrow-title-container-right">
+                <div class="subrow-title subrow-title-right">LOBBYISTES</div>
+              </div>
+              <div class="col-md-6 chart-col">
+                <div class="boxed-container chart-container tabC_3">
+                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" ></chart-header>
+                  <div class="chart-inner" id="toporgs_chart"></div>
+                </div> 
+              </div>
+              <div class="col-md-6 chart-col">
+                <div class="boxed-container chart-container tabC_4">
+                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" ></chart-header>
+                  <div class="chart-inner" id="orgscats_chart"></div>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <!-- CHARTS - SECOND ROW -->
+          <div class="col-md-3 chart-col">
+            <div class="boxed-container chart-container tabC_5">
+              <chart-header :title="charts.repCat.title" :info="charts.repCat.info" ></chart-header>
+              <div class="chart-inner" id="repcat_chart"></div>
+            </div> 
+          </div>
+          <div class="col-md-6 chart-col" id="wordcloud_chart_col">
+            <div class="boxed-container chart-container tabC_6">
+              <chart-header :title="charts.objet.title" :info="charts.objet.info" ></chart-header>
+              <div class="chart-inner" id="objet_chart"></div>
+            </div>
+          </div>
+          <div class="col-md-3 chart-col">
+            <div class="boxed-container chart-container tabC_5">
+              <chart-header :title="charts.lobbyCat.title" :info="charts.lobbyCat.info" ></chart-header>
+              <div class="chart-inner" id="lobbycat_chart"></div>
+            </div> 
+          </div>
+          <!-- CHARTS - THIRD ROW -->
+          <div class="col-md-4 chart-col">
+            <div class="boxed-container chart-container tabC_8">
+              <chart-header :title="charts.decisions.title" :info="charts.decisions.info" ></chart-header>
+              <div class="chart-inner" id="decisions_chart"></div>
+            </div>
+          </div>
+          <div class="col-md-4 chart-col" id="wordcloud_chart_col">
+           <div class="boxed-container chart-container tabC_9">
+              <chart-header :title="charts.periode.title" :info="charts.periode.info" ></chart-header>
+              <div class="chart-inner" id="periode_chart"></div>
+            </div>
+          </div>
+          <div class="col-md-4 chart-col">
+            <div class="boxed-container chart-container tabC_10">
+              <chart-header :title="charts.actions.title" :info="charts.actions.info" ></chart-header>
+              <div class="chart-inner" id="actions_chart"></div>
+            </div>
+          </div>
           <!-- TABLE -->
           <div class="col-12 chart-col">
             <div class="boxed-container chart-container chart-container-table">
@@ -48,8 +126,13 @@
                     <tr class="header">
                       <th class="header">Nr</th> 
                       <th class="header">Identifiant</th> 
-                      <th class="header">Date de déclaration</th> 
-                      <th class="header">Nom de l’organisation</th> 
+                      <th class="header">Date de déclaration</th>
+                      <th class="header">Responsable (s) public visé</th> 
+                      <th class="header">Objet</th>
+                      <th class="header">Nom de l’organisation</th>
+                      <th class="header">Catégorie(s)</th> 
+                      <th class="header">Case facultative rem-plie ?</th> 
+                      <th class="header">Activité effectué pour tiers?</th> 
                     </tr>
                   </thead>
                 </table>
