@@ -148,7 +148,9 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <div class="modal-title">
-                <div class="name">{{ selectedElement }}</div>
+                
+                <div class="date" v-if="selectedElement.publicationCourante">{{ selectedElement.publicationCourante.identifiantFiche }} - {{ selectedElement.publicationCourante.publicationDate }}</div>
+                <div class="subject" v-if="selectedElement.publicationCourante">Subject: {{ selectedElement.publicationCourante.objet }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>
@@ -156,8 +158,26 @@
             <div class="modal-body">
               <div class="container">
                 <div class="row">
-                  <div class="col-md-8">
-                    <div class="details-line"><span class="details-line-title">T:</span> Test</div>
+                  <div class="col-md-6 details-left">
+                    <div class="details-title details-title-left">POUVOIRS PUBLICS</div>
+                    <div class="details-line"><span class="details-line-title">Responsables publics visé (s):</span> 
+                      <span v-if="selectedElement.repType && selectedElement.repType.length > 0">{{ selectedElement.repType.join(', ') }}</span>
+                      <span v-else> / </span>
+                    </div>
+                    <div class="details-line"><span class="details-line-title">Type de décisions publiques:</span>
+                      <span v-if="selectedElement.decisions && selectedElement.decisions.length > 0">{{ selectedElement.decisions.join(', ') }}</span>
+                      <span v-else> / </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 details-right">
+                    <div class="details-title details-title-right">LOBBYISTE</div>
+                    <div class="details-line"><span class="details-line-title">Nom de l’organisation:</span> {{ selectedElement.orgName }}</div>
+                    <div class="details-line"><span class="details-line-title">Categorie:</span> {{ selectedElement.catOrg }}</div>
+                    <div class="details-line"><span class="details-line-title">Nombre d’activités déclarés:</span> {{ selectedElement.actNum }}</div>
+                    <div class="details-line"><span class="details-line-title">Montant des dépenses:</span><br /><span v-html="selectedElement.amount"></span></div>
+                    <div class="details-line"><span class="details-line-title">Chiffre d’affaires:</span><br /><span v-html="selectedElement.chiffre"></span></div>
+                    <div class="details-line"><span class="details-line-title">Nombre d’employés:</span> {{ selectedElement.collab }}</div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV:</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
                   </div>
                 </div>
               </div>

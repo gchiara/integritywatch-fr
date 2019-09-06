@@ -47070,6 +47070,25 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     d.searchstring = ""; //Let's try to extract activities to their own object. This might have to be moved to a PHP script later.
 
     if (d.exercices && d.exercices.length > 0) {
+      //Save general info about organization for info panel
+      var amount = "";
+      var actNum = 0;
+      var chiffre = "";
+
+      _.each(d.exercices, function (ex) {
+        if (ex.publicationCourante.montantDepense) {
+          amount = amount + ex.publicationCourante.montantDepense + '<br />';
+        }
+
+        if (ex.publicationCourante.activites) {
+          actNum += ex.publicationCourante.activites.length;
+        }
+
+        if (ex.publicationCourante.chiffreAffaire) {
+          chiffre = chiffre + ex.publicationCourante.chiffreAffaire + '<br />';
+        }
+      });
+
       _.each(d.exercices, function (ex) {
         var periode = "N/A";
 
@@ -47111,7 +47130,22 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
               });
             }
 
+            act.collab = 0;
+
+            if (d.dirigeants) {
+              act.collab += d.dirigeants.length;
+            }
+
+            if (d.collaborateurs) {
+              act.collab += d.collaborateurs.length;
+            }
+
+            act.idNational = d.identifiantNational;
+            act.actNum = actNum;
+            act.amount = amount;
+            act.chiffre = chiffre;
             act.periode = periode;
+            act.orgName = d.denomination;
             act.org = d.nomUsage;
             act.catOrg = d.categorieOrganisation.label;
             act.searchstring = ""; //Add activity to activities list
