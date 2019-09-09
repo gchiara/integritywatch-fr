@@ -498,7 +498,9 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
   var createTopOrgsChart = function() {
     var chart = charts.topOrgs.chart;
     var dimension = ndx.dimension(function (d) {
-        return d.catOrg;
+        //return d.catOrg;
+        //return d.org;
+        return d.orgName;
     });
     var group = dimension.group().reduceSum(function (d) {
         return 1;
