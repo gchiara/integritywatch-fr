@@ -597,7 +597,8 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
               //Set party name that will be used in the parties pie chart
               var partiespielist = ['rem','lr','modem','lc','ng','fi','gdr','ni','ps'];
               if(partiespielist.indexOf(d.parti_acronym.toLowerCase()) < 0){
-                d.parti_pie = 'Others';
+                d.parti_pie = 'Autres';
+                //d.parti_pie = d.parti_acronym;
               } else {
                 d.parti_pie = d.parti_acronym;
               }
