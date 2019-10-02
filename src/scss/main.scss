@@ -718,3 +718,31 @@ table.dataTable tbody tr:hover {
   }
 }
 
+//Tab C charts containers heights
+.chart-container {
+  &.tabC_1 {
+    height: 650px;
+  }
+  &.tabC_4 {
+    height: 650px;
+  }
+  &.tabC_5 {
+    height: 650px;
+  }
+  &.tabC_6 {
+    height: 650px;
+  }
+  &.tabC_7 {
+    height: 650px;
+  }
+  &.tabC_8 {
+    height: 620px;
+  }
+  &.tabC_9 {
+    height: 620px;
+  }
+  &.tabC_10 {
+    height: 620px;
+  }
+}
+

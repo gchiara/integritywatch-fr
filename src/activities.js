@@ -92,7 +92,27 @@ var vuedata = {
     default: ["#3b95d0"],
   },
   categories: {
-
+    organizations: {
+      "Société commerciale": "Organisations commerciales",
+      "Société civile (autre que cabinet d’avocats)": "Société civile",
+      "Cabinets d’avocats": "Avocats",
+      "Cabinet d’avocats": "Avocats",
+      "Avocat indépendant": "Avocats",
+      "Cabinet de conseil": "Consultants",
+      "Cabinet de conseils": "Consultants",
+      "Consultant indépendant": "Consultants",
+      "Organisation professionnelle": "Organisations professionnelles & syndicats",
+      "Syndicat": "Organisations professionnelles & syndicats",
+      "Chambre consulaire": "Etablissement public à caractère économique",
+      "Association": "Société civile",
+      "Fondation": "Société civile",
+      "Organisme de recherche ou de réflexion": "Organismes de recherche",
+      "Autre organisation non gouvernementale": "Société civile",
+      "Autres organisations non gouvernementales": "Société civile",
+      "Etablissement public exerçant une activité industrielle et commerciale": "Etablissement public à caractère économique",
+      "Groupement d’intérêt public exerçant une activité industrielle et commerciale": "Etablissement public à caractère économique",
+      "Autres organisations":	"Autres organisations"
+    }
   }
 }
 
@@ -306,6 +326,13 @@ function cleanstringSpecial(str) {
 	}
 }
 
+//Streamline reponsablesPublics
+function streamlineRep(rp) {
+  var cat1 = [];
+  var cat2 = [];
+  return '';
+}
+
 //Custom date order for dataTables
 var dmy = d3.timeParse("%d/%m/%Y");
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
@@ -324,87 +351,11 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 });
 
 //Load data and generate charts
-json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
+//json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
+  json('./data/c/activities.json', (err, activities) => {
 
-  var activities = [];
-  //Loop through data to aply fixes and calculations
-  _.each(lobbyists.publications, function (d) {
-    //Set up parameters that will be used in graphs and tables
-    //String that will be used for search functionality
-    d.searchstring = "";
-    //Let's try to extract activities to their own object. This might have to be moved to a PHP script later.
-    if(d.exercices && d.exercices.length > 0){
-      //Save general info about organization for info panel
-      var amount = "";
-      var actNum = 0;
-      var chiffre = "";
-      _.each(d.exercices, function (ex) {
-        if(ex.publicationCourante.montantDepense) {
-          amount = amount + ex.publicationCourante.montantDepense + '<br />';
-        }
-        if(ex.publicationCourante.activites) {
-          actNum += ex.publicationCourante.activites.length;
-        }
-        if(ex.publicationCourante.chiffreAffaire) {
-          chiffre = chiffre + ex.publicationCourante.chiffreAffaire + '<br />';
-        }
-      });
-      _.each(d.exercices, function (ex) {
-        var periode = "N/A";
-        if(ex.publicationCourante.dateDebut) {
-          periode = ex.publicationCourante.dateDebut.split('-')[2];
-        }
-        if(ex.publicationCourante && ex.publicationCourante.activites) {
-          _.each(ex.publicationCourante.activites, function (act) {
-            //Add lobbyists info to activity and add activity to activities list
-            //Get reponsablesPublics info, decisions concernees and actions menees
-            act.repType = [];
-            act.decisions = [];
-            act.actions = [];
-            act.observations = "Non";
-            act.tiers = "Non";
-            if(act.publicationCourante.actionsRepresentationInteret){
-              _.each(act.publicationCourante.actionsRepresentationInteret, function (rep) {
-                if(rep.reponsablesPublics) {
-                  act.repType = act.repType.concat(rep.reponsablesPublics);
-                }
-                if(rep.decisionsConcernees) {
-                  act.decisions = act.decisions.concat(rep.decisionsConcernees);
-                }
-                if(rep.actionsMenees) {
-                  act.actions = act.actions.concat(rep.actionsMenees);
-                }
-                if(rep.observation) {
-                  act.observations = "Oui";
-                }
-                if(rep.tiers) {
-                  act.tiers = "Oui";
-                }
-              });
-            }
-            act.collab = 0;
-            if(d.dirigeants){
-              act.collab += d.dirigeants.length;
-            }
-            if(d.collaborateurs){
-              act.collab += d.collaborateurs.length;
-            }
-            act.idNational = d.identifiantNational;
-            act.actNum = actNum;
-            act.amount = amount;
-            act.chiffre = chiffre;
-            act.periode = periode;
-            act.orgName = d.denomination;
-            act.org = d.nomUsage;
-            act.catOrg = d.categorieOrganisation.label;
-            act.searchstring = "";
-            //Add activity to activities list
-            activities.push(act);
-          });
-        }
-      });
-    }
-  });
+  //console.log(repTypesList.sort());
+  //$('body').html(repTypesList.sort().join('<br />'));
 
   //Set dc main vars
   var ndx = crossfilter(activities);
@@ -416,7 +367,8 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
   var createRepPubliqueChart = function() {
     var chart = charts.repPublique.chart;
     var dimension = ndx.dimension(function (d) {
-      return d.repType;  
+      //return d.repType; 
+      return d.repTypeStreamLined; 
     }, true);
     var group = dimension.group().reduceSum(function (d) { return 1; });
     var sizes = calcPieSize(charts.repPublique.divId);
@@ -481,7 +433,7 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
       })
       */
       .label(function (d) {
-          if(d.key.length > charsLength){
+          if(d.key && d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
           }
           return d.key;
@@ -546,7 +498,7 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
   var createOrgsCatsChart = function() {
     var chart = charts.orgsCats.chart;
     var dimension = ndx.dimension(function (d) {
-      return d.catOrg;  
+      return d.catOrgStreamlined;  
     });
     var group = dimension.group().reduceSum(function (d) { return 1; });
     var sizes = calcPieSize(charts.orgsCats.divId);
@@ -582,7 +534,8 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
   var createRepCatChart = function() {
     var chart = charts.repCat.chart;
     var dimension = ndx.dimension(function (d) {
-        return d.repType;
+        //return d.repType;
+        return d.repTypeStreamLinedSub;
     }, true);
     var group = dimension.group().reduceSum(function (d) {
         return 1;
@@ -752,7 +705,7 @@ json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
     var width = recalcWidth(charts.periode.divId);
     chart
       .width(width)
-      .height(440)
+      .height(500)
       .group(group)
       .dimension(dimension)
       .on("preRender",(function(chart,filter){

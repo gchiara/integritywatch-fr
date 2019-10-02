@@ -11,11 +11,9 @@
       <li class="nav-item">
         <a href="./" class="nav-link" :class="{active: page == 'meps'}">Parlementaires en France</a>
       </li>
-      <!--
       <li class="nav-item">
-        <a href="./activities.php" class="nav-link" :class="{active: page == 'activities'}">Tab C</a>
+        <a href="./activities.php" class="nav-link" :class="{active: page == 'activities'}">Activités de lobbying</a>
       </li>
-      -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Versions nationales
