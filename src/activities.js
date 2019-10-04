@@ -80,6 +80,7 @@ var vuedata = {
     }
   },
   selectedElement: { "P": "", "Sub": ""},
+  modalShowTable: '',
   colors: {
     colorSchemeCloud: [ "#4d9e9c", "#62aad9", "#3b95d0", "#42b983", "#449188", "#52c993", "#b7bebf", "#99b6c0" ],
     activities: {
@@ -876,6 +877,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     $('#dc-data-table tbody').on('click', 'tr', function () {
       var data = datatable.DataTable().row( this ).data();
       vuedata.selectedElement = data;
+      console.log(vuedata.selectedElement);
       $('#detailsModal').modal();
     });
   }

@@ -746,3 +746,36 @@ table.dataTable tbody tr:hover {
   }
 }
 
+.tabC-page {
+  .modal-dialog {
+    margin-bottom: 100px;
+  }
+  .modal-list {
+    text-align: left;
+    margin-left: -20px;
+  }
+}
+
+//Info panel toggle buttons
+.details-tables-buttons {
+  text-align: left;
+  margin: 20px 0;
+  button {
+    border: none;
+    color: #fff;
+    background: #2a7aae;
+    border-radius: 2px;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 2px 5px 0;
+    cursor: pointer;
+    transition: all .4s;
+    &:hover {
+      background: #1a6a9e;
+    }
+    &.active {
+      background: #0a5a8e;
+    }
+  }
+}

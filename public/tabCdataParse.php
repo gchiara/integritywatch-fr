@@ -164,7 +164,9 @@ foreach ($publications as $key => $value) {
               if($rep['observation']) {
                 $act['observations'] = "Oui";
               }
+              $act['tiersList'] = [];
               if($rep['tiers']) {
+                $act['tiersList'] = $rep['tiers'];
                 $act['tiers'] = "Oui";
               }
             }

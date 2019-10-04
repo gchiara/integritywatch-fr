@@ -180,6 +180,24 @@
                     <div class="details-line"><span class="details-line-title">Lien déclaration HATPV:</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="details-tables-buttons">
+                      <button @click="modalShowTable = 'a'" :class="{ active: modalShowTable == 'a' }">Action de lobbying effectuées</button>
+                      <button @click="modalShowTable = 'b'" v-if="selectedElement.publicationCourante" :class="{ active: modalShowTable == 'b' }">Domaines d’intervention</button>
+                      <button @click="modalShowTable = 'c'" :class="{ active: modalShowTable == 'c' }">Intérêts représentés</button>
+                    </div>
+                    <ul class="modal-list" v-show="modalShowTable == 'a'">
+                      <li v-for="act in selectedElement.actions">{{ act }}</li>
+                    </ul>
+                    <ul class="modal-list" v-if="selectedElement.publicationCourante" v-show="modalShowTable == 'b'">
+                      <li v-for="domains in selectedElement.publicationCourante.domainesIntervention">{{ domains }}</li>
+                    </ul>
+                    <ul class="modal-list" v-show="modalShowTable == 'c'">
+                      <li v-for="tiers in selectedElement.tiersList">{{ tiers }}</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
