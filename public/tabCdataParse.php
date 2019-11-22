@@ -114,13 +114,13 @@ foreach ($publications as $key => $value) {
 
     foreach ($exercises as $ex){ 
       if($ex['publicationCourante']['montantDepense']) {
-        $amount = $amount.$ex['publicationCourante']['montantDepense'].'<br />';
+        $amount = $amount.$ex['publicationCourante']['montantDepense'].' ('.$ex['publicationCourante']['dateDebut'].' / '.$ex['publicationCourante']['dateFin'].')'.'<br />';
       }
       if($ex['publicationCourante']['activites']) {
         $actNum = sizeof($ex['publicationCourante']['activites']);
       }
       if($ex['publicationCourante']['chiffreAffaire']) {
-        $chiffre = $chiffre.$ex['publicationCourante']['chiffreAffaire'].'<br />';
+        $chiffre = $chiffre.$ex['publicationCourante']['chiffreAffaire'].' ('.$ex['publicationCourante']['dateDebut'].' / '.$ex['publicationCourante']['dateFin'].')'.'<br />';
       }
     } 
 
@@ -141,6 +141,7 @@ foreach ($publications as $key => $value) {
           $act['decisions'] = [];
           $act['actions'] = [];
           $act['observations'] = "Non";
+          $act['observationsText'] = "";
           $act['tiers'] = "Non";
           if($act['publicationCourante']['actionsRepresentationInteret']) {
             foreach ($act['publicationCourante']['actionsRepresentationInteret'] as $rep) { 
@@ -163,6 +164,7 @@ foreach ($publications as $key => $value) {
               }
               if($rep['observation']) {
                 $act['observations'] = "Oui";
+                $act['observationsText'] = $rep['observation'].'<br />'.$act['observationsText'];
               }
               $act['tiersList'] = [];
               if($rep['tiers']) {
@@ -178,6 +180,8 @@ foreach ($publications as $key => $value) {
           if($value['collaborateurs']) {
             $act['collab'] += sizeof($value['collaborateurs']);
           }
+          $act['dateDebut'] = $ex['publicationCourante']['dateDebut'];
+          $act['dateFin'] = $ex['publicationCourante']['dateFin'];
           $act['idNational'] = $value['identifiantNational'];
           $act['actNum'] = $actNum;
           $act['amount'] = $amount;

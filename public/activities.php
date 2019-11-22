@@ -24,16 +24,8 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Activités de lobbying</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des activités de lobbying entreprises en France par les organisations enregis-trés sur le registre des représentants d’intérêts de la Haute-Autorité pour la transparence dans la vie publique (HATPV).</p> 
+                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des activités de lobbying entreprises en France par les organisations enregis-trés sur le registre des représentants d’intérêts de la Haute-Autorité pour la transparence dans la vie publique (HATVP).</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
-                </div>
-              </div>
-              <!-- SHARE -->
-              <div class="col-md-4 chart-col" v-if="showShare">
-                <div class="boxed-container share-container">
-                  <button class="twitter-btn" @click="share('twitter')">Share on Twitter</button>
-                  <button class="facebook-btn" @click="share('facebook')">Share on Facebook</button>
-                  <i class="material-icons close-btn" @click="showShare = false">close</i>
                 </div>
               </div>
             </div>
@@ -124,13 +116,11 @@
                 <table class="table table-hover dc-data-table" id="dc-data-table">
                   <thead>
                     <tr class="header">
-                      <th class="header">Nr</th> 
-                      <th class="header">Identifiant</th> 
-                      <th class="header">Date de déclaration</th>
-                      <th class="header">Responsable (s) public visé</th> 
                       <th class="header">Objet</th>
                       <th class="header">Nom de l’organisation</th>
                       <th class="header">Catégorie(s)</th> 
+                      <th class="header">Période de déclaration</th>
+                      <th class="header">Responsable (s) public visé</th> 
                       <th class="header">Case facultative rem-plie ?</th> 
                       <th class="header">Activité effectué pour tiers?</th> 
                     </tr>
@@ -150,7 +140,7 @@
               <div class="modal-title">
                 
                 <div class="date" v-if="selectedElement.publicationCourante">{{ selectedElement.publicationCourante.identifiantFiche }} - {{ selectedElement.publicationCourante.publicationDate }}</div>
-                <div class="subject" v-if="selectedElement.publicationCourante">Subject: {{ selectedElement.publicationCourante.objet }}</div>
+                <div class="subject" v-if="selectedElement.publicationCourante">Sujet: {{ selectedElement.publicationCourante.objet }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>
@@ -168,6 +158,10 @@
                       <span v-if="selectedElement.decisions && selectedElement.decisions.length > 0">{{ selectedElement.decisions.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
+                    <div class="details-line"><span class="details-line-title">Domaines d'intervention field:</span>
+                      <span v-if="selectedElement.publicationCourante && selectedElement.publicationCourante.domainesIntervention && selectedElement.publicationCourante.domainesIntervention.length > 0">{{ selectedElement.publicationCourante.domainesIntervention.join(', ') }}</span>
+                      <span v-else> / </span>
+                    </div>
                   </div>
                   <div class="col-md-6 details-right">
                     <div class="details-title details-title-right">LOBBYISTE</div>
@@ -177,7 +171,8 @@
                     <div class="details-line"><span class="details-line-title">Montant des dépenses:</span><br /><span v-html="selectedElement.amount"></span></div>
                     <div class="details-line"><span class="details-line-title">Chiffre d’affaires:</span><br /><span v-html="selectedElement.chiffre"></span></div>
                     <div class="details-line"><span class="details-line-title">Nombre d’employés:</span> {{ selectedElement.collab }}</div>
-                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV:</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
+                    <div class="details-line"><span class="details-line-title">Observations sur l'activité:</span> <span v-html="selectedElement.observationsText"></span></div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATVP:</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
                   </div>
                 </div>
                 <div class="row">
@@ -224,7 +219,12 @@
           </div>
         </div>
         <!-- Reset filters -->
-        <button class="reset-btn"><i class="material-icons">settings_backup_restore</i><span class="reset-btn-text">Reset filters</span></button>
+        <button class="reset-btn"><i class="material-icons">settings_backup_restore</i></button>
+        <div class="footer-buttons-right">
+          <!-- <button><i class="material-icons">cloud_download</i></button> -->
+          <button class="btn-twitter" @click="share('twitter')"><img src="./images/twitter.png" /></button>
+          <button class="btn-fb" @click="share('facebook')"><img src="./images/facebook.png" /></button>
+        </div>
       </div>
       <!-- Loader -->
       <loader v-if="loader" :text="'Veuillez patienter pendant que les données sont chargées...'" />

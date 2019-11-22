@@ -32,9 +32,6 @@
       <li class="nav-item">
         <i class="material-icons nav-link icon-btn info-btn" @click="showInfo = !showInfo">info</i>
       </li>
-      <li class="nav-item">
-        <i class="material-icons nav-link icon-btn share-btn" @click="showShare = !showShare">share</i>
-      </li>
     </ul>
   </div>
 </nav>

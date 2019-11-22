@@ -31,14 +31,6 @@
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
-              <!-- SHARE -->
-              <div class="col-md-4 chart-col" v-if="showShare">
-                <div class="boxed-container share-container">
-                  <button class="twitter-btn" @click="share('twitter')">Partager sur Twitter</button>
-                  <button class="facebook-btn" @click="share('facebook')">Partager sur Facebook</button>
-                  <i class="material-icons close-btn" @click="showShare = false">close</i>
-                </div>
-              </div>
             </div>
           </div>
           <!-- CHARTS - FIRST ROW - LEFT -->
@@ -241,7 +233,12 @@
           </div>
         </div>
         <!-- Reset filters -->
-        <button class="reset-btn"><i class="material-icons">settings_backup_restore</i><span class="reset-btn-text">Reset filters</span></button>
+        <button class="reset-btn"><i class="material-icons">settings_backup_restore</i></button>
+        <div class="footer-buttons-right">
+          <!-- <button><i class="material-icons">cloud_download</i></button> -->
+          <button class="btn-twitter" @click="share('twitter')"><img src="./images/twitter.png" /></button>
+          <button class="btn-fb" @click="share('facebook')"><img src="./images/facebook.png" /></button>
+        </div>
       </div>
       <!-- Loader -->
       <loader v-if="loader" :text="'Veuillez patienter pendant que les données sont chargées...'" />

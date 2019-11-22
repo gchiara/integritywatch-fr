@@ -275,6 +275,10 @@ var resizeGraphs = function() {
         return thisKey;
       })
       charts[c].chart.redraw();
+    } else if(charts[c].type == 'bar'){
+      charts[c].chart.width(newWidth);
+      charts[c].chart.rescale();
+      charts[c].chart.redraw();
     } else if(charts[c].type == 'pie') {
       charts[c].chart
         .width(sizes.width)
@@ -285,9 +289,10 @@ var resizeGraphs = function() {
         .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
       charts[c].chart.redraw();
     } else if(charts[c].type == 'cloud') {
-      charts[c].chart.size(charts[c].divId);
+      charts[c].chart.size([newWidth,550]);
+      //.size([recalcWidth(charts.objet.divId),550])
       charts[c].chart.redraw();
-    }
+    } 
   }
 };
 
@@ -535,17 +540,21 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
   var createRepCatChart = function() {
     var chart = charts.repCat.chart;
     var dimension = ndx.dimension(function (d) {
-        //return d.repType;
-        return d.repTypeStreamLinedSub;
+          return d.repTypeStreamLinedSub;  
     }, true);
     var group = dimension.group().reduceSum(function (d) {
         return 1;
     });
+    /*
+if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
+          return d.repTypeStreamLinedSub;
+        }
+    */
     var filteredGroup = (function(source_group) {
       return {
         all: function() {
           return source_group.top(40).filter(function(d) {
-            return (d.value != 0);
+            return (d.value != 0 && d.key != "Autres: 'free text'" && d.key != "Premier Ministre" && d.key != "Présidence de la République" && d.key != "Autorités et agences" && d.key != "Députés, sénateurs et agents parlementaires");
           });
         }
       };
@@ -773,44 +782,8 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       "columnDefs": [
         {
           "searchable": false,
-          "orderable": false,
-          "targets": 0,   
-          data: function ( row, type, val, meta ) {
-            return count;
-          }
-        },
-        {
-          "searchable": false,
           "orderable": true,
-          "targets": 1,
-          "defaultContent":"N/A",
-          "data": function(d) {
-            return d.publicationCourante.identifiantFiche;
-          }
-        },
-        {
-          "searchable": false,
-          "orderable": true,
-          "targets": 2,
-          "defaultContent":"N/A",
-          "type":"date-eu",
-          "data": function(d) {
-            return d.publicationCourante.publicationDate;
-          }
-        },
-        {
-          "searchable": false,
-          "orderable": true,
-          "targets": 3,
-          "defaultContent":"N/A",
-          "data": function(d) {
-            return d.repType;
-          }
-        },
-        {
-          "searchable": false,
-          "orderable": true,
-          "targets": 4,
+          "targets": 0,
           "defaultContent":"N/A",
           "data": function(d) {
             return d.publicationCourante.objet;
@@ -819,16 +792,19 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         {
           "searchable": false,
           "orderable": true,
-          "targets": 5,
+          "targets": 1,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.org;
+            if(d.org){
+              return d.org;
+            }
+            return d.orgName;
           }
         },
         {
           "searchable": false,
           "orderable": true,
-          "targets": 6,
+          "targets": 2,
           "defaultContent":"N/A",
           "data": function(d) {
             return d.catOrg;
@@ -837,7 +813,27 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         {
           "searchable": false,
           "orderable": true,
-          "targets": 7,
+          "targets": 3,
+          "defaultContent":"N/A",
+          "type":"date-eu",
+          "data": function(d) {
+            //return d.publicationCourante.publicationDate;
+            return d.dateDebut + ' / ' + d.dateFin;
+          }
+        },
+        {
+          "searchable": false,
+          "orderable": true,
+          "targets": 4,
+          "defaultContent":"N/A",
+          "data": function(d) {
+            return d.repType;
+          }
+        },
+        {
+          "searchable": false,
+          "orderable": true,
+          "targets": 5,
           "defaultContent":"N/A",
           "data": function(d) {
             return d.observations;
@@ -846,7 +842,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         {
           "searchable": false,
           "orderable": true,
-          "targets": 8,
+          "targets": 6,
           "defaultContent":"N/A",
           "data": function(d) {
             return d.tiers;
@@ -857,7 +853,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       "bPaginate": true,
       "bLengthChange": true,
       "bFilter": false,
-      "order": [[ 3, "desc" ]],
+      "order": [[ 1, "desc" ]],
       "bSort": true,
       "bInfo": true,
       "bAutoWidth": false,
@@ -866,18 +862,20 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       "bDestroy": true,
     });
     var datatable = charts.mainTable.chart;
+    /*
     datatable.on( 'draw.dt', function () {
       var PageInfo = $('#dc-data-table').DataTable().page.info();
         datatable.DataTable().column(0, { page: 'current' }).nodes().each( function (cell, i) {
             cell.innerHTML = i + 1 + PageInfo.start;
         });
       });
+    */
       datatable.DataTable().draw();
 
     $('#dc-data-table tbody').on('click', 'tr', function () {
       var data = datatable.DataTable().row( this ).data();
       vuedata.selectedElement = data;
-      console.log(vuedata.selectedElement);
+      //console.log(vuedata.selectedElement);
       $('#detailsModal').modal();
     });
   }

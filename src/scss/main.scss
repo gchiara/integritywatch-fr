@@ -279,13 +279,13 @@ $color_lobby: #42b983;
   }
   .reset-btn {
     position: absolute;
-    right: 25px;
+    right: 125px;
     top: 50%;
     -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
     border: none;
-    border-radius: 2px;
+    border-radius: 10px;
     color: #fff;
     padding: 15px 20px;
     cursor: pointer;
@@ -295,6 +295,10 @@ $color_lobby: #42b983;
       background: rgb(206, 74, 88);
       outline: none;
     }
+    @media only screen and (max-width: 767px) {
+      //right: auto;
+      //left: 30px;
+    }
     .reset-btn-text {
       @media only screen and (max-width: 767px) {
         display: none;
@@ -302,9 +306,48 @@ $color_lobby: #42b983;
     }
     i {
       vertical-align: middle;
-      margin-right: 10px;
+      margin-right: 0px;
       @media only screen and (max-width: 767px) {
         margin-right: 0;
+      }
+    }
+  }
+  .footer-buttons-right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+    button {
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      vertical-align: middle;
+      i {
+        font-size: 35px;
+        vertical-align: middle;
+      }
+      img {
+        height: 25px;
+        vertical-align: middle;
+      }
+      &.btn-twitter {
+        img {
+
+        }
+      }
+      &.btn-fb {
+        img {
+          height: 29px;
+        }
+      }
+      &.btn-linkedin {
+        img {
+          height: 29px;
+        }
       }
     }
   }
