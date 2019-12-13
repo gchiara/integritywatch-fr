@@ -192,6 +192,27 @@ $color_lobby: #42b983;
   }
 }
 
+/* Toggle last row of charts button */
+.toggle-btn-container {
+  text-align: left;
+  padding: 0px 10px;
+  margin-bottom: 20px;
+  button {
+    border: none;
+    color: #fff;
+    background: #2a7aae;
+    border-radius: 2px;
+    padding: 5px 15px;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all .4s;
+    &:hover {
+      background: #1a6a9e;
+    }
+  }
+}
+
 /* FOOTER BAR */ 
 
 .footer-bar {

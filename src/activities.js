@@ -29,6 +29,7 @@ var vuedata = {
   loader: true,
   showInfo: true,
   showShare: true,
+  showAllCharts: true,
   chartMargin: 40,
   organizations: {},
   charts: {
@@ -49,7 +50,7 @@ var vuedata = {
       info: ''
     },
     repCat: {
-      title: 'Nombre d’activités par sous-catégorie de responsables publics',
+      title: 'Lobbying ciblant le gouvernant : répartition des activités par portefeuilles ministériels',
       info: ''
     },
     objet: {
@@ -72,10 +73,18 @@ var vuedata = {
       title: 'Nombre d’activités par type d’actions mis-en-oeuvre',
       info: ''
     },
+    autoritiesAgencies: {
+      title: 'Lobbying ciblant des autorités indépendantes : répartition des activités par AAI/API',
+      info: ''
+    },
+    topDomains: {
+      title: 'Top 10 des domaines d\'intervention',
+      info: ''
+    },
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'ACTIVITEES DE LOBBYING',
+      title: 'Activités de lobbying',
       info: 'test'
     }
   },
@@ -114,7 +123,35 @@ var vuedata = {
       "Groupement d’intérêt public exerçant une activité industrielle et commerciale": "Etablissement public à caractère économique",
       "Autres organisations":	"Autres organisations"
     }
-  }
+  },
+  agencies: [
+    "Agence française de lutte contre le dopage",
+    "Autorité de contrôle des nuisances sonores aéroportuaires",
+    "Autorité de régulation des communications électroniques et des postes",
+    "Autorité de la concurrence",
+    "Autorité de régulation de la distribution de la presse",
+    "Autorité de régulation des activités ferroviaires et routières",
+    "Autorité de régulation des jeux en ligne",
+    "Autorité des marchés financiers",
+    "Autorité de sûreté nucléaire",
+    "Comité d indemnisation des victimes des essais nucléaires",
+    "Commission d accès aux documents administratifs",
+    "Commission du secret de la défense nationale",
+    "Contrôleur général des lieux de privation de liberté",
+    "Commission nationale des comptes de campagne et des financements politiques",
+    "Commission nationale de contrôle des techniques de renseignement",
+    "Commission nationale du débat public",
+    "Commission nationale de l informatique et des libertés",
+    "Commission de régulation de l énergie",
+    "Conseil supérieur de l audiovisuel",
+    "Défenseur des droits",
+    "Haute Autorité de santé",
+    "Haut Conseil de l évaluation de la recherche et de l enseignement supérieur",
+    "Haut Conseil du commissariat aux comptes",
+    "Haute Autorité pour la diffusion des œuvres et la protection des droits sur internet",
+    "Haute Autorité pour la transparence de la vie publique",
+    "Médiateur national de l énergie"
+  ]
 }
 
 
@@ -205,6 +242,16 @@ var charts = {
     type: 'row',
     divId: 'actions_chart'
   },
+  autoritiesAgencies: {
+    chart: dc.rowChart("#autoritiesagencies_chart"),
+    type: 'row',
+    divId: 'autoritiesagencies_chart'
+  },
+  topDomains: {
+    chart: dc.rowChart("#topdomains_chart"),
+    type: 'row',
+    divId: 'topdomains_chart'
+  },
   mainTable: {
     chart: null,
     type: 'table',
@@ -251,48 +298,52 @@ var calcPieSize = function(divId) {
 };
 var resizeGraphs = function() {
   for (var c in charts) {
-    var sizes = calcPieSize(charts[c].divId);
-    var newWidth = recalcWidth(charts[c].divId);
-    var charsLength = recalcCharsLength(newWidth);
-    if(charts[c].type == 'map') {
-      var newProjection = d3.geoMercator()
-        .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-        .translate([newWidth - 50, 220])
-        .scale(newWidth*3);
-      charts[c].chart.width(newWidth);
-      charts[c].chart.projection(newProjection);
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'row'){
-      charts[c].chart.width(newWidth);
-      charts[c].chart.label(function (d) {
-        var thisKey = d.key;
-        if(thisKey.indexOf('###') > -1){
-          thisKey = thisKey.split('###')[0];
-        }
-        if(thisKey.length > charsLength){
-          return thisKey.substring(0,charsLength) + '...';
-        }
-        return thisKey;
-      })
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'bar'){
-      charts[c].chart.width(newWidth);
-      charts[c].chart.rescale();
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'pie') {
-      charts[c].chart
-        .width(sizes.width)
-        .height(sizes.height)
-        .cy(sizes.cy)
-        .innerRadius(sizes.innerRadius)
-        .radius(sizes.radius)
-        .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'cloud') {
-      charts[c].chart.size([newWidth,550]);
-      //.size([recalcWidth(charts.objet.divId),550])
-      charts[c].chart.redraw();
-    } 
+    if((c == 'topDomains' || c == 'autoritiesAgencies') && vuedata.showAllCharts == false){
+      
+    } else {
+      var sizes = calcPieSize(charts[c].divId);
+      var newWidth = recalcWidth(charts[c].divId);
+      var charsLength = recalcCharsLength(newWidth);
+      if(charts[c].type == 'map') {
+        var newProjection = d3.geoMercator()
+          .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+          .translate([newWidth - 50, 220])
+          .scale(newWidth*3);
+        charts[c].chart.width(newWidth);
+        charts[c].chart.projection(newProjection);
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'row'){
+        charts[c].chart.width(newWidth);
+        charts[c].chart.label(function (d) {
+          var thisKey = d.key;
+          if(thisKey.indexOf('###') > -1){
+            thisKey = thisKey.split('###')[0];
+          }
+          if(thisKey.length > charsLength){
+            return thisKey.substring(0,charsLength) + '...';
+          }
+          return thisKey;
+        })
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'bar'){
+        charts[c].chart.width(newWidth);
+        charts[c].chart.rescale();
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'pie') {
+        charts[c].chart
+          .width(sizes.width)
+          .height(sizes.height)
+          .cy(sizes.cy)
+          .innerRadius(sizes.innerRadius)
+          .radius(sizes.radius)
+          .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'cloud') {
+        charts[c].chart.size([newWidth,550]);
+        //.size([recalcWidth(charts.objet.divId),550])
+        charts[c].chart.redraw();
+      } 
+    }
   }
 };
 
@@ -362,6 +413,17 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
   //console.log(repTypesList.sort());
   //$('body').html(repTypesList.sort().join('<br />'));
+  _.each(activities, function (d) {
+    d.searchstring = d.orgName + ' ' + d.publicationCourante.objet + ' ' + d.observationsText;
+
+    d.repTypeClean = [];
+    _.each(d.repType, function (r) {
+      d.repTypeClean.push(r.replace('Membre du Gouvernement ou membre de cabinet ministériel - ',''));
+    });
+
+    //console.log(d.repTypeAgencies);
+    //console.log(d.publicationCourante.domainesIntervention);
+  });
 
   //Set dc main vars
   var ndx = crossfilter(activities);
@@ -410,7 +472,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
   var createTopRepsChart = function() {
     var chart = charts.topReps.chart;
     var dimension = ndx.dimension(function (d) {
-        return d.repType;
+        return d.repTypeClean;
     }, true);
     var group = dimension.group().reduceSum(function (d) {
         return 1;
@@ -775,6 +837,102 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
       chart.render();
   }
 
+  //autoritiesAgencies
+
+  //CHART 11
+  var createAutoritiesAgenciesChart = function() {
+    var chart = charts.autoritiesAgencies.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.filteredRepsAgencies;
+    }, true);
+    var group = dimension.group().reduceSum(function (d) {
+        return 1;
+    });
+    var filteredGroup = (function(source_group) {
+      return {
+        all: function() {
+          return source_group.top(10).filter(function(d) {
+            return (d.value != 0);
+          });
+        }
+      };
+    })(group);
+    var width = recalcWidth(charts.autoritiesAgencies.divId);
+    console.log(width);
+    var charsLength = recalcCharsLength(width);
+    chart
+      .width(width)
+      .height(500)
+      .margins({top: 0, left: 0, right: 0, bottom: 20})
+      .group(filteredGroup)
+      .dimension(dimension)
+      /*
+      .colorCalculator(function(d, i) {
+        var level = getPolicyLevel(d.key);
+        return vuedata.colors.ecPolicy[level];
+      })
+      */
+      .label(function (d) {
+          if(d.key && d.key.length > charsLength){
+            return d.key.substring(0,charsLength) + '...';
+          }
+          return d.key;
+      })
+      .title(function (d) {
+          return d.key + ': ' + d.value;
+      })
+      .elasticX(true)
+      .xAxis().ticks(4);
+      chart.render();
+  }
+
+  //CHART 12
+  var createTopDomainsChart = function() {
+    var chart = charts.topDomains.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.publicationCourante.domainesIntervention;
+    }, true);
+    var group = dimension.group().reduceSum(function (d) {
+        return 1;
+    });
+    var filteredGroup = (function(source_group) {
+      return {
+        all: function() {
+          return source_group.top(10).filter(function(d) {
+            return (d.value != 0);
+          });
+        }
+      };
+    })(group);
+    var width = recalcWidth(charts.topDomains.divId);
+    console.log(width);
+    var charsLength = recalcCharsLength(width);
+    chart
+      .width(width)
+      .height(500)
+      .margins({top: 0, left: 0, right: 0, bottom: 20})
+      .group(filteredGroup)
+      .dimension(dimension)
+      /*
+      .colorCalculator(function(d, i) {
+        var level = getPolicyLevel(d.key);
+        return vuedata.colors.ecPolicy[level];
+      })
+      */
+      .label(function (d) {
+          if(d.key && d.key.length > charsLength){
+            return d.key.substring(0,charsLength) + '...';
+          }
+          return d.key;
+      })
+      .title(function (d) {
+          return d.key + ': ' + d.value;
+      })
+      .elasticX(true)
+      .xAxis().ticks(4);
+      chart.render();
+  }
+
   //TABLE
   var createTable = function() {
     var count=0;
@@ -802,7 +960,7 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
           }
         },
         {
-          "searchable": false,
+          "searchable": true,
           "orderable": true,
           "targets": 2,
           "defaultContent":"N/A",
@@ -836,13 +994,25 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
           "targets": 5,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.observations;
+            if(d.publicationCourante && d.publicationCourante.domainesIntervention && d.publicationCourante.domainesIntervention.length > 0) {
+              return d.publicationCourante.domainesIntervention.join(', ');
+            }
+            return "/";
           }
         },
         {
           "searchable": false,
           "orderable": true,
           "targets": 6,
+          "defaultContent":"N/A",
+          "data": function(d) {
+            return d.observations;
+          }
+        },
+        {
+          "searchable": false,
+          "orderable": true,
+          "targets": 7,
           "defaultContent":"N/A",
           "data": function(d) {
             return d.tiers;
@@ -959,9 +1129,19 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
   createDecisionsChart();
   createPeriodeChart();
   createActionsChart();
+  createAutoritiesAgenciesChart();
+  createTopDomainsChart();
   createTable();
 
   $('.dataTables_wrapper').append($('.dataTables_length'));
+
+  //Toggle last charts functionality and fix for responsiveness
+  vuedata.showAllCharts = false;
+  $('#charts-toggle-btn').click(function(){
+    if(vuedata.showAllCharts){
+      resizeGraphs();
+    }
+  })
 
   //Hide loader
   vuedata.loader = false;
@@ -975,57 +1155,19 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
   counter.render();
   //Update datatables
   counter.on("renderlet.resetall", function(c) {
+    calcCountPercentage();
     RefreshTable();
   });
 
-  //Custom counters
-  /*
-  var iniCountSetup = false;
-  function drawCustomCounter() {
-    var dim = ndx.dimension (function(d) {
-      return d.name;
-    });
-    var group = dim.group().reduce(
-      function(p,d) {  
-        p.nb +=1;
-        p.activities += +d.activities;
-        return p;
-      },
-      function(p,d) {  
-        p.nb -=1;
-        p.activities -= +d.activities;
-        return p;
-      },
-      function(p,d) {  
-        return {nb: 0, activities: 0}; 
-      }
-    );
-    group.order(function(p){ return p.nb });
-    var activities = 0;
-    var counter = dc.dataCount(".activities-count")
-    .dimension(group)
-    .group({value: function() {
-      return group.all().filter(function(kv) {
-        if (kv.value.nb > 0) {
-          activities += +kv.value.activities;
-        }
-        return kv.value.nb > 0; 
-      }).length;
-    }})
-    .renderlet(function (chart) {
-      $(".activities-count").text(addcommas(Math.round(activities)));
-      //Set up initial count
-      if(iniCountSetup == false){
-        $('.activities-counter .total-count').text(addcommas(Math.round(activities)));
-        iniCountSetup = true;
-      }
-      activities=0;
-    });
-    counter.render();
+  var calcCountPercentage = function() {
+    var count = $('.activities-count .filter-count').html();
+    var total = $('.activities-count .total-count').html();
+    count = parseInt(count.replace(",", ""));
+    total = parseInt(total.replace(",", ""));
+    var percent = ((count/total) * 100).toFixed(1);
+    $('.activities-count .percentage-count').html(percent + '%');
   }
-  drawCustomCounter();
-  */
-  
+  calcCountPercentage();
 
   //Window resize function
   window.onresize = function(event) {

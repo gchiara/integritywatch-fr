@@ -76,6 +76,35 @@ $repPubCategories = array(
   "Titulaire d un emploi à la décision du Gouvernement" => "Autres---Titulaire d'un emploi à la décision du gourvernement"
 );
 
+$repPubAgencies = array(
+  "Agence française de lutte contre le dopage",
+  "Autorité de contrôle des nuisances sonores aéroportuaires",
+  "Autorité de régulation des communications électroniques et des postes",
+  "Autorité de la concurrence",
+  "Autorité de régulation de la distribution de la presse",
+  "Autorité de régulation des activités ferroviaires et routières",
+  "Autorité de régulation des jeux en ligne",
+  "Autorité des marchés financiers",
+  "Autorité de sûreté nucléaire",
+  "Comité d indemnisation des victimes des essais nucléaires",
+  "Commission d accès aux documents administratifs",
+  "Commission du secret de la défense nationale",
+  "Contrôleur général des lieux de privation de liberté",
+  "Commission nationale des comptes de campagne et des financements politiques",
+  "Commission nationale de contrôle des techniques de renseignement",
+  "Commission nationale du débat public",
+  "Commission nationale de l informatique et des libertés",
+  "Commission de régulation de l énergie",
+  "Conseil supérieur de l audiovisuel",
+  "Défenseur des droits",
+  "Haute Autorité de santé",
+  "Haut Conseil de l évaluation de la recherche et de l enseignement supérieur",
+  "Haut Conseil du commissariat aux comptes",
+  "Haute Autorité pour la diffusion des œuvres et la protection des droits sur internet",
+  "Haute Autorité pour la transparence de la vie publique",
+  "Médiateur national de l énergie"
+);
+
 
 function streamlineRepCategory($repString,$type) {
   global $repPubCategories;
@@ -93,6 +122,17 @@ function streamlineRepCategory($repString,$type) {
     }
   }
   return $streamlinedReps;
+}
+
+function filterRepAgencies($repString) {
+  global $repPubAgencies;
+  $filteredReps = [];
+  foreach ($repPubAgencies as $value) {
+    if(stripos($repString, $value) !== false) {
+      array_push($filteredReps, $value);
+    }
+  }
+  return $filteredReps;
 }
 
 
@@ -138,6 +178,7 @@ foreach ($publications as $key => $value) {
           $act['repType'] = [];
           $act['repTypeStreamLined'] = [];
           $act['repTypeStreamLinedSub'] = [];
+          $act['filteredRepsAgencies'] = [];
           $act['decisions'] = [];
           $act['actions'] = [];
           $act['observations'] = "Non";
@@ -151,8 +192,10 @@ foreach ($publications as $key => $value) {
                 foreach ($rep['reponsablesPublics'] as $repPub) {
                   $streamlinedReps = streamlineRepCategory($repPub,'cat');
                   $streamlinedRepsSub = streamlineRepCategory($repPub,'subcat');
+                  $filteredRepsAgencies = filterRepAgencies($repPub);
                   $act['repTypeStreamLined'] = array_merge($act['repTypeStreamLined'], $streamlinedReps);
                   $act['repTypeStreamLinedSub'] = array_merge($act['repTypeStreamLinedSub'], $streamlinedRepsSub);
+                  $act['filteredRepsAgencies'] = array_merge($act['filteredRepsAgencies'], $filteredRepsAgencies);
                 }
                 //print_r($act['repTypeStreamLinedSub']);
               }

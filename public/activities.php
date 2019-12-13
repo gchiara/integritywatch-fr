@@ -38,13 +38,13 @@
               </div>
               <div class="col-md-6 chart-col">
                 <div class="boxed-container chart-container tabC_1">
-                  <chart-header :title="charts.repPublique.title" :info="charts.repPublique.info" ></chart-header>
+                  <chart-header :title="charts.repPublique.title" :info="charts.repPublique.info" :customclass="'smaller'" ></chart-header>
                   <div class="chart-inner" id="rep_publique_chart"></div>
                 </div>
               </div>
               <div class="col-md-6 chart-col">
                 <div class="boxed-container chart-container tabC_2">
-                  <chart-header :title="charts.topReps.title" :info="charts.topReps.info" ></chart-header>
+                  <chart-header :title="charts.topReps.title" :info="charts.topReps.info" :customclass="'smaller'" ></chart-header>
                   <div class="chart-inner" id="topreps_chart"></div>
                 </div>
               </div>
@@ -58,13 +58,13 @@
               </div>
               <div class="col-md-6 chart-col">
                 <div class="boxed-container chart-container tabC_3">
-                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" ></chart-header>
+                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" :customclass="'smaller'" ></chart-header>
                   <div class="chart-inner" id="toporgs_chart"></div>
                 </div> 
               </div>
               <div class="col-md-6 chart-col">
                 <div class="boxed-container chart-container tabC_4">
-                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" ></chart-header>
+                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" :customclass="'smaller'" ></chart-header>
                   <div class="chart-inner" id="orgscats_chart"></div>
                 </div> 
               </div>
@@ -73,39 +73,56 @@
           <!-- CHARTS - SECOND ROW -->
           <div class="col-md-3 chart-col">
             <div class="boxed-container chart-container tabC_5">
-              <chart-header :title="charts.repCat.title" :info="charts.repCat.info" ></chart-header>
+              <chart-header :title="charts.repCat.title" :info="charts.repCat.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="repcat_chart"></div>
             </div> 
           </div>
           <div class="col-md-6 chart-col" id="wordcloud_chart_col">
             <div class="boxed-container chart-container tabC_6">
-              <chart-header :title="charts.objet.title" :info="charts.objet.info" ></chart-header>
+              <chart-header :title="charts.objet.title" :info="charts.objet.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="objet_chart"></div>
             </div>
           </div>
           <div class="col-md-3 chart-col">
             <div class="boxed-container chart-container tabC_5">
-              <chart-header :title="charts.lobbyCat.title" :info="charts.lobbyCat.info" ></chart-header>
+              <chart-header :title="charts.lobbyCat.title" :info="charts.lobbyCat.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="lobbycat_chart"></div>
             </div> 
           </div>
           <!-- CHARTS - THIRD ROW -->
           <div class="col-md-4 chart-col">
             <div class="boxed-container chart-container tabC_8">
-              <chart-header :title="charts.decisions.title" :info="charts.decisions.info" ></chart-header>
+              <chart-header :title="charts.decisions.title" :info="charts.decisions.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="decisions_chart"></div>
             </div>
           </div>
           <div class="col-md-4 chart-col" id="wordcloud_chart_col">
            <div class="boxed-container chart-container tabC_9">
-              <chart-header :title="charts.periode.title" :info="charts.periode.info" ></chart-header>
+              <chart-header :title="charts.periode.title" :info="charts.periode.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="periode_chart"></div>
             </div>
           </div>
           <div class="col-md-4 chart-col">
             <div class="boxed-container chart-container tabC_10">
-              <chart-header :title="charts.actions.title" :info="charts.actions.info" ></chart-header>
+              <chart-header :title="charts.actions.title" :info="charts.actions.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="actions_chart"></div>
+            </div>
+          </div>
+          <!-- TOGGLE BUTTONS FOR 4TH ROW -->
+          <div class="col-md-12 toggle-btn-container">
+            <button class="toggle-btn" id="charts-toggle-btn" @click="showAllCharts = !showAllCharts">Autres graphs</button>
+          </div>
+          <!-- CHARTS - FOURTH ROW - CAN BE TOGGLED -->
+          <div class="col-md-6 chart-col" v-show="showAllCharts">
+            <div class="boxed-container chart-container tabC_11">
+              <chart-header :title="charts.autoritiesAgencies.title" :info="charts.autoritiesAgencies.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="autoritiesagencies_chart"></div>
+            </div>
+          </div>
+          <div class="col-md-6 chart-col" v-show="showAllCharts">
+            <div class="boxed-container chart-container tabC_12">
+              <chart-header :title="charts.topDomains.title" :info="charts.topDomains.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="topdomains_chart"></div>
             </div>
           </div>
           <!-- TABLE -->
@@ -121,6 +138,7 @@
                       <th class="header">Catégorie(s)</th> 
                       <th class="header">Période de déclaration</th>
                       <th class="header">Responsable (s) public visé</th> 
+                      <th class="header">Domaines d'intervention</th>
                       <th class="header">Case facultative rem-plie ?</th> 
                       <th class="header">Activité effectué pour tiers?</th> 
                     </tr>
@@ -208,8 +226,8 @@
             </div>
           </div>
           <div class="footer-col col-4 col-sm-8 footer-counts">
-            <div class="dc-data-count count-box">
-              <div class="filter-count">0</div>parmi <strong class="total-count">0</strong> activités
+            <div class="dc-data-count count-box activities-count">
+              <div class="filter-count">0</div>parmi <strong class="total-count">0</strong> activités (<span class="percentage-count"></span>)
             </div>
             <!--
             <div class="count-box activities-counter">

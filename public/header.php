@@ -12,6 +12,9 @@
         <a href="./" class="nav-link" :class="{active: page == 'meps'}">Parlementaires en France</a>
       </li>
       <li class="nav-item">
+        <a href="./lobbyists.php" class="nav-link" :class="{active: page == 'lobbyists'}">Lobbyistes</a>
+      </li>
+      <li class="nav-item">
         <a href="./activities.php" class="nav-link" :class="{active: page == 'activities'}">Activités de lobbying</a>
       </li>
       <li class="nav-item dropdown">
@@ -22,6 +25,7 @@
           <a class="dropdown-item" href="https://www.integritywatch.fr/" target="_blank">France</a>
           <a class="dropdown-item" href="https://openaccess.transparency.org.uk/" target="_blank">United Kingdom</a>
           <a class="dropdown-item" href="https://integritywatch.cl/" target="_blank">Chile</a>
+          <a class="dropdown-item" href="http://www.soldiepolitica.it/" target="_blank">Italy</a>
         </div>
       </li>
     </ul>
