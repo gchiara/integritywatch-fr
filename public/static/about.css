@@ -657,6 +657,10 @@ div.dc-html-legend {
 #detailsModal .modal-title .subject {
   margin: 0 auto;
 }
+#detailsModal .modal-title .name {
+  font-weight: 600;
+  color: #2e7db0;
+}
 #detailsModal .details-title {
   display: inline-block;
   color: #fff;
@@ -687,6 +691,7 @@ div.dc-html-legend {
 }
 #detailsModal .details-line {
   padding: 5px 0;
+  text-align: left;
 }
 #detailsModal .details-line .details-line-title {
   font-weight: 600;
@@ -989,6 +994,13 @@ table.dataTable tbody tr:hover {
   }
 }
 
+.tabB-page #detailsModal {
+  margin-bottom: 80px;
+}
+.tabB-page .footer-bar .footer-counts .count-box {
+  width: 180px;
+}
+
 .table-info-cell {
   padding-right: 60px !important;
   position: relative;
@@ -1018,19 +1030,25 @@ table.dataTable tbody tr:hover {
 }
 
 .chart-container.tabC_1 {
-  height: 650px;
+  height: 620px;
+}
+.chart-container.tabC_2 {
+  height: 620px;
+}
+.chart-container.tabC_3 {
+  height: 620px;
 }
 .chart-container.tabC_4 {
-  height: 650px;
+  height: 620px;
 }
 .chart-container.tabC_5 {
-  height: 650px;
+  height: 660px;
 }
 .chart-container.tabC_6 {
-  height: 650px;
+  height: 660px;
 }
 .chart-container.tabC_7 {
-  height: 650px;
+  height: 660px;
 }
 .chart-container.tabC_8 {
   height: 620px;
@@ -1040,6 +1058,28 @@ table.dataTable tbody tr:hover {
 }
 .chart-container.tabC_10 {
   height: 620px;
+}
+.chart-container.tabB_1 {
+  height: 580px;
+}
+.chart-container.tabB_2 {
+  height: 580px;
+}
+.chart-container.tabB_3 {
+  height: 580px;
+}
+.chart-container.tabB_4 {
+  height: 800px;
+}
+.chart-container.tabB_5 {
+  height: 580px;
+  margin-bottom: 20px;
+}
+.chart-container.tabB_6 {
+  height: 580px;
+}
+.chart-container.tabB_7 {
+  height: 800px;
 }
 
 .tabC-page .modal-dialog {
@@ -1071,6 +1111,19 @@ table.dataTable tbody tr:hover {
 }
 .details-tables-buttons button.active {
   background: #0a5a8e;
+}
+
+.tabB-clients-table {
+  margin: 20px auto;
+}
+.tabB-clients-table td, .tabB-clients-table th {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 12px;
+  vertical-align: top;
+}
+.tabB-clients-table ul {
+  padding-left: 15px;
 }.container {
   padding: 30px 0;
   padding-bottom: 50px;

@@ -25,7 +25,7 @@ import ChartHeader from './components/ChartHeader.vue';
 // Data object - is also used by Vue
 
 var vuedata = {
-  page: 'meps',
+  page: 'activities',
   loader: true,
   showInfo: true,
   showShare: true,
@@ -457,6 +457,11 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         var thisKey = d.key;
         return thisKey + ': ' + d.value;
       })
+      .label(function (d){
+        var percent = d.value / group.all().reduce(function(a, v){ return a + v.value; }, 0);
+        percent = percent*100;
+        return percent.toFixed(1) + '%';
+      })
       .dimension(dimension)
       .group(group);
       /*
@@ -586,6 +591,11 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .title(function(d){
         var thisKey = d.key;
         return thisKey + ': ' + d.value;
+      })
+      .label(function (d){
+        var percent = d.value / group.all().reduce(function(a, v){ return a + v.value; }, 0);
+        percent = percent*100;
+        return percent.toFixed(1) + '%';
       })
       .dimension(dimension)
       .group(group);

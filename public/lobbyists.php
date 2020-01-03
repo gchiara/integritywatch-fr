@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="static/lobbyists.css">
 </head>
 <body>
-    <div id="app" class="tabC-page">   
+    <div id="app" class="tabB-page">   
       <?php include 'header.php' ?>
       <div class="container-fluid dashboard-container-outer">
         <div class="row dashboard-container">
@@ -33,17 +33,43 @@
           <!-- CHARTS - FIRST ROW -->
           <div class="col-md-4 chart-col">
             <div class="boxed-container chart-container tabB_1">
-              
+              <chart-header :title="charts.activitiesNum.title" :info="charts.activitiesNum.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="activitiesnum_chart"></div>
             </div> 
           </div>
           <div class="col-md-4 chart-col">
             <div class="boxed-container chart-container tabB_2">
-              
+              <chart-header :title="charts.chiffreAffaire.title" :info="charts.chiffreAffaire.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="chiffreaffaire_chart"></div>
             </div> 
           </div>
           <div class="col-md-4 chart-col">
             <div class="boxed-container chart-container tabB_3">
-              
+              <chart-header :title="charts.montantDepense.title" :info="charts.montantDepense.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="montantdepense_chart"></div>
+            </div> 
+          </div>
+          <!-- CHARTS - SECOND ROW -->
+          <div class="col-md-4 chart-col">
+            <div class="boxed-container chart-container tabB_4">
+              <chart-header :title="charts.sectors.title" :info="charts.sectors.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="sectors_chart"></div>
+            </div> 
+          </div>
+          <div class="col-md-4 chart-col">
+            <div class="boxed-container chart-container tabB_5">
+              <chart-header :title="charts.lobbyists.title" :info="charts.lobbyists.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="lobbyists_chart"></div>
+            </div> 
+            <div class="boxed-container chart-container tabB_6">
+              <chart-header :title="charts.clients.title" :info="charts.clients.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="clients_chart"></div>
+            </div> 
+          </div>
+          <div class="col-md-4 chart-col">
+            <div class="boxed-container chart-container tabB_7">
+              <chart-header :title="charts.category.title" :info="charts.category.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="category_chart"></div>
             </div> 
           </div>
           <!-- TABLE -->
@@ -55,6 +81,13 @@
                   <thead>
                     <tr class="header">
                       <th class="header">Nom de l’or-ganisation</th>
+                      <th class="header">Catégorie</th>
+                      <th class="header">Nombre d’activitées déclarées</th>
+                      <th class="header">Nombre de personnes dédiées à la représentation d’intérêt</th>
+                      <th class="header">Nombre de secteurs d’activités</th>
+                      <th class="header">Nombre de clients ou mandants</th>
+                      <th class="header">Nombre d’organisations d’appartenance</th>
+                      <th class="header">Déclaration à jour ?</th>
                     </tr>
                   </thead>
                 </table>
@@ -70,7 +103,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <div class="modal-title">
-                TITLE
+                <div class="name">{{ selectedElement.nomUsage }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>
@@ -79,7 +112,53 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-12">
-                    {{ selectedElement }}
+                    <div class="details-line" v-if="selectedElement.categorieOrganisation"><span class="details-line-title">Catégorie: </span> {{ selectedElement.categorieOrganisation.label }}</div>
+                    <div class="details-line" v-else><span class="details-line-title">Catégorie: </span> /</div>
+                    <div class="details-line"><span class="details-line-title">Secteurs d’activités déclarés: </span>
+                      <ul>
+                        <li v-for="s in selectedElement.sectors">
+                          {{ s }}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Nombre d’activités déclarés: </span> {{ selectedElement.latestPub.nombreActivite }}</div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Montant des dépenses: </span> {{ selectedElement.latestPub.montantDepense }}</div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Chiffre d’affaires: </span> {{ selectedElement.latestPub.chiffreAffaire }}</div>
+                    <div class="details-line"><span class="details-line-title">Nombre d’employés: </span> {{ selectedElement.collabNum }}</div>
+                    <div class="details-tables-buttons">
+                      <button @click="showClientsTable = !showClientsTable">Organisations connectées</button>
+                    </div>
+                    <table class="tabB-clients-table" v-show="showClientsTable">
+                      <thead>
+                        <tr>
+                          <th>Clients ou mandants</th>
+                          <th>Organisations d’appartenance</th>
+                          <th>Organisations qui déclarent cet organisme comme clients/mandats ou comme organisation d’appartenance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <ul>
+                              <li v-for="c in selectedElement.clients">
+                                {{ c.denomination }}
+                              </li>
+                            </ul>
+                          </td>
+                          <td>
+                            <ul>
+                              <li v-for="a in selectedElement.affiliations">
+                                {{ a.denomination }}
+                              </li>
+                            </ul>
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="details-line"><span class="details-line-title">Date de dernière mise à jour: </span> {{ selectedElement.dateDernierePublicationActivite }}</div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV: </span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation='+selectedElement.identifiantNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.identifiantNational }}</a></div>
+                     
                   </div>
                 </div>
               </div>

@@ -45,7 +45,7 @@ var vuedata = {
       info: 'Nombre de mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par le parlementaire. Passez la souris sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     mandate: {
-      title: 'MANDAT PARLEMENTAIRE',
+      title: 'FONCTION',
       info: 'Type de mandat occupé par le parlementaire.'
     },
     gender: {
@@ -55,7 +55,7 @@ var vuedata = {
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'ACTIVITÉS ANNEXES DES PARLEMENTAIRES',
+      title: 'ACTIVITÉS ANNEXES DES REPONSABLES PUBLICS',
       info: 'Click on any meeting for additional information.'
     }
   },
@@ -411,12 +411,14 @@ function getPhoto(name,type) {
     slug = 'Pierre-Yves-Le-Borgn';
   }
   var copyr = "";
-  if(type[0] == 'S'){
+  if(type && type[0] == 'S'){
     var photourl = "http://www.nossenateurs.fr/senateur/photo/"+slug+"/180";
     copyr = "©Sénat – 2015";
-  } else if(type[0] == 'D'){
+  } else if(type && type[0] == 'D'){
     var photourl = "http://www.nosdeputes.fr/depute/photo/"+slug+"/180";
     copyr = "©Assemblée-nationale – 2015";
+  } else {
+    console.log(name + ' ' + type);
   }
   return photourl;
   return "<img src=\""+photourl+"\" /><br />"+copyr;
@@ -461,14 +463,15 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 });
 
 //Load data and generate charts
-json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
+json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
       csv('./data/parties-names.csv', (err, partiesnames) => {
-        csv('./data/list-final-040219.csv', (err, listfinal) => {
-          csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
+        csv('./data/list-final-201219.csv', (err, listfinal) => {
+          //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
     
-            var declarations = dataDeclarations.declarations.declaration;
+            //var declarations = dataDeclarations.declarations.declaration;
+            var declarations = dataDeclarations;
             var representatives = dataParlamentaires;
             var totpeople = 0;
             var totact = 0;
@@ -479,8 +482,22 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
 
             //Get the list of correct declarations timestamps from the list-final csv file
             var timestamps = [];
+            var missingsenators = [];
+
+            /*
             listfinal.forEach(function (d) {
               timestamps.push(d.timestamp);
+            });
+            */
+
+            listfinal.forEach(function (d) {
+              if(d.date_depot == "No digital dec" || d.date_depot == "") {
+                if( d.type_mandat == "senateur") {
+                  missingsenators.push(d);
+                }
+              } else if(d.date_depot && d.date_depot.length > 1) {
+                timestamps.push(d.date_depot);
+              }
             });
 
             //Get declarations from listed timestamps by filtering the declarations json
@@ -488,12 +505,14 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
               return timestamps.indexOf(dec.dateDepot) > -1;
             });
             declarations = declarationsFiltered;
-            console.log(declarations);
+            //console.log(declarations);
 
             //Add missing senators from missing-senators csv to the declarations json structure
             missingsenators.forEach(function (d) {
-              var thisname = d.name.split(' ')[0];
-              var thislastname = d.name.split(' ')[1];
+              //var thisname = d.name.split(' ')[0];
+              //var thislastname = d.name.split(' ')[1];
+              var thisname = d.prenom;
+		          var thislastname = d.nom;
               var newObj = {
                 "general": {
                   "mandat": { "label": "Député ou sénateur" },
@@ -558,7 +577,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
               d.collabNum = 0;
               d.name_url = '';
               //Get party info
-              var thispartydata = _.find(listfinal, function (m) {return m.timestamp == d.dateDepot;});
+              var thispartydata = _.find(listfinal, function (m) {return m.date_depot == d.dateDepot;});
               if(thispartydata){
                 d.name_url = thispartydata.file.split('-dia')[0];
                 if(thispartydata.file.indexOf('romeiro-dias-laetitia') > -1){
@@ -971,7 +990,11 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
             var createMandateChart = function() {
               var chart = charts.mandate.chart;
               var dimension = ndx.dimension(function (d) {
-                return d.mandat;  
+                if(d.mandat) {
+                  return d.mandat; 
+                } else {
+                  return "N/A";
+                }
               });
               var group = dimension.group().reduceSum(function (d) { return 1; });
               var sizes = calcPieSize(charts.mandate.divId);
@@ -1310,7 +1333,7 @@ json('./data/declarations-filtered-2019.json', (err, dataDeclarations) => {
             window.onresize = function(event) {
               resizeGraphs();
             };
-          })
+          //})
         })
       })
     })

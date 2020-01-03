@@ -46760,7 +46760,7 @@ window.underscore = _underscore.default;
 window._ = _underscore.default;
 // Data object - is also used by Vue
 var vuedata = {
-  page: 'meps',
+  page: 'activities',
   loader: true,
   showInfo: true,
   showShare: true,
@@ -47161,6 +47161,12 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
     }).dimension(dimension).group(group);
     /*
     .ordering(function(d) { return order.indexOf(d)})
@@ -47287,6 +47293,12 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
     }).dimension(dimension).group(group);
     /*
     .ordering(function(d) { return order.indexOf(d)})
@@ -47882,7 +47894,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64702" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49316" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

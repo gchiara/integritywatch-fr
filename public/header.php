@@ -9,7 +9,7 @@
         <a href="./">Integrity Watch France</a>
       </li>
       <li class="nav-item">
-        <a href="./" class="nav-link" :class="{active: page == 'meps'}">Parlementaires en France</a>
+        <a href="./" class="nav-link" :class="{active: page == 'meps'}">Responsables publics</a>
       </li>
       <li class="nav-item">
         <a href="./lobbyists.php" class="nav-link" :class="{active: page == 'lobbyists'}">Lobbyistes</a>

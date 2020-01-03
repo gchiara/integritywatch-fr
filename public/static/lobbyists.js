@@ -46760,16 +46760,40 @@ window.underscore = _underscore.default;
 window._ = _underscore.default;
 // Data object - is also used by Vue
 var vuedata = {
-  page: 'meps',
+  page: 'lobbyists',
   loader: true,
   showInfo: true,
   showShare: true,
   showAllCharts: true,
+  showClientsTable: false,
   chartMargin: 40,
-  organizations: {},
   charts: {
-    actNumber: {
+    activitiesNum: {
       title: 'Nombre d’activités déclarées',
+      info: ''
+    },
+    chiffreAffaire: {
+      title: 'Chiffre d’affaires',
+      info: ''
+    },
+    montantDepense: {
+      title: 'Montant des dépenses',
+      info: ''
+    },
+    sectors: {
+      title: 'Secteurs d’activités',
+      info: ''
+    },
+    lobbyists: {
+      title: 'Nombre de lobbyistes par organisation',
+      info: ''
+    },
+    clients: {
+      title: 'Nombre de clients et mandants pour lesquels des activités ont été effectuées',
+      info: ''
+    },
+    category: {
+      title: 'Nombre d’organisations de lobbying par catégorie',
       info: ''
     },
     mainTable: {
@@ -46796,29 +46820,32 @@ var vuedata = {
     default: ["#3b95d0"]
   },
   categories: {
-    organizations: {
-      "Société commerciale": "Organisations commerciales",
-      "Société civile (autre que cabinet d’avocats)": "Société civile",
-      "Cabinets d’avocats": "Avocats",
-      "Cabinet d’avocats": "Avocats",
-      "Avocat indépendant": "Avocats",
-      "Cabinet de conseil": "Consultants",
-      "Cabinet de conseils": "Consultants",
-      "Consultant indépendant": "Consultants",
-      "Organisation professionnelle": "Organisations professionnelles & syndicats",
-      "Syndicat": "Organisations professionnelles & syndicats",
-      "Chambre consulaire": "Etablissement public à caractère économique",
-      "Association": "Société civile",
-      "Fondation": "Société civile",
-      "Organisme de recherche ou de réflexion": "Organismes de recherche",
-      "Autre organisation non gouvernementale": "Société civile",
-      "Autres organisations non gouvernementales": "Société civile",
-      "Etablissement public exerçant une activité industrielle et commerciale": "Etablissement public à caractère économique",
-      "Groupement d’intérêt public exerçant une activité industrielle et commerciale": "Etablissement public à caractère économique",
-      "Autres organisations": "Autres organisations"
+    depenses: {
+      "/": "/",
+      "< 10 000 euros": "< 10.000 €",
+      "> = 10 000 euros et < 25 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 100 000 euros et < 200 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 25 000 euros et < 50 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 50 000 euros et < 75 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 75 000 euros et < 100 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 200 000 euros et < 300 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 300 000 euros et < 400 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 400 000 euros et < 500 000 euros": "> = 10.000€ - < 500.000€",
+      "> = 500 000 euros et < 600 000 euros": "> = 500.000€ - < 1.000.000€",
+      "> = 600 000 euros et < 700 000 euros": "> = 500.000€ - < 1.000.000€",
+      "> = 800 000 euros et < 900 000 euros": "> = 500.000€ - < 1.000.000€",
+      "> = 900 000 euros et < 1 000 000 euros": "> = 500.000€ - < 1.000.000€",
+      "> = 1 000 000 euros et < 1 250 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 1 250 000 euros et < 1 500 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 700 000 euros et < 800 000 euros": "> = 500.000€ - < 1.000.000€",
+      "> = 1 500 000 euros et < 1 750 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 1 750 000 euros et < 2 000 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 3 250 000 euros et < 3 500 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 3 750 000 euros et < 4 000 000 euros": "> = 1.000.000€ - <5.000.000€",
+      "> = 9 250 000 euros et < 9 500 000 euros": "> = 5.000.000€ - < 10.000.000 €",
+      "> = 10 000 000 euros": "> = 10.000.000 €"
     }
-  },
-  agencies: ["Agence française de lutte contre le dopage", "Autorité de contrôle des nuisances sonores aéroportuaires", "Autorité de régulation des communications électroniques et des postes", "Autorité de la concurrence", "Autorité de régulation de la distribution de la presse", "Autorité de régulation des activités ferroviaires et routières", "Autorité de régulation des jeux en ligne", "Autorité des marchés financiers", "Autorité de sûreté nucléaire", "Comité d indemnisation des victimes des essais nucléaires", "Commission d accès aux documents administratifs", "Commission du secret de la défense nationale", "Contrôleur général des lieux de privation de liberté", "Commission nationale des comptes de campagne et des financements politiques", "Commission nationale de contrôle des techniques de renseignement", "Commission nationale du débat public", "Commission nationale de l informatique et des libertés", "Commission de régulation de l énergie", "Conseil supérieur de l audiovisuel", "Défenseur des droits", "Haute Autorité de santé", "Haut Conseil de l évaluation de la recherche et de l enseignement supérieur", "Haut Conseil du commissariat aux comptes", "Haute Autorité pour la diffusion des œuvres et la protection des droits sur internet", "Haute Autorité pour la transparence de la vie publique", "Médiateur national de l énergie"] //Set vue components and Vue app
+  } //Set vue components and Vue app
 
 };
 
@@ -46856,13 +46883,41 @@ $(function () {
 }); //Charts
 
 var charts = {
-  /*
-  repPublique: {
-    chart: dc.pieChart("#rep_publique_chart"),
+  activitiesNum: {
+    chart: dc.pieChart("#activitiesnum_chart"),
     type: 'pie',
-    divId: 'rep_publique_chart'
+    divId: 'activitiesnum_chart'
   },
-  */
+  chiffreAffaire: {
+    chart: dc.pieChart("#chiffreaffaire_chart"),
+    type: 'pie',
+    divId: 'chiffreaffaire_chart'
+  },
+  montantDepense: {
+    chart: dc.pieChart("#montantdepense_chart"),
+    type: 'pie',
+    divId: 'montantdepense_chart'
+  },
+  sectors: {
+    chart: dc.rowChart("#sectors_chart"),
+    type: 'row',
+    divId: 'sectors_chart'
+  },
+  lobbyists: {
+    chart: dc.pieChart("#lobbyists_chart"),
+    type: 'pie',
+    divId: 'lobbyists_chart'
+  },
+  clients: {
+    chart: dc.pieChart("#clients_chart"),
+    type: 'pie',
+    divId: 'clients_chart'
+  },
+  category: {
+    chart: dc.rowChart("#category_chart"),
+    type: 'row',
+    divId: 'category_chart'
+  },
   mainTable: {
     chart: null,
     type: 'table',
@@ -47020,14 +47075,87 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
   "date-eu-desc": function dateEuDesc(a, b) {
     return a < b ? 1 : a > b ? -1 : 0;
   }
-}); //Load data and generate charts
+});
+
+function getActivitiesNumRange(n) {
+  if (n == 0) {
+    return "0 activités";
+  } else if (n <= 10) {
+    return "1—10 activités";
+  } else if (n <= 25) {
+    return "11—25 activités";
+  } else if (n <= 50) {
+    return "26—50 activités";
+  } else if (n > 50) {
+    return "> 50 activités";
+  }
+}
+
+function getCollabRange(n) {
+  if (n == 1) {
+    return "1 lobbyiste";
+  } else if (n <= 5) {
+    return "2—5 lobbyistes";
+  } else if (n <= 10) {
+    return "6—10 lobbyistes";
+  } else if (n <= 20) {
+    return "11—20 lobbyistes";
+  } else if (n > 20) {
+    return "> 20 lobbyistes";
+  }
+
+  return "/";
+}
+
+function getClientsRange(n) {
+  if (n == 0) {
+    return "0 clients ou mandants";
+  } else if (n <= 5) {
+    return "1—5 clients ou mandants";
+  } else if (n <= 10) {
+    return "6—10 clients ou mandants";
+  } else if (n > 10) {
+    return ">10 clients ou mandants";
+  }
+
+  return "/";
+} //Load data and generate charts
 //json('./data/c/agora_repertoire_opendata.json', (err, lobbyists) => {
+
 
 (0, _d3Request.json)('./data/c/agora_repertoire_opendata.json', function (err, activities) {
   //console.log(repTypesList.sort());
   //$('body').html(repTypesList.sort().join('<br />'));
   _.each(activities.publications, function (d) {
-    d.searchstring = d.nomUsage + "";
+    d.latestPub = d.exercices[0].publicationCourante; //Get correct publicationCourante publicationDate
+
+    for (var i = 0; i < d.exercices.length; i++) {
+      if (d.exercices[i].publicationCourante.publicationDate) {
+        d.latestPub = d.exercices[i].publicationCourante;
+        break;
+      }
+    } //Get activities sectors list
+
+
+    d.sectors = [];
+
+    _.each(d.activites.listSecteursActivites, function (s) {
+      d.sectors.push(s.label);
+    });
+
+    d.activitiesNumRange = getActivitiesNumRange(d.latestPub.nombreActivite); //Store number of collaborators and clients and related ranges
+
+    d.collabNum = d.collaborateurs.length;
+    d.collabNumRange = getCollabRange(d.collabNum);
+    d.clientsNum = d.clients.length;
+    d.clientsNumRange = getClientsRange(d.clientsNum);
+    d.searchstring = d.nomUsage + ""; //Streamline montant depense
+
+    d.montantDepenseStreamlined = "/";
+
+    if (d.latestPub.montantDepense) {
+      d.montantDepenseStreamlined = vuedata.categories.depenses[d.latestPub.montantDepense];
+    }
   }); //Set dc main vars
 
 
@@ -47036,16 +47164,16 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     return d.searchstring.toLowerCase();
   }); //CHART 1
 
-  var createRepPubliqueChart = function createRepPubliqueChart() {
-    var chart = charts.repPublique.chart;
+  var createActivitiesNumChart = function createActivitiesNumChart() {
+    var chart = charts.activitiesNum.chart;
     var dimension = ndx.dimension(function (d) {
-      //return d.repType; 
-      return d.repTypeStreamLined;
-    }, true);
+      return d.activitiesNumRange;
+    });
     var group = dimension.group().reduceSum(function (d) {
       return 1;
     });
-    var sizes = calcPieSize(charts.repPublique.divId);
+    var sizes = calcPieSize(charts.activitiesNum.divId);
+    var order = ["0 activités", "1—10 activités", "11—25 activités", "26—50 activités", "> 50 activités"];
     chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
       var thisKey = d.name;
 
@@ -47057,7 +47185,59 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
-    }).dimension(dimension).group(group);
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
+    }).dimension(dimension).group(group).ordering(function (d) {
+      return order.indexOf(d.key);
+    });
+    /*
+    .colorCalculator(function(d, i) {
+      return vuedata.colors.parties[d.key];
+    });
+    */
+
+    chart.render();
+  }; //CHART 2
+
+
+  var createChiffreAffaireChart = function createChiffreAffaireChart() {
+    var chart = charts.chiffreAffaire.chart;
+    var dimension = ndx.dimension(function (d) {
+      if (d.latestPub.chiffreAffaire) {
+        return d.latestPub.chiffreAffaire;
+      } else {
+        return "/";
+      }
+    });
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+    var sizes = calcPieSize(charts.chiffreAffaire.divId);
+    var order = ["< 100 000 euros", "> = 100 000 euros et < 500 000 euros", "> = 500 000 euros et < 1 000 000 euros", "> = 1 000 000 euros", "/"];
+    chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+      var thisKey = d.name;
+
+      if (thisKey.length > 40) {
+        return thisKey.substring(0, 40) + '...';
+      }
+
+      return thisKey;
+    })).title(function (d) {
+      var thisKey = d.key;
+      return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
+    }).dimension(dimension).group(group).ordering(function (d) {
+      return order.indexOf(d.key);
+    });
     /*
     .ordering(function(d) { return order.indexOf(d)})
     .colorCalculator(function(d, i) {
@@ -47065,6 +47245,225 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     });
     */
 
+    chart.render();
+  }; //CHART 3
+
+
+  var createMontantDepenseChart = function createMontantDepenseChart() {
+    var chart = charts.montantDepense.chart;
+    var dimension = ndx.dimension(function (d) {
+      if (d.montantDepenseStreamlined) {
+        return d.montantDepenseStreamlined;
+      } else {
+        return " ";
+      }
+    });
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+    var sizes = calcPieSize(charts.montantDepense.divId);
+    var order = ["/", "< 10.000 €", "> = 10.000€ - < 500.000€", "> = 500.000€ - < 1.000.000€", "> = 1.000.000€ - <5.000.000€", "> = 5.000.000€ - < 10.000.000 €", "> = 10.000.000 €"];
+    chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+      var thisKey = d.name;
+
+      if (thisKey.length > 40) {
+        return thisKey.substring(0, 40) + '...';
+      }
+
+      return thisKey;
+    })).title(function (d) {
+      var thisKey = d.key;
+      console.log(d.key);
+      return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
+    }).dimension(dimension).group(group).ordering(function (d) {
+      return order.indexOf(d.key);
+    });
+    /*
+    .ordering(function(d) { return order.indexOf(d)})
+    .colorCalculator(function(d, i) {
+      return vuedata.colors.parties[d.key];
+    });
+    */
+
+    chart.render();
+  }; //CHART 4
+
+
+  var createSectorsChart = function createSectorsChart() {
+    var chart = charts.sectors.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.sectors;
+    }, true);
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+
+    var filteredGroup = function (source_group) {
+      return {
+        all: function all() {
+          return source_group.top(40).filter(function (d) {
+            return d.value != 0;
+          });
+        }
+      };
+    }(group);
+
+    var width = recalcWidth(charts.sectors.divId);
+    var charsLength = recalcCharsLength(width);
+    chart.width(width).height(710).margins({
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 20
+    }).group(filteredGroup).dimension(dimension)
+    /*
+    .colorCalculator(function(d, i) {
+      var level = getPolicyLevel(d.key);
+      return vuedata.colors.ecPolicy[level];
+    })
+    */
+    .label(function (d) {
+      if (d.key.length > charsLength) {
+        return d.key.substring(0, charsLength) + '...';
+      }
+
+      return d.key;
+    }).title(function (d) {
+      return d.key + ': ' + d.value;
+    }).elasticX(true).xAxis().ticks(4);
+    chart.render();
+  }; //CHART 5
+
+
+  var createLobbyistsNumChart = function createLobbyistsNumChart() {
+    var chart = charts.lobbyists.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.collabNumRange;
+    });
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+    var sizes = calcPieSize(charts.lobbyists.divId);
+    var order = ["1 lobbyiste", "2—5 lobbyistes", "6—10 lobbyistes", "11—20 lobbyistes", "> 20 lobbyistes"];
+    chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+      var thisKey = d.name;
+
+      if (thisKey.length > 40) {
+        return thisKey.substring(0, 40) + '...';
+      }
+
+      return thisKey;
+    })).title(function (d) {
+      var thisKey = d.key;
+      return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
+    }).dimension(dimension).group(group).ordering(function (d) {
+      return order.indexOf(d.key);
+    });
+    /*
+    .ordering(function(d) { return order.indexOf(d)})
+    .colorCalculator(function(d, i) {
+      return vuedata.colors.parties[d.key];
+    });
+    */
+
+    chart.render();
+  }; //CHART 6
+
+
+  var createClientsNumChart = function createClientsNumChart() {
+    var chart = charts.clients.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.clientsNumRange;
+    });
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+    var sizes = calcPieSize(charts.clients.divId);
+    var order = ["0 clients ou mandants", "1—5 clients ou mandants", "6—10 clients ou mandants", ">10 clients ou mandants"];
+    chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+      var thisKey = d.name;
+
+      if (thisKey.length > 40) {
+        return thisKey.substring(0, 40) + '...';
+      }
+
+      return thisKey;
+    })).title(function (d) {
+      var thisKey = d.key;
+      return thisKey + ': ' + d.value;
+    }).label(function (d) {
+      var percent = d.value / group.all().reduce(function (a, v) {
+        return a + v.value;
+      }, 0);
+      percent = percent * 100;
+      return percent.toFixed(1) + '%';
+    }).dimension(dimension).group(group).ordering(function (d) {
+      return order.indexOf(d.key);
+    });
+    /*
+    .colorCalculator(function(d, i) {
+      return vuedata.colors.parties[d.key];
+    });
+    */
+
+    chart.render();
+  }; //CHART 7
+
+
+  var createCategoryChart = function createCategoryChart() {
+    var chart = charts.category.chart;
+    var dimension = ndx.dimension(function (d) {
+      return d.categorieOrganisation.label;
+    });
+    var group = dimension.group().reduceSum(function (d) {
+      return 1;
+    });
+
+    var filteredGroup = function (source_group) {
+      return {
+        all: function all() {
+          return source_group.top(40).filter(function (d) {
+            return d.value != 0;
+          });
+        }
+      };
+    }(group);
+
+    var width = recalcWidth(charts.category.divId);
+    var charsLength = recalcCharsLength(width);
+    chart.width(width).height(690).margins({
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 20
+    }).group(filteredGroup).dimension(dimension)
+    /*
+    .colorCalculator(function(d, i) {
+      var level = getPolicyLevel(d.key);
+      return vuedata.colors.ecPolicy[level];
+    })
+    */
+    .label(function (d) {
+      if (d.key.length > charsLength) {
+        return d.key.substring(0, charsLength) + '...';
+      }
+
+      return d.key;
+    }).title(function (d) {
+      return d.key + ': ' + d.value;
+    }).elasticX(true).xAxis().ticks(4);
     chart.render();
   }; //TABLE
 
@@ -47079,6 +47478,70 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
         "defaultContent": "N/A",
         "data": function data(d) {
           return d.nomUsage;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 1,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          return d.categorieOrganisation.label;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 2,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          return d.latestPub.nombreActivite;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 3,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          return d.collabNum;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 4,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          if (d.activites) {
+            return d.activites.listSecteursActivites.length;
+          }
+
+          return "/";
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 5,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          return d.clientsNum;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 6,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          return d.affiliations.length;
+        }
+      }, {
+        "searchable": false,
+        "orderable": true,
+        "targets": 7,
+        "defaultContent": "N/A",
+        "data": function data(d) {
+          if (d.latestPub.defautDeclaration == true) {
+            return "NON";
+          } else {
+            return "OUI";
+          }
         }
       }],
       "iDisplayLength": 25,
@@ -47106,7 +47569,8 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     datatable.DataTable().draw();
     $('#dc-data-table tbody').on('click', 'tr', function () {
       var data = datatable.DataTable().row(this).data();
-      vuedata.selectedElement = data; //console.log(vuedata.selectedElement);
+      vuedata.selectedElement = data;
+      vuedata.showClientsTable = false; //console.log(vuedata.selectedElement);
 
       $('#detailsModal').modal();
     });
@@ -47187,6 +47651,13 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
   }); //Render charts
 
   createTable();
+  createActivitiesNumChart();
+  createChiffreAffaireChart();
+  createMontantDepenseChart();
+  createSectorsChart();
+  createLobbyistsNumChart();
+  createClientsNumChart();
+  createCategoryChart();
   $('.dataTables_wrapper').append($('.dataTables_length')); //Toggle last charts functionality and fix for responsiveness
 
   vuedata.showAllCharts = false;
@@ -47251,7 +47722,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64702" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49316" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

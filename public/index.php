@@ -23,7 +23,7 @@
               <!-- INFO -->
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
-                  <h1>Parlementaires en France</h1>
+                  <h1>Responsables publics</h1>
                   <p>Integrity Watch France est une base de données interactive qui offre un aperçu unique des intérêts et activités déclarés par les parlementaires. Cet outil doit permettre de mieux identifier les activités susceptibles de générer des conflits d’intérêts. 
                   <br />Seules les activités exercées en parallèle du mandat de député ou de sénateur ont été prises en compte (mandats électifs, activités conservées, fonctions bénévoles). 
                   <br />Simple d’utilisation, il suffit de cliquer sur les éléments des infographies pour filtrer, trier et classer les informations. Veillez à bien enlever les filtres en cas de recherches successives. 
@@ -91,7 +91,7 @@
                       <th class="header">Nr</th> 
                       <th class="header">Nom</th> 
                       <th class="header">Département</th>
-                      <th class="header">Mandat</th>
+                      <th class="header">Fonction</th>
                       <th class="header table-info-cell">Parti politique de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
                       <th class="header table-info-cell">Groupe parlementaire de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
                       <th class="header">Activités annexes conservées</th>

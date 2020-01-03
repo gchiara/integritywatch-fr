@@ -46780,7 +46780,7 @@ var vuedata = {
       info: 'Nombre de mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par le parlementaire. Passez la souris sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     mandate: {
-      title: 'MANDAT PARLEMENTAIRE',
+      title: 'FONCTION',
       info: 'Type de mandat occupé par le parlementaire.'
     },
     gender: {
@@ -46790,7 +46790,7 @@ var vuedata = {
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'ACTIVITÉS ANNEXES DES PARLEMENTAIRES',
+      title: 'ACTIVITÉS ANNEXES DES REPONSABLES PUBLICS',
       info: 'Click on any meeting for additional information.'
     }
   },
@@ -47161,12 +47161,14 @@ function getPhoto(name, type) {
 
   var copyr = "";
 
-  if (type[0] == 'S') {
+  if (type && type[0] == 'S') {
     var photourl = "http://www.nossenateurs.fr/senateur/photo/" + slug + "/180";
     copyr = "©Sénat – 2015";
-  } else if (type[0] == 'D') {
+  } else if (type && type[0] == 'D') {
     var photourl = "http://www.nosdeputes.fr/depute/photo/" + slug + "/180";
     copyr = "©Assemblée-nationale – 2015";
+  } else {
+    console.log(name + ' ' + type);
   }
 
   return photourl;
@@ -47218,866 +47220,886 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
   }
 }); //Load data and generate charts
 
-(0, _d3Request.json)('./data/declarations-filtered-2019.json', function (err, dataDeclarations) {
+(0, _d3Request.json)('./data/declarations-filtered-201219.json', function (err, dataDeclarations) {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv', function (err, partiesnames) {
-        (0, _d3Request.csv)('./data/list-final-040219.csv', function (err, listfinal) {
-          (0, _d3Request.csv)('./data/missing-senators-2019.csv', function (err, missingsenators) {
-            var declarations = dataDeclarations.declarations.declaration;
-            var representatives = dataParlamentaires;
-            var totpeople = 0;
-            var totact = 0;
-            var totrev = 0; //Does this need to change? It's used to indicate which revenue year to keep into account from the declarations.
-            //At the moment the latest ones seem to be 2017.
+        (0, _d3Request.csv)('./data/list-final-201219.csv', function (err, listfinal) {
+          //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
+          //var declarations = dataDeclarations.declarations.declaration;
+          var declarations = dataDeclarations;
+          var representatives = dataParlamentaires;
+          var totpeople = 0;
+          var totact = 0;
+          var totrev = 0; //Does this need to change? It's used to indicate which revenue year to keep into account from the declarations.
+          //At the moment the latest ones seem to be 2017.
 
-            var currentYear = 2017; //Get the list of correct declarations timestamps from the list-final csv file
+          var currentYear = 2017; //Get the list of correct declarations timestamps from the list-final csv file
 
-            var timestamps = [];
-            listfinal.forEach(function (d) {
-              timestamps.push(d.timestamp);
-            }); //Get declarations from listed timestamps by filtering the declarations json
+          var timestamps = [];
+          var missingsenators = [];
+          /*
+          listfinal.forEach(function (d) {
+            timestamps.push(d.timestamp);
+          });
+          */
 
-            var declarationsFiltered = _.filter(declarations, function (dec, index) {
-              return timestamps.indexOf(dec.dateDepot) > -1;
-            });
+          listfinal.forEach(function (d) {
+            if (d.date_depot == "No digital dec" || d.date_depot == "") {
+              if (d.type_mandat == "senateur") {
+                missingsenators.push(d);
+              }
+            } else if (d.date_depot && d.date_depot.length > 1) {
+              timestamps.push(d.date_depot);
+            }
+          }); //Get declarations from listed timestamps by filtering the declarations json
 
-            declarations = declarationsFiltered;
-            console.log(declarations); //Add missing senators from missing-senators csv to the declarations json structure
+          var declarationsFiltered = _.filter(declarations, function (dec, index) {
+            return timestamps.indexOf(dec.dateDepot) > -1;
+          });
 
-            missingsenators.forEach(function (d) {
-              var thisname = d.name.split(' ')[0];
-              var thislastname = d.name.split(' ')[1];
-              var newObj = {
-                "general": {
-                  "mandat": {
-                    "label": "Député ou sénateur"
-                  },
-                  "qualiteMandat": {
-                    "typeMandat": d.type_mandat
-                  },
-                  "declarant": {
-                    "civilite": d.civilite,
-                    "nom": thislastname,
-                    "prenom": thisname,
-                    "dateNaissance": ""
-                  }
+          declarations = declarationsFiltered; //console.log(declarations);
+          //Add missing senators from missing-senators csv to the declarations json structure
+
+          missingsenators.forEach(function (d) {
+            //var thisname = d.name.split(' ')[0];
+            //var thislastname = d.name.split(' ')[1];
+            var thisname = d.prenom;
+            var thislastname = d.nom;
+            var newObj = {
+              "general": {
+                "mandat": {
+                  "label": "Député ou sénateur"
                 },
-                "parti": d.parti,
-                "parti_group": d.groupe,
-                "departement": d.departement,
-                "departement_n": d.departement,
-                "convertedFromCSV": true
-              };
-              declarations.push(newObj);
-            }); //Loop through data to aply fixes and calculations
-
-            _.each(declarations, function (d) {
-              //Set up parameters that will be used in graphs and tables
-              d.name = d.general.declarant.prenom + " " + d.general.declarant.nom;
-
-              if (d.name == 'Robert Del') {
-                d.name = 'Robert Del Picchia';
-              }
-
-              d.name_show = d.name;
-              d.civilite = cleanstring(d.general.declarant.civilite);
-
-              if (cleanstringSpecial(d.civilite) == "m") {
-                d.civilite = "m";
-              }
-
-              if (cleanstringSpecial(d.civilite) == "mme") {
-                d.civilite = "f";
-              }
-
-              d.birth_year = d.general.declarant.dateNaissance.split("/")[2];
-              d.birth_date = d.general.declarant.dateNaissance;
-              d.revenue = 0;
-              d.activities = 0;
-
-              if (!d.departement) {
-                d.departement;
-              }
-
-              if (d.general.organe && d.general.organe.labelOrgane) {
-                d.departement = d.general.organe.labelOrgane.split("(")[0];
-              }
-
-              if (d.general.organe) {
-                d.departement_n = d.general.organe.codeOrgane;
-              }
-
-              d.region = "";
-              d.mandat2 = d.general.qualiteMandat.typeMandat;
-              d.mandat = d.general.mandat.label;
-
-              if (!d.parti) {
-                d.parti = "";
-              }
-
-              if (!d.parti_group) {
-                d.parti_group = "";
-              }
-
-              d.activcons = "NON";
-              d.partsoc = "NON";
-              d.collabNum = 0;
-              d.name_url = ''; //Get party info
-
-              var thispartydata = _.find(listfinal, function (m) {
-                return m.timestamp == d.dateDepot;
-              });
-
-              if (thispartydata) {
-                d.name_url = thispartydata.file.split('-dia')[0];
-
-                if (thispartydata.file.indexOf('romeiro-dias-laetitia') > -1) {
-                  d.name_url = 'romeiro-dias-laetitia';
+                "qualiteMandat": {
+                  "typeMandat": d.type_mandat
+                },
+                "declarant": {
+                  "civilite": d.civilite,
+                  "nom": thislastname,
+                  "prenom": thisname,
+                  "dateNaissance": ""
                 }
-
-                d.parti = thispartydata.parti.trim();
-                d.parti_group = thispartydata.groupe.trim();
-                d.name_show = thispartydata.name;
-                d.departement_n = thispartydata.departement.trim();
-
-                if (!d.general.qualiteMandat.typeMandat) {
-                  d.mandat2 = thispartydata.mandatHATPV;
-                }
-              }
-
-              if (d.mandat2 == 'depute') {
-                d.mandat2 = 'Député';
-              } else if (d.mandat2 == 'senateur') {
-                d.mandat2 = 'Sénateur';
-              }
-
-              if (d.mandat == "Député ou sénateur") {
-                d.mandat = d.mandat2;
-              }
-
-              if (!d.department || d.department == '' || d.department == undefined) {
-                //Find department name from department names csv if missing
-                var thisdepname = _.find(departmentnames, function (m) {
-                  return d.departement_n == m.code;
-                });
-
-                if (thisdepname) {
-                  d.department = thisdepname.name;
-                }
-              }
-
-              d.parti_group_m = d.parti_group;
-              d.parti_acronym = ''; //Find party acronym
-
-              var pacronym = _.find(partiesnames, function (m) {
-                return cleanstringSpecial(m.party) == cleanstringSpecial(d.parti);
-              });
-
-              if (pacronym) {
-                d.parti_acronym = pacronym.abbreviation;
-              } //Set party name that will be used in the parties pie chart
-
-
-              var partiespielist = ['rem', 'lr', 'modem', 'lc', 'ng', 'fi', 'gdr', 'ni', 'ps'];
-
-              if (partiespielist.indexOf(d.parti_acronym.toLowerCase()) < 0) {
-                d.parti_pie = 'Autres'; //d.parti_pie = d.parti_acronym;
-              } else {
-                d.parti_pie = d.parti_acronym;
-              } //Deparment number fix
-
-
-              if (d.departement_n == '099' || d.departement_n == '998' || d.departement_n == 998) {
-                d.departement_n = 99;
-              } //Get photo url and profile link
-
-
-              d.photoUrl = getPhoto(d.name, d.mandat);
-              d.hatvp = getHatvp(d.name, d.name_url); //Calculate activities number and revenue
-
-              d.activitiestot = 0;
-              d.revenuetot = 0;
-              d.revenuetotAvg = 0;
-              d.activConsultant = [];
-              d.activProfCinqDerniere = [];
-              d.activProfConjoint = [];
-              d.fonctionBenevole = [];
-              d.mandatElectif = [];
-              d.participationDirigeant = [];
-              d.participationFinanciere = [];
-              d.activCollaborateurs = []; //See if way to check nested property can be improved, made shorter
-
-              if (d.activConsultantDto && d.activConsultantDto.items && d.activConsultantDto.items[0] && d.activConsultantDto.items[0].items) {
-                if (d.activConsultantDto.items[0].items.motif) {
-                  d.activConsultant.push(d.activConsultantDto.items[0].items);
-                } else {
-                  d.activConsultant = d.activConsultantDto.items[0].items;
-                }
-              }
-
-              if (d.activProfCinqDerniereDto && d.activProfCinqDerniereDto.items && d.activProfCinqDerniereDto.items[0] && d.activProfCinqDerniereDto.items[0].items) {
-                if (d.activProfCinqDerniereDto.items[0].items.motif) {
-                  d.activConsultant.push(d.activProfCinqDerniereDto.items[0].items);
-                } else {
-                  d.activProfCinqDerniere = d.activProfCinqDerniereDto.items[0].items;
-                }
-              }
-
-              if (d.activProfConjointDto && d.activProfConjointDto.items && d.activProfConjointDto.items[0] && d.activProfConjointDto.items[0].items) {
-                if (d.activProfConjointDto.items[0].items.motif) {
-                  d.activProfConjoint.push(d.activProfConjointDto.items[0].items);
-                } else {
-                  d.activProfConjoint = d.activProfConjointDto.items[0].items;
-                }
-              }
-
-              if (d.fonctionBenevoleDto && d.fonctionBenevoleDto.items && d.fonctionBenevoleDto.items[0] && d.fonctionBenevoleDto.items[0].items) {
-                if (d.fonctionBenevoleDto.items[0].items.motif) {
-                  d.fonctionBenevole.push(d.fonctionBenevoleDto.items[0].items);
-                } else {
-                  d.fonctionBenevole = d.fonctionBenevoleDto.items[0].items;
-                }
-              }
-
-              if (d.mandatElectifDto && d.mandatElectifDto.items && d.mandatElectifDto.items[0] && d.mandatElectifDto.items[0].items) {
-                if (d.mandatElectifDto.items[0].items.motif) {
-                  d.mandatElectif.push(d.mandatElectifDto.items[0].items);
-                } else {
-                  d.mandatElectif = d.mandatElectifDto.items[0].items;
-                }
-              }
-
-              if (d.participationDirigeantDto && d.participationDirigeantDto.items && d.participationDirigeantDto.items[0] && d.participationDirigeantDto.items[0].items) {
-                if (d.participationDirigeantDto.items[0].items.motif) {
-                  d.participationDirigeant.push(d.participationDirigeantDto.items[0].items);
-                } else {
-                  d.participationDirigeant = d.participationDirigeantDto.items[0].items;
-                }
-              }
-
-              if (d.participationFinanciereDto && d.participationFinanciereDto.items && d.participationFinanciereDto.items[0] && d.participationFinanciereDto.items[0].items) {
-                if (d.participationFinanciereDto.items[0].items.motif) {
-                  d.participationFinanciere.push(d.participationFinanciereDto.items[0].items);
-                } else {
-                  d.participationFinanciere = d.participationFinanciereDto.items[0].items;
-                }
-              }
-
-              if (d.activCollaborateursDto && d.activCollaborateursDto.items && d.activCollaborateursDto.items[0] && d.activCollaborateursDto.items[0].items) {
-                if (d.activCollaborateursDto.items[0].items.motif) {
-                  d.activCollaborateurs.push(d.activCollaborateursDto.items[0].items);
-                } else {
-                  d.activCollaborateurs = d.activCollaborateursDto.items[0].items;
-                }
-              }
-
-              if (d.participationFinanciere.length > 0) {
-                d.partsoc = "OUI";
-              } //Calculate activities and revenues	
-
-
-              function calcActRev(actArray) {
-                if (actArray.length > 0) {
-                  actArray.forEach(function (x) {
-                    //Count activity only if conservee
-                    if (x.conservee && x.conservee == "true") {
-                      d.activitiestot++;
-                    } //Revenue sum for conservee activities
-
-
-                    if (x.conservee == "true") {
-                      if (x.remuneration && x.remuneration.montant.montant) {
-                        //If the revenue only has 1 entry the data structure is a bit different
-                        if (x.remuneration.montant.montant.annee && x.remuneration.montant.montant.annee == currentYear) {
-                          d.revenuetot += Number(x.remuneration.montant.montant.montant);
-                        } else if (x.remuneration.montant.montant.length > 0) {
-                          //If there are more entries, loop through revenue entries, 1 entry per year; pick the current year entry
-                          x.remuneration.montant.montant.forEach(function (y) {
-                            if (y.annee == currentYear) {
-                              d.revenuetot += Number(y.montant);
-                            }
-                          });
-                        }
-                      } //Revenue sum average
-
-
-                      var thisacttot = 0;
-                      var thisactyears = 0;
-
-                      if (x.remuneration && x.remuneration.montant.montant) {
-                        //If the revenue only has 1 entry the data structure is a bit different
-                        if (x.remuneration.montant.montant.annee) {
-                          d.revenuetotAvg += Number(x.remuneration.montant.montant.montant);
-                        } else if (x.remuneration.montant.montant.length > 0) {
-                          //If there are more entries, loop through revenue entries, 1 entry per year; sum the revenues and divide by years amount
-                          x.remuneration.montant.montant.forEach(function (y) {
-                            thisacttot += Number(y.montant);
-                            thisactyears++;
-                          });
-                        }
-                      }
-
-                      if (thisactyears > 0) {
-                        d.revenuetotAvg += Number(thisacttot) / Number(thisactyears); //.toFixed(2)
-                      }
-                    } //If any is kept, set activcons to OUI
-
-
-                    if (x.conservee && x.conservee == "true") {
-                      d.activcons = "OUI";
-                    }
-                  });
-                }
-              }
-
-              calcActRev(d.activConsultant);
-              calcActRev(d.activProfCinqDerniere);
-              calcActRev(d.fonctionBenevole);
-              calcActRev(d.mandatElectif);
-              calcActRev(d.participationDirigeant);
-              /* ENTRIES THAT SHOULD NOT BE COUNTED FOR ACTIVITIES COUNT - DO NOT DELETE */
-
-              /*
-              if(d.activProfConjoint.length > 0){
-                d.activProfConjoint.forEach(function (x) {
-                });
-              }
-              if(d.participationFinanciere.length > 0){
-                d.participationFinanciere.forEach(function (x) {
-                });
-              }
-              */
-              //Count collaborators
-
-              d.activCollaborateurs.forEach(function (x) {
-                if ((x.descriptionActivite || x.employeur && x.employeur != "Néant") && (cleanstringSpecial(x.employeur) != "neant" && x.employeur != "Néant" && cleanstringSpecial(x.employeur) != "" || cleanstringSpecial(x.descriptionActivite) != "" && cleanstringSpecial(x.descriptionActivite) != "neant") && x.descriptionActivite != "AUCUNE AUTRE ACTIVITE") {
-                  d.collabNum++;
-                }
-              }); //Set activities range
-
-              d.activities = d.activitiestot;
-              d.activities_range = "";
-
-              if (d.activitiestot == 0) {
-                d.activities_range = "0";
-              } else if (d.activitiestot <= 1) {
-                d.activities_range = "1";
-              } else if (d.activitiestot <= 5) {
-                d.activities_range = "2 - 5";
-              } else if (d.activitiestot <= 10) {
-                d.activities_range = "6 - 10";
-              } else if (d.activitiestot > 10) {
-                d.activities_range = "> 10";
-              } //Set revenues range
-
-
-              d.revenue = d.revenuetot;
-              d.revenue_n = d.revenuetot; //Revenue ranges
-
-              if (d.revenue == '#N/D' || d.revenue == '') {
-                d.revenue_n = 0;
-                d.revenue_n2 = 0;
-              } else {
-                //d.revenue_n = d.revenue.replace(',','.');
-                d.revenue_n = parseFloat(d.revenue_n);
-                d.revenue_n2 = d.revenue_n.toFixed(0);
-              }
-
-              if (d.revenue == '#N/D' || d.revenue == '') {
-                d.revenue_range = "Aucun";
-              } else if (d.revenue_n <= 1000) {
-                d.revenue_range = "0 - 1000";
-              } else if (d.revenue_n <= 10000) {
-                d.revenue_range = "1001 - 10,000";
-              } else if (d.revenue_n <= 25000) {
-                d.revenue_range = "10,001 - 25,000";
-              } else if (d.revenue_n <= 50000) {
-                d.revenue_range = "25,001 - 50,000";
-              } else if (d.revenue_n <= 100000) {
-                d.revenue_range = "50,001 - 100,000";
-              } else if (d.revenue_n > 100000) {
-                d.revenue_range = "100,001 +";
-              }
-
-              d.revenue_n = d.revenue_n.toFixed(2); //Search string
-
-              d.searchstring = d.name + " " + d.departement + " " + d.departement_n;
-              d.activities_word = d.activities; //Totals
-
-              totpeople++;
-              totact += parseInt(d.activities);
-              totrev += parseFloat(d.revenue_n);
-            }); //Set dc main vars
-
-
-            var ndx = crossfilter(declarations);
-            var searchDimension = ndx.dimension(function (d) {
-              return d.searchstring.toLowerCase();
-            });
-            var mapDimension = ndx.dimension(function (d) {
-              if (d.departement_n && d.departement_n.length == 1) {
-                return '0' + d.departement_n;
-              } else {
-                return d.departement_n;
-              }
-            }); //MAP CHART
-
-            var createMapChart = function createMapChart() {
-              (0, _d3Request.json)('./data/departements.topo.js', function (err, jsonmap) {
-                var chart = charts.map.chart;
-                var width = recalcWidth(charts.map.divId);
-                var group = mapDimension.group().reduceSum(function (d) {
-                  return 1;
-                });
-                var dpt = topojson.feature(jsonmap, jsonmap.objects.departements).features;
-                var projection = d3.geoMercator().center([11, 45]).scale(width * 2.9).translate([width - 50, 220]);
-                var centered;
-
-                function clicked(d) {}
-
-                chart.width(width).height(400).dimension(mapDimension).group(group).projection(projection).colors(d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])).colorDomain([1, 20]).colorCalculator(function (d) {
-                  return d == 0 ? '#eee' : chart.colors()(d);
-                }).overlayGeoJson(dpt, "departement", function (d) {
-                  return d.properties.code;
-                }).title(function (d) {
-                  return _.find(dpt, function (m) {
-                    return m.properties.code == d.key;
-                  }).properties.nom + ': ' + d.value + ' parlementaires';
-                }).on('renderlet', function (chart) {});
-                chart.render(); //Button to filter department_N > 95 and show France map as deselected
-
-                $('#franceterritories').click(function () {
-                  $(this).addClass('active');
-                  $('#iledefrance').removeClass('active');
-                  mapDimension.filter(function (d) {
-                    return d > 95;
-                  });
-                  dc.redrawAll();
-                  RefreshTable();
-                  $("#map_chart svg .layer0 .departement").each(function (index) {
-                    $(this).removeClass('selected');
-                    $(this).addClass('deselected');
-                  });
-                }); //Button to filter departments 75, 77, 78, 91, 92, 93, 94, 95
-
-                $('#iledefrance').click(function () {
-                  $(this).addClass('active');
-                  $('#franceterritories').removeClass('active');
-                  var ileDepartments = ['75', '77', '78', '91', '92', '93', '94', '95'];
-                  mapDimension.filter(function (d) {
-                    if (ileDepartments.indexOf(d) > -1) {
-                      return true;
-                    } else {
-                      return false;
-                    }
-                  });
-                  dc.redrawAll();
-                  RefreshTable();
-                  $('#map_chart svg .layer0 .departement').each(function (i) {
-                    $(this).removeClass('selected');
-                    $(this).addClass('deselected');
-                  });
-                  ileDepartments.forEach(function (i) {
-                    $('#map_chart svg .layer0 .departement.' + i).removeClass('deselected');
-                    $('#map_chart svg .layer0 .departement.' + i).addClass('selected');
-                  });
-                });
-              });
-            }; //CHART 1
-
-
-            var createPartyChart = function createPartyChart() {
-              var chart = charts.party.chart;
-              var dimension = ndx.dimension(function (d) {
-                return d.parti_pie;
-              });
-              var order = ['LR', 'Autres', 'FN', 'UDI', 'EELV/UDE', 'FG/PCF', 'PRG', 'PS/SRC'];
-              var group = dimension.group().reduceSum(function (d) {
-                return 1;
-              });
-              var sizes = calcPieSize(charts.party.divId);
-              chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
-                var thisKey = d.name;
-
-                if (thisKey.length > 40) {
-                  return thisKey.substring(0, 40) + '...';
-                }
-
-                return thisKey;
-              })).title(function (d) {
-                var thisKey = d.key;
-                return thisKey + ': ' + d.value;
-              }).dimension(dimension).group(group).ordering(function (d) {
-                return order.indexOf(d);
-              }).colorCalculator(function (d, i) {
-                return vuedata.colors.parties[d.key];
-              });
-              chart.render();
-            }; //CHART 2
-
-
-            var createActivitiesChart = function createActivitiesChart() {
-              var chart = charts.activities.chart;
-              var dimension = ndx.dimension(function (d) {
-                return d.activities_range;
-              });
-              var order = ['0', '1', '2 - 5', '6 - 10', '> 10'];
-              var group = dimension.group().reduceSum(function (d) {
-                return 1;
-              });
-              var sizes = calcPieSize(charts.activities.divId);
-              chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
-                var thisKey = d.name;
-
-                if (thisKey.length > 40) {
-                  return thisKey.substring(0, 40) + '...';
-                }
-
-                return thisKey;
-              })).title(function (d) {
-                var thisKey = d.key;
-                return thisKey + ': ' + d.value;
-              }).label(function (d) {
-                var percent = d.value / group.all().reduce(function (a, v) {
-                  return a + v.value;
-                }, 0);
-                percent = percent * 100;
-                return percent.toFixed(1) + '%';
-              }).dimension(dimension).group(group).ordering(function (d) {
-                return order.indexOf(d);
-              }).colorCalculator(function (d, i) {
-                return vuedata.colors.activities[d.key];
-              });
-              chart.render();
-            }; //CHART 3
-
-
-            var createMandateChart = function createMandateChart() {
-              var chart = charts.mandate.chart;
-              var dimension = ndx.dimension(function (d) {
-                return d.mandat;
-              });
-              var group = dimension.group().reduceSum(function (d) {
-                return 1;
-              });
-              var sizes = calcPieSize(charts.mandate.divId);
-              chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
-                var thisKey = d.name;
-
-                if (thisKey.length > 40) {
-                  return thisKey.substring(0, 40) + '...';
-                }
-
-                return thisKey;
-              })).title(function (d) {
-                var thisKey = d.key;
-                return thisKey + ': ' + d.value;
-              }).label(function (d) {
-                var percent = d.value / group.all().reduce(function (a, v) {
-                  return a + v.value;
-                }, 0);
-                percent = percent * 100;
-                return percent.toFixed(1) + '%';
-              }).dimension(dimension).group(group);
-              chart.render();
-            }; //CHART 4
-
-
-            var createGenderChart = function createGenderChart() {
-              var chart = charts.gender.chart;
-              var dimension = ndx.dimension(function (d) {
-                return d.civilite;
-              });
-              var group = dimension.group().reduceSum(function (d) {
-                return 1;
-              });
-              var sizes = calcPieSize(charts.gender.divId);
-              chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
-                var thisKey = d.name;
-
-                if (thisKey.length > 40) {
-                  return thisKey.substring(0, 40) + '...';
-                }
-
-                return thisKey;
-              })).title(function (d) {
-                var thisKey = d.key;
-                return thisKey + ': ' + d.value;
-              }).label(function (d) {
-                var percent = d.value / group.all().reduce(function (a, v) {
-                  return a + v.value;
-                }, 0);
-                percent = percent * 100;
-                return percent.toFixed(1) + '%';
-              }).dimension(dimension).group(group);
-              chart.render();
-            }; //TABLE
-
-
-            var createTable = function createTable() {
-              var count = 0;
-              charts.mainTable.chart = $("#dc-data-table").dataTable({
-                "columnDefs": [{
-                  "searchable": false,
-                  "orderable": false,
-                  "targets": 0,
-                  data: function data(row, type, val, meta) {
-                    return count;
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 1,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    if (d.name) {
-                      var name1 = d.name.substr(0, d.name.indexOf(' '));
-                      var name2 = d.name.substr(d.name.indexOf(' ') + 1);
-                      return name1 + ' <b>' + name2 + '</b>';
-                    }
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 2,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    return d.departement_n;
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 3,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    return d.mandat;
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 4,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    return d.parti;
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 5,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    return d.parti_group;
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 6,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    if (d.convertedFromCSV) {
-                      return "";
-                    } else {
-                      return d.activities;
-                    }
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 7,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    if (d.convertedFromCSV) {
-                      return "Pas de données open data disponibles";
-                    } else {
-                      return d.partsoc;
-                    }
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 8,
-                  "defaultContent": "N/A",
-                  "data": function data(d) {
-                    if (d.convertedFromCSV) {
-                      return "";
-                    } else {
-                      return d.collabNum;
-                    }
-                  }
-                }, {
-                  "searchable": false,
-                  "orderable": true,
-                  "targets": 9,
-                  "defaultContent": "N/A",
-                  "type": "date-eu",
-                  "data": function data(d) {
-                    if (d.dateDepot) {
-                      return d.dateDepot.split(' ')[0];
-                    } else {
-                      return '';
-                    }
-                  }
-                }],
-                "iDisplayLength": 25,
-                "bPaginate": true,
-                "bLengthChange": true,
-                "bFilter": false,
-                "order": [[6, "desc"]],
-                "bSort": true,
-                "bInfo": true,
-                "bAutoWidth": false,
-                "bDeferRender": true,
-                "aaData": searchDimension.top(Infinity),
-                "bDestroy": true
-              });
-              var datatable = charts.mainTable.chart;
-              datatable.on('draw.dt', function () {
-                var PageInfo = $('#dc-data-table').DataTable().page.info();
-                datatable.DataTable().column(0, {
-                  page: 'current'
-                }).nodes().each(function (cell, i) {
-                  cell.innerHTML = i + 1 + PageInfo.start;
-                });
-              });
-              datatable.DataTable().draw();
-              $('#dc-data-table tbody').on('click', 'tr', function () {
-                var data = datatable.DataTable().row(this).data();
-                vuedata.selectedElement = data;
-                $('#detailsModal').modal();
-              });
-            }; //REFRESH TABLE
-
-
-            function RefreshTable() {
-              dc.events.trigger(function () {
-                var alldata = searchDimension.top(Infinity);
-                charts.mainTable.chart.fnClearTable();
-                charts.mainTable.chart.fnAddData(alldata);
-                charts.mainTable.chart.fnDraw();
-              });
-            } //SEARCH INPUT FUNCTIONALITY
-
-
-            var typingTimer;
-            var doneTypingInterval = 1000;
-            var $input = $("#search-input");
-            $input.on('keyup', function () {
-              clearTimeout(typingTimer);
-              typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            });
-            $input.on('keydown', function () {
-              clearTimeout(typingTimer);
-            });
-
-            function doneTyping() {
-              var s = $input.val().toLowerCase();
-              searchDimension.filter(function (d) {
-                return d.indexOf(s) !== -1;
-              });
-              throttle();
-              var throttleTimer;
-
-              function throttle() {
-                window.clearTimeout(throttleTimer);
-                throttleTimer = window.setTimeout(function () {
-                  dc.redrawAll();
-                }, 250);
-              }
-            } //Reset charts
-
-
-            var resetGraphs = function resetGraphs() {
-              for (var c in charts) {
-                if (charts[c].type !== 'table' && charts[c].chart.hasFilter()) {
-                  charts[c].chart.filterAll();
-                }
-              }
-
-              mapDimension.filter(null);
-              $('#franceterritories').removeClass('active');
-              $('#iledefrance').removeClass('active');
-              searchDimension.filter(null);
-              $('#search-input').val('');
-              dc.redrawAll();
+              },
+              "parti": d.parti,
+              "parti_group": d.groupe,
+              "departement": d.departement,
+              "departement_n": d.departement,
+              "convertedFromCSV": true
             };
+            declarations.push(newObj);
+          }); //Loop through data to aply fixes and calculations
 
-            $('.reset-btn').click(function () {
-              resetGraphs();
-            }); //Render charts
+          _.each(declarations, function (d) {
+            //Set up parameters that will be used in graphs and tables
+            d.name = d.general.declarant.prenom + " " + d.general.declarant.nom;
 
-            createMapChart();
-            createPartyChart();
-            createActivitiesChart();
-            createMandateChart();
-            createGenderChart();
-            createTable();
-            $('.dataTables_wrapper').append($('.dataTables_length')); //Hide loader
-
-            vuedata.loader = false; //COUNTERS
-            //Main counter
-
-            var all = ndx.groupAll();
-            var counter = dc.dataCount('.dc-data-count').dimension(ndx).group(all);
-            counter.render(); //Update datatables
-
-            counter.on("renderlet.resetall", function (c) {
-              RefreshTable();
-            }); //Custom counters
-
-            var iniCountSetup = false;
-
-            function drawCustomCounter() {
-              var dim = ndx.dimension(function (d) {
-                return d.name;
-              });
-              var group = dim.group().reduce(function (p, d) {
-                p.nb += 1;
-                p.activities += +d.activities;
-                return p;
-              }, function (p, d) {
-                p.nb -= 1;
-                p.activities -= +d.activities;
-                return p;
-              }, function (p, d) {
-                return {
-                  nb: 0,
-                  activities: 0
-                };
-              });
-              group.order(function (p) {
-                return p.nb;
-              });
-              var activities = 0;
-              var counter = dc.dataCount(".activities-count").dimension(group).group({
-                value: function value() {
-                  return group.all().filter(function (kv) {
-                    if (kv.value.nb > 0) {
-                      activities += +kv.value.activities;
-                    }
-
-                    return kv.value.nb > 0;
-                  }).length;
-                }
-              }).renderlet(function (chart) {
-                $(".activities-count").text(addcommas(Math.round(activities))); //Set up initial count
-
-                if (iniCountSetup == false) {
-                  $('.activities-counter .total-count').text(addcommas(Math.round(activities)));
-                  iniCountSetup = true;
-                }
-
-                activities = 0;
-              });
-              counter.render();
+            if (d.name == 'Robert Del') {
+              d.name = 'Robert Del Picchia';
             }
 
-            drawCustomCounter(); //Window resize function
+            d.name_show = d.name;
+            d.civilite = cleanstring(d.general.declarant.civilite);
 
-            window.onresize = function (event) {
-              resizeGraphs();
-            };
+            if (cleanstringSpecial(d.civilite) == "m") {
+              d.civilite = "m";
+            }
+
+            if (cleanstringSpecial(d.civilite) == "mme") {
+              d.civilite = "f";
+            }
+
+            d.birth_year = d.general.declarant.dateNaissance.split("/")[2];
+            d.birth_date = d.general.declarant.dateNaissance;
+            d.revenue = 0;
+            d.activities = 0;
+
+            if (!d.departement) {
+              d.departement;
+            }
+
+            if (d.general.organe && d.general.organe.labelOrgane) {
+              d.departement = d.general.organe.labelOrgane.split("(")[0];
+            }
+
+            if (d.general.organe) {
+              d.departement_n = d.general.organe.codeOrgane;
+            }
+
+            d.region = "";
+            d.mandat2 = d.general.qualiteMandat.typeMandat;
+            d.mandat = d.general.mandat.label;
+
+            if (!d.parti) {
+              d.parti = "";
+            }
+
+            if (!d.parti_group) {
+              d.parti_group = "";
+            }
+
+            d.activcons = "NON";
+            d.partsoc = "NON";
+            d.collabNum = 0;
+            d.name_url = ''; //Get party info
+
+            var thispartydata = _.find(listfinal, function (m) {
+              return m.date_depot == d.dateDepot;
+            });
+
+            if (thispartydata) {
+              d.name_url = thispartydata.file.split('-dia')[0];
+
+              if (thispartydata.file.indexOf('romeiro-dias-laetitia') > -1) {
+                d.name_url = 'romeiro-dias-laetitia';
+              }
+
+              d.parti = thispartydata.parti.trim();
+              d.parti_group = thispartydata.groupe.trim();
+              d.name_show = thispartydata.name;
+              d.departement_n = thispartydata.departement.trim();
+
+              if (!d.general.qualiteMandat.typeMandat) {
+                d.mandat2 = thispartydata.mandatHATPV;
+              }
+            }
+
+            if (d.mandat2 == 'depute') {
+              d.mandat2 = 'Député';
+            } else if (d.mandat2 == 'senateur') {
+              d.mandat2 = 'Sénateur';
+            }
+
+            if (d.mandat == "Député ou sénateur") {
+              d.mandat = d.mandat2;
+            }
+
+            if (!d.department || d.department == '' || d.department == undefined) {
+              //Find department name from department names csv if missing
+              var thisdepname = _.find(departmentnames, function (m) {
+                return d.departement_n == m.code;
+              });
+
+              if (thisdepname) {
+                d.department = thisdepname.name;
+              }
+            }
+
+            d.parti_group_m = d.parti_group;
+            d.parti_acronym = ''; //Find party acronym
+
+            var pacronym = _.find(partiesnames, function (m) {
+              return cleanstringSpecial(m.party) == cleanstringSpecial(d.parti);
+            });
+
+            if (pacronym) {
+              d.parti_acronym = pacronym.abbreviation;
+            } //Set party name that will be used in the parties pie chart
+
+
+            var partiespielist = ['rem', 'lr', 'modem', 'lc', 'ng', 'fi', 'gdr', 'ni', 'ps'];
+
+            if (partiespielist.indexOf(d.parti_acronym.toLowerCase()) < 0) {
+              d.parti_pie = 'Autres'; //d.parti_pie = d.parti_acronym;
+            } else {
+              d.parti_pie = d.parti_acronym;
+            } //Deparment number fix
+
+
+            if (d.departement_n == '099' || d.departement_n == '998' || d.departement_n == 998) {
+              d.departement_n = 99;
+            } //Get photo url and profile link
+
+
+            d.photoUrl = getPhoto(d.name, d.mandat);
+            d.hatvp = getHatvp(d.name, d.name_url); //Calculate activities number and revenue
+
+            d.activitiestot = 0;
+            d.revenuetot = 0;
+            d.revenuetotAvg = 0;
+            d.activConsultant = [];
+            d.activProfCinqDerniere = [];
+            d.activProfConjoint = [];
+            d.fonctionBenevole = [];
+            d.mandatElectif = [];
+            d.participationDirigeant = [];
+            d.participationFinanciere = [];
+            d.activCollaborateurs = []; //See if way to check nested property can be improved, made shorter
+
+            if (d.activConsultantDto && d.activConsultantDto.items && d.activConsultantDto.items[0] && d.activConsultantDto.items[0].items) {
+              if (d.activConsultantDto.items[0].items.motif) {
+                d.activConsultant.push(d.activConsultantDto.items[0].items);
+              } else {
+                d.activConsultant = d.activConsultantDto.items[0].items;
+              }
+            }
+
+            if (d.activProfCinqDerniereDto && d.activProfCinqDerniereDto.items && d.activProfCinqDerniereDto.items[0] && d.activProfCinqDerniereDto.items[0].items) {
+              if (d.activProfCinqDerniereDto.items[0].items.motif) {
+                d.activConsultant.push(d.activProfCinqDerniereDto.items[0].items);
+              } else {
+                d.activProfCinqDerniere = d.activProfCinqDerniereDto.items[0].items;
+              }
+            }
+
+            if (d.activProfConjointDto && d.activProfConjointDto.items && d.activProfConjointDto.items[0] && d.activProfConjointDto.items[0].items) {
+              if (d.activProfConjointDto.items[0].items.motif) {
+                d.activProfConjoint.push(d.activProfConjointDto.items[0].items);
+              } else {
+                d.activProfConjoint = d.activProfConjointDto.items[0].items;
+              }
+            }
+
+            if (d.fonctionBenevoleDto && d.fonctionBenevoleDto.items && d.fonctionBenevoleDto.items[0] && d.fonctionBenevoleDto.items[0].items) {
+              if (d.fonctionBenevoleDto.items[0].items.motif) {
+                d.fonctionBenevole.push(d.fonctionBenevoleDto.items[0].items);
+              } else {
+                d.fonctionBenevole = d.fonctionBenevoleDto.items[0].items;
+              }
+            }
+
+            if (d.mandatElectifDto && d.mandatElectifDto.items && d.mandatElectifDto.items[0] && d.mandatElectifDto.items[0].items) {
+              if (d.mandatElectifDto.items[0].items.motif) {
+                d.mandatElectif.push(d.mandatElectifDto.items[0].items);
+              } else {
+                d.mandatElectif = d.mandatElectifDto.items[0].items;
+              }
+            }
+
+            if (d.participationDirigeantDto && d.participationDirigeantDto.items && d.participationDirigeantDto.items[0] && d.participationDirigeantDto.items[0].items) {
+              if (d.participationDirigeantDto.items[0].items.motif) {
+                d.participationDirigeant.push(d.participationDirigeantDto.items[0].items);
+              } else {
+                d.participationDirigeant = d.participationDirigeantDto.items[0].items;
+              }
+            }
+
+            if (d.participationFinanciereDto && d.participationFinanciereDto.items && d.participationFinanciereDto.items[0] && d.participationFinanciereDto.items[0].items) {
+              if (d.participationFinanciereDto.items[0].items.motif) {
+                d.participationFinanciere.push(d.participationFinanciereDto.items[0].items);
+              } else {
+                d.participationFinanciere = d.participationFinanciereDto.items[0].items;
+              }
+            }
+
+            if (d.activCollaborateursDto && d.activCollaborateursDto.items && d.activCollaborateursDto.items[0] && d.activCollaborateursDto.items[0].items) {
+              if (d.activCollaborateursDto.items[0].items.motif) {
+                d.activCollaborateurs.push(d.activCollaborateursDto.items[0].items);
+              } else {
+                d.activCollaborateurs = d.activCollaborateursDto.items[0].items;
+              }
+            }
+
+            if (d.participationFinanciere.length > 0) {
+              d.partsoc = "OUI";
+            } //Calculate activities and revenues	
+
+
+            function calcActRev(actArray) {
+              if (actArray.length > 0) {
+                actArray.forEach(function (x) {
+                  //Count activity only if conservee
+                  if (x.conservee && x.conservee == "true") {
+                    d.activitiestot++;
+                  } //Revenue sum for conservee activities
+
+
+                  if (x.conservee == "true") {
+                    if (x.remuneration && x.remuneration.montant.montant) {
+                      //If the revenue only has 1 entry the data structure is a bit different
+                      if (x.remuneration.montant.montant.annee && x.remuneration.montant.montant.annee == currentYear) {
+                        d.revenuetot += Number(x.remuneration.montant.montant.montant);
+                      } else if (x.remuneration.montant.montant.length > 0) {
+                        //If there are more entries, loop through revenue entries, 1 entry per year; pick the current year entry
+                        x.remuneration.montant.montant.forEach(function (y) {
+                          if (y.annee == currentYear) {
+                            d.revenuetot += Number(y.montant);
+                          }
+                        });
+                      }
+                    } //Revenue sum average
+
+
+                    var thisacttot = 0;
+                    var thisactyears = 0;
+
+                    if (x.remuneration && x.remuneration.montant.montant) {
+                      //If the revenue only has 1 entry the data structure is a bit different
+                      if (x.remuneration.montant.montant.annee) {
+                        d.revenuetotAvg += Number(x.remuneration.montant.montant.montant);
+                      } else if (x.remuneration.montant.montant.length > 0) {
+                        //If there are more entries, loop through revenue entries, 1 entry per year; sum the revenues and divide by years amount
+                        x.remuneration.montant.montant.forEach(function (y) {
+                          thisacttot += Number(y.montant);
+                          thisactyears++;
+                        });
+                      }
+                    }
+
+                    if (thisactyears > 0) {
+                      d.revenuetotAvg += Number(thisacttot) / Number(thisactyears); //.toFixed(2)
+                    }
+                  } //If any is kept, set activcons to OUI
+
+
+                  if (x.conservee && x.conservee == "true") {
+                    d.activcons = "OUI";
+                  }
+                });
+              }
+            }
+
+            calcActRev(d.activConsultant);
+            calcActRev(d.activProfCinqDerniere);
+            calcActRev(d.fonctionBenevole);
+            calcActRev(d.mandatElectif);
+            calcActRev(d.participationDirigeant);
+            /* ENTRIES THAT SHOULD NOT BE COUNTED FOR ACTIVITIES COUNT - DO NOT DELETE */
+
+            /*
+            if(d.activProfConjoint.length > 0){
+              d.activProfConjoint.forEach(function (x) {
+              });
+            }
+            if(d.participationFinanciere.length > 0){
+              d.participationFinanciere.forEach(function (x) {
+              });
+            }
+            */
+            //Count collaborators
+
+            d.activCollaborateurs.forEach(function (x) {
+              if ((x.descriptionActivite || x.employeur && x.employeur != "Néant") && (cleanstringSpecial(x.employeur) != "neant" && x.employeur != "Néant" && cleanstringSpecial(x.employeur) != "" || cleanstringSpecial(x.descriptionActivite) != "" && cleanstringSpecial(x.descriptionActivite) != "neant") && x.descriptionActivite != "AUCUNE AUTRE ACTIVITE") {
+                d.collabNum++;
+              }
+            }); //Set activities range
+
+            d.activities = d.activitiestot;
+            d.activities_range = "";
+
+            if (d.activitiestot == 0) {
+              d.activities_range = "0";
+            } else if (d.activitiestot <= 1) {
+              d.activities_range = "1";
+            } else if (d.activitiestot <= 5) {
+              d.activities_range = "2 - 5";
+            } else if (d.activitiestot <= 10) {
+              d.activities_range = "6 - 10";
+            } else if (d.activitiestot > 10) {
+              d.activities_range = "> 10";
+            } //Set revenues range
+
+
+            d.revenue = d.revenuetot;
+            d.revenue_n = d.revenuetot; //Revenue ranges
+
+            if (d.revenue == '#N/D' || d.revenue == '') {
+              d.revenue_n = 0;
+              d.revenue_n2 = 0;
+            } else {
+              //d.revenue_n = d.revenue.replace(',','.');
+              d.revenue_n = parseFloat(d.revenue_n);
+              d.revenue_n2 = d.revenue_n.toFixed(0);
+            }
+
+            if (d.revenue == '#N/D' || d.revenue == '') {
+              d.revenue_range = "Aucun";
+            } else if (d.revenue_n <= 1000) {
+              d.revenue_range = "0 - 1000";
+            } else if (d.revenue_n <= 10000) {
+              d.revenue_range = "1001 - 10,000";
+            } else if (d.revenue_n <= 25000) {
+              d.revenue_range = "10,001 - 25,000";
+            } else if (d.revenue_n <= 50000) {
+              d.revenue_range = "25,001 - 50,000";
+            } else if (d.revenue_n <= 100000) {
+              d.revenue_range = "50,001 - 100,000";
+            } else if (d.revenue_n > 100000) {
+              d.revenue_range = "100,001 +";
+            }
+
+            d.revenue_n = d.revenue_n.toFixed(2); //Search string
+
+            d.searchstring = d.name + " " + d.departement + " " + d.departement_n;
+            d.activities_word = d.activities; //Totals
+
+            totpeople++;
+            totact += parseInt(d.activities);
+            totrev += parseFloat(d.revenue_n);
+          }); //Set dc main vars
+
+
+          var ndx = crossfilter(declarations);
+          var searchDimension = ndx.dimension(function (d) {
+            return d.searchstring.toLowerCase();
           });
+          var mapDimension = ndx.dimension(function (d) {
+            if (d.departement_n && d.departement_n.length == 1) {
+              return '0' + d.departement_n;
+            } else {
+              return d.departement_n;
+            }
+          }); //MAP CHART
+
+          var createMapChart = function createMapChart() {
+            (0, _d3Request.json)('./data/departements.topo.js', function (err, jsonmap) {
+              var chart = charts.map.chart;
+              var width = recalcWidth(charts.map.divId);
+              var group = mapDimension.group().reduceSum(function (d) {
+                return 1;
+              });
+              var dpt = topojson.feature(jsonmap, jsonmap.objects.departements).features;
+              var projection = d3.geoMercator().center([11, 45]).scale(width * 2.9).translate([width - 50, 220]);
+              var centered;
+
+              function clicked(d) {}
+
+              chart.width(width).height(400).dimension(mapDimension).group(group).projection(projection).colors(d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])).colorDomain([1, 20]).colorCalculator(function (d) {
+                return d == 0 ? '#eee' : chart.colors()(d);
+              }).overlayGeoJson(dpt, "departement", function (d) {
+                return d.properties.code;
+              }).title(function (d) {
+                return _.find(dpt, function (m) {
+                  return m.properties.code == d.key;
+                }).properties.nom + ': ' + d.value + ' parlementaires';
+              }).on('renderlet', function (chart) {});
+              chart.render(); //Button to filter department_N > 95 and show France map as deselected
+
+              $('#franceterritories').click(function () {
+                $(this).addClass('active');
+                $('#iledefrance').removeClass('active');
+                mapDimension.filter(function (d) {
+                  return d > 95;
+                });
+                dc.redrawAll();
+                RefreshTable();
+                $("#map_chart svg .layer0 .departement").each(function (index) {
+                  $(this).removeClass('selected');
+                  $(this).addClass('deselected');
+                });
+              }); //Button to filter departments 75, 77, 78, 91, 92, 93, 94, 95
+
+              $('#iledefrance').click(function () {
+                $(this).addClass('active');
+                $('#franceterritories').removeClass('active');
+                var ileDepartments = ['75', '77', '78', '91', '92', '93', '94', '95'];
+                mapDimension.filter(function (d) {
+                  if (ileDepartments.indexOf(d) > -1) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                });
+                dc.redrawAll();
+                RefreshTable();
+                $('#map_chart svg .layer0 .departement').each(function (i) {
+                  $(this).removeClass('selected');
+                  $(this).addClass('deselected');
+                });
+                ileDepartments.forEach(function (i) {
+                  $('#map_chart svg .layer0 .departement.' + i).removeClass('deselected');
+                  $('#map_chart svg .layer0 .departement.' + i).addClass('selected');
+                });
+              });
+            });
+          }; //CHART 1
+
+
+          var createPartyChart = function createPartyChart() {
+            var chart = charts.party.chart;
+            var dimension = ndx.dimension(function (d) {
+              return d.parti_pie;
+            });
+            var order = ['LR', 'Autres', 'FN', 'UDI', 'EELV/UDE', 'FG/PCF', 'PRG', 'PS/SRC'];
+            var group = dimension.group().reduceSum(function (d) {
+              return 1;
+            });
+            var sizes = calcPieSize(charts.party.divId);
+            chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+              var thisKey = d.name;
+
+              if (thisKey.length > 40) {
+                return thisKey.substring(0, 40) + '...';
+              }
+
+              return thisKey;
+            })).title(function (d) {
+              var thisKey = d.key;
+              return thisKey + ': ' + d.value;
+            }).dimension(dimension).group(group).ordering(function (d) {
+              return order.indexOf(d);
+            }).colorCalculator(function (d, i) {
+              return vuedata.colors.parties[d.key];
+            });
+            chart.render();
+          }; //CHART 2
+
+
+          var createActivitiesChart = function createActivitiesChart() {
+            var chart = charts.activities.chart;
+            var dimension = ndx.dimension(function (d) {
+              return d.activities_range;
+            });
+            var order = ['0', '1', '2 - 5', '6 - 10', '> 10'];
+            var group = dimension.group().reduceSum(function (d) {
+              return 1;
+            });
+            var sizes = calcPieSize(charts.activities.divId);
+            chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+              var thisKey = d.name;
+
+              if (thisKey.length > 40) {
+                return thisKey.substring(0, 40) + '...';
+              }
+
+              return thisKey;
+            })).title(function (d) {
+              var thisKey = d.key;
+              return thisKey + ': ' + d.value;
+            }).label(function (d) {
+              var percent = d.value / group.all().reduce(function (a, v) {
+                return a + v.value;
+              }, 0);
+              percent = percent * 100;
+              return percent.toFixed(1) + '%';
+            }).dimension(dimension).group(group).ordering(function (d) {
+              return order.indexOf(d);
+            }).colorCalculator(function (d, i) {
+              return vuedata.colors.activities[d.key];
+            });
+            chart.render();
+          }; //CHART 3
+
+
+          var createMandateChart = function createMandateChart() {
+            var chart = charts.mandate.chart;
+            var dimension = ndx.dimension(function (d) {
+              if (d.mandat) {
+                return d.mandat;
+              } else {
+                return "N/A";
+              }
+            });
+            var group = dimension.group().reduceSum(function (d) {
+              return 1;
+            });
+            var sizes = calcPieSize(charts.mandate.divId);
+            chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+              var thisKey = d.name;
+
+              if (thisKey.length > 40) {
+                return thisKey.substring(0, 40) + '...';
+              }
+
+              return thisKey;
+            })).title(function (d) {
+              var thisKey = d.key;
+              return thisKey + ': ' + d.value;
+            }).label(function (d) {
+              var percent = d.value / group.all().reduce(function (a, v) {
+                return a + v.value;
+              }, 0);
+              percent = percent * 100;
+              return percent.toFixed(1) + '%';
+            }).dimension(dimension).group(group);
+            chart.render();
+          }; //CHART 4
+
+
+          var createGenderChart = function createGenderChart() {
+            var chart = charts.gender.chart;
+            var dimension = ndx.dimension(function (d) {
+              return d.civilite;
+            });
+            var group = dimension.group().reduceSum(function (d) {
+              return 1;
+            });
+            var sizes = calcPieSize(charts.gender.divId);
+            chart.width(sizes.width).height(sizes.height).cy(sizes.cy).innerRadius(sizes.innerRadius).radius(sizes.radius).legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function (d) {
+              var thisKey = d.name;
+
+              if (thisKey.length > 40) {
+                return thisKey.substring(0, 40) + '...';
+              }
+
+              return thisKey;
+            })).title(function (d) {
+              var thisKey = d.key;
+              return thisKey + ': ' + d.value;
+            }).label(function (d) {
+              var percent = d.value / group.all().reduce(function (a, v) {
+                return a + v.value;
+              }, 0);
+              percent = percent * 100;
+              return percent.toFixed(1) + '%';
+            }).dimension(dimension).group(group);
+            chart.render();
+          }; //TABLE
+
+
+          var createTable = function createTable() {
+            var count = 0;
+            charts.mainTable.chart = $("#dc-data-table").dataTable({
+              "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0,
+                data: function data(row, type, val, meta) {
+                  return count;
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 1,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  if (d.name) {
+                    var name1 = d.name.substr(0, d.name.indexOf(' '));
+                    var name2 = d.name.substr(d.name.indexOf(' ') + 1);
+                    return name1 + ' <b>' + name2 + '</b>';
+                  }
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 2,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  return d.departement_n;
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 3,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  return d.mandat;
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 4,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  return d.parti;
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 5,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  return d.parti_group;
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 6,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  if (d.convertedFromCSV) {
+                    return "";
+                  } else {
+                    return d.activities;
+                  }
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 7,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  if (d.convertedFromCSV) {
+                    return "Pas de données open data disponibles";
+                  } else {
+                    return d.partsoc;
+                  }
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 8,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  if (d.convertedFromCSV) {
+                    return "";
+                  } else {
+                    return d.collabNum;
+                  }
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 9,
+                "defaultContent": "N/A",
+                "type": "date-eu",
+                "data": function data(d) {
+                  if (d.dateDepot) {
+                    return d.dateDepot.split(' ')[0];
+                  } else {
+                    return '';
+                  }
+                }
+              }],
+              "iDisplayLength": 25,
+              "bPaginate": true,
+              "bLengthChange": true,
+              "bFilter": false,
+              "order": [[6, "desc"]],
+              "bSort": true,
+              "bInfo": true,
+              "bAutoWidth": false,
+              "bDeferRender": true,
+              "aaData": searchDimension.top(Infinity),
+              "bDestroy": true
+            });
+            var datatable = charts.mainTable.chart;
+            datatable.on('draw.dt', function () {
+              var PageInfo = $('#dc-data-table').DataTable().page.info();
+              datatable.DataTable().column(0, {
+                page: 'current'
+              }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
+              });
+            });
+            datatable.DataTable().draw();
+            $('#dc-data-table tbody').on('click', 'tr', function () {
+              var data = datatable.DataTable().row(this).data();
+              vuedata.selectedElement = data;
+              $('#detailsModal').modal();
+            });
+          }; //REFRESH TABLE
+
+
+          function RefreshTable() {
+            dc.events.trigger(function () {
+              var alldata = searchDimension.top(Infinity);
+              charts.mainTable.chart.fnClearTable();
+              charts.mainTable.chart.fnAddData(alldata);
+              charts.mainTable.chart.fnDraw();
+            });
+          } //SEARCH INPUT FUNCTIONALITY
+
+
+          var typingTimer;
+          var doneTypingInterval = 1000;
+          var $input = $("#search-input");
+          $input.on('keyup', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+          });
+          $input.on('keydown', function () {
+            clearTimeout(typingTimer);
+          });
+
+          function doneTyping() {
+            var s = $input.val().toLowerCase();
+            searchDimension.filter(function (d) {
+              return d.indexOf(s) !== -1;
+            });
+            throttle();
+            var throttleTimer;
+
+            function throttle() {
+              window.clearTimeout(throttleTimer);
+              throttleTimer = window.setTimeout(function () {
+                dc.redrawAll();
+              }, 250);
+            }
+          } //Reset charts
+
+
+          var resetGraphs = function resetGraphs() {
+            for (var c in charts) {
+              if (charts[c].type !== 'table' && charts[c].chart.hasFilter()) {
+                charts[c].chart.filterAll();
+              }
+            }
+
+            mapDimension.filter(null);
+            $('#franceterritories').removeClass('active');
+            $('#iledefrance').removeClass('active');
+            searchDimension.filter(null);
+            $('#search-input').val('');
+            dc.redrawAll();
+          };
+
+          $('.reset-btn').click(function () {
+            resetGraphs();
+          }); //Render charts
+
+          createMapChart();
+          createPartyChart();
+          createActivitiesChart();
+          createMandateChart();
+          createGenderChart();
+          createTable();
+          $('.dataTables_wrapper').append($('.dataTables_length')); //Hide loader
+
+          vuedata.loader = false; //COUNTERS
+          //Main counter
+
+          var all = ndx.groupAll();
+          var counter = dc.dataCount('.dc-data-count').dimension(ndx).group(all);
+          counter.render(); //Update datatables
+
+          counter.on("renderlet.resetall", function (c) {
+            RefreshTable();
+          }); //Custom counters
+
+          var iniCountSetup = false;
+
+          function drawCustomCounter() {
+            var dim = ndx.dimension(function (d) {
+              return d.name;
+            });
+            var group = dim.group().reduce(function (p, d) {
+              p.nb += 1;
+              p.activities += +d.activities;
+              return p;
+            }, function (p, d) {
+              p.nb -= 1;
+              p.activities -= +d.activities;
+              return p;
+            }, function (p, d) {
+              return {
+                nb: 0,
+                activities: 0
+              };
+            });
+            group.order(function (p) {
+              return p.nb;
+            });
+            var activities = 0;
+            var counter = dc.dataCount(".activities-count").dimension(group).group({
+              value: function value() {
+                return group.all().filter(function (kv) {
+                  if (kv.value.nb > 0) {
+                    activities += +kv.value.activities;
+                  }
+
+                  return kv.value.nb > 0;
+                }).length;
+              }
+            }).renderlet(function (chart) {
+              $(".activities-count").text(addcommas(Math.round(activities))); //Set up initial count
+
+              if (iniCountSetup == false) {
+                $('.activities-counter .total-count').text(addcommas(Math.round(activities)));
+                iniCountSetup = true;
+              }
+
+              activities = 0;
+            });
+            counter.render();
+          }
+
+          drawCustomCounter(); //Window resize function
+
+          window.onresize = function (event) {
+            resizeGraphs();
+          }; //})
+
         });
       });
     });
@@ -48111,7 +48133,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64702" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49316" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

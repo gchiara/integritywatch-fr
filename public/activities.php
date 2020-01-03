@@ -156,7 +156,6 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <div class="modal-title">
-                
                 <div class="date" v-if="selectedElement.publicationCourante">{{ selectedElement.publicationCourante.identifiantFiche }} - {{ selectedElement.publicationCourante.publicationDate }}</div>
                 <div class="subject" v-if="selectedElement.publicationCourante">Sujet: {{ selectedElement.publicationCourante.objet }}</div>
               </div>

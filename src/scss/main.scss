@@ -406,6 +406,10 @@ $color_lobby: #42b983;
     .subject {
       margin: 0 auto;
     }
+    .name {
+      font-weight: 600;
+      color: #2e7db0;
+    }
   }
   .details-title {
     display: inline-block;
@@ -440,6 +444,7 @@ $color_lobby: #42b983;
   }
   .details-line {
     padding: 5px 0;
+    text-align: left;
     .details-line-title {
       font-weight: 600;
     }
@@ -753,6 +758,15 @@ table.dataTable tbody tr:hover {
   }
 }
 
+.tabB-page {
+  #detailsModal {
+    margin-bottom: 80px;
+  }
+  .footer-bar .footer-counts .count-box {
+    width: 180px;
+  }
+}
+
 //Styling for table headers with info button
 .table-info-cell {
   padding-right: 60px !important;
@@ -785,19 +799,25 @@ table.dataTable tbody tr:hover {
 //Tab C charts containers heights
 .chart-container {
   &.tabC_1 {
-    height: 650px;
+    height: 620px;
+  }
+  &.tabC_2 {
+    height: 620px;
+  }
+  &.tabC_3 {
+    height: 620px;
   }
   &.tabC_4 {
-    height: 650px;
+    height: 620px;
   }
   &.tabC_5 {
-    height: 650px;
+    height: 660px;
   }
   &.tabC_6 {
-    height: 650px;
+    height: 660px;
   }
   &.tabC_7 {
-    height: 650px;
+    height: 660px;
   }
   &.tabC_8 {
     height: 620px;
@@ -807,6 +827,28 @@ table.dataTable tbody tr:hover {
   }
   &.tabC_10 {
     height: 620px;
+  }
+  &.tabB_1 {
+    height: 580px;
+  }
+  &.tabB_2 {
+    height: 580px;
+  }
+  &.tabB_3 {
+    height: 580px;
+  }
+  &.tabB_4 {
+    height: 800px;
+  }
+  &.tabB_5 {
+    height: 580px;
+    margin-bottom: 20px;
+  }
+  &.tabB_6 {
+    height: 580px;
+  }
+  &.tabB_7 {
+    height: 800px;
   }
 }
 
@@ -841,5 +883,18 @@ table.dataTable tbody tr:hover {
     &.active {
       background: #0a5a8e;
     }
+  }
+}
+
+.tabB-clients-table {
+  margin: 20px auto;
+  td, th {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 12px;
+    vertical-align: top;
+  }
+  ul {
+    padding-left: 15px;
   }
 }
