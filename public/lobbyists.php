@@ -103,7 +103,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <div class="modal-title">
-                <div class="name">{{ selectedElement.nomUsage }}</div>
+                <div class="lobbyist-name">{{ selectedElement.nomUsage }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>

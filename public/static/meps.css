@@ -661,6 +661,10 @@ div.dc-html-legend {
   font-weight: 600;
   color: #2e7db0;
 }
+#detailsModal .modal-title .lobbyist-name {
+  color: #449188;
+  font-weight: 600;
+}
 #detailsModal .details-title {
   display: inline-block;
   color: #fff;

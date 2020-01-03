@@ -92,14 +92,26 @@ var vuedata = {
   modalShowTable: '',
   colors: {
     colorSchemeCloud: [ "#4d9e9c", "#62aad9", "#3b95d0", "#42b983", "#449188", "#52c993", "#b7bebf", "#99b6c0" ],
-    activities: {
-      "0":"#ccc",
-      "1":"#8ed3fb",
-      "2 - 5":"#68add4",
-      "6 - 10":"#4388ad",
-      "> 10":"#1a6287"
+    repType: {
+      "Ministère": "#5da6d1",
+      "Députés, sénateurs et agents parlementaires": "#3d96d1",
+      "Premier Ministre": "#3583b8",
+      "Présidence de la République": "#2e719e",
+      "Autres": "#265f85",
+      "Autorités et agences": "#1f4d6b",
     },
-    default: ["#3b95d0"],
+    orgType: {
+      "Organisations professionnelles & syndicats": "#72e9b3",
+      "Organisations commerciales": "#62d9a3",
+      "Société civile": "#52c993",
+      "Consultants": "#42b983",
+      "Etablissement public à caractère économique": "#229983",
+      "Autres organisations": "#1a8883",
+      "Avocats": "#127983",
+      "Organismes de recherche": "#026973"
+    },
+    default: ["#3d96d1"],
+    default2: ["#229983"],
   },
   categories: {
     organizations: {
@@ -463,13 +475,10 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         return percent.toFixed(1) + '%';
       })
       .dimension(dimension)
-      .group(group);
-      /*
-      .ordering(function(d) { return order.indexOf(d)})
+      .group(group)
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.repType[d.key];
       });
-      */
     chart.render();
   }
 
@@ -499,12 +508,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
       .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
+        return vuedata.colors.default;
       })
-      */
       .label(function (d) {
           if(d.key && d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -541,18 +547,23 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     })(group);
     var width = recalcWidth(charts.topOrgs.divId);
     var charsLength = recalcCharsLength(width);
+    function getOrgType(org) {
+      var entry =  _.find(activities, function (x) { return x.orgName == org });
+      if(entry){
+        return entry.catOrgStreamlined;
+      }
+      return "";
+    }
     chart
       .width(width)
       .height(500)
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
       .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
+        var type = getOrgType(d.key);
+        return vuedata.colors.orgType[type];
       })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -598,13 +609,10 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         return percent.toFixed(1) + '%';
       })
       .dimension(dimension)
-      .group(group);
-      /*
-      .ordering(function(d) { return order.indexOf(d)})
+      .group(group)
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.orgType[d.key];
       });
-      */
     chart.render();
   }
 
@@ -617,11 +625,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     var group = dimension.group().reduceSum(function (d) {
         return 1;
     });
-    /*
-if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
-          return d.repTypeStreamLinedSub;
-        }
-    */
     var filteredGroup = (function(source_group) {
       return {
         all: function() {
@@ -639,12 +642,9 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
       .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
+        return vuedata.colors.default;
       })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -703,18 +703,23 @@ if(d.repTypeStreamLinedSub != "Autres: 'free text'"){
     })(group);
     var width = recalcWidth(charts.lobbyCat.divId);
     var charsLength = recalcCharsLength(width);
+    function getOrgType(org) {
+      var entry =  _.find(activities, function (x) { return x.catOrg == org });
+      if(entry){
+        return entry.catOrgStreamlined;
+      }
+      return "";
+    }
     chart
       .width(width)
       .height(500)
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
       .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
+        var type = getOrgType(d.key);
+        return vuedata.colors.orgType[type];
       })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';

@@ -71,15 +71,42 @@ var vuedata = {
   selectedElement: { "P": "", "Sub": ""},
   modalShowTable: '',
   colors: {
-    colorSchemeCloud: [ "#4d9e9c", "#62aad9", "#3b95d0", "#42b983", "#449188", "#52c993", "#b7bebf", "#99b6c0" ],
     activities: {
-      "0":"#ccc",
-      "1":"#8ed3fb",
-      "2 - 5":"#68add4",
-      "6 - 10":"#4388ad",
-      "> 10":"#1a6287"
+      "0 activités": "#52c993",
+      "1—10 activités": "#42b983",
+      "11—25 activités": "#229983",
+      "26—50 activités": "#1a8883",
+      "> 50 activités": "#127983"
     },
-    default: ["#3b95d0"],
+    chiffre: {
+      "< 100 000 euros": "#52c993",
+      "> = 100 000 euros et < 500 000 euros": "#42b983",
+      "> = 500 000 euros et < 1 000 000 euros": "#229983",
+      "> = 1 000 000 euros": "#1a8883",
+      "/": "#ccc"
+    },
+    depenses: {
+      "/": "#ccc",
+      "< 10.000 €": "#52c993",
+      "> = 10.000€ - < 500.000€": "#42b983",
+      "> = 500.000€ - < 1.000.000€": "#229983",
+      "> = 1.000.000€ - <5.000.000€": "#1a8883",
+      "> = 5.000.000€ - < 10.000.000 €": "#127983"
+    },
+    lobbyists: {
+      "1 lobbyiste": "#52c993",
+      "2—5 lobbyistes": "#42b983",
+      "6—10 lobbyistes": "#229983",
+      "11—20 lobbyistes": "#1a8883",
+      "> 20 lobbyistes": "#127983"
+    },
+    clients: {
+      "0 clients ou mandants": "#52c993",
+      "1—5 clients ou mandants": "#42b983",
+      "6—10 clients ou mandants": "#229983",
+      ">10 clients ou mandants": "#1a8883"
+    },
+    default: ["#229983"],
   },
   categories: {
     depenses: {
@@ -453,12 +480,10 @@ function getClientsRange(n) {
       })
       .dimension(dimension)
       .group(group)
-      .ordering(function(d) { return order.indexOf(d.key)});
-      /*
+      .ordering(function(d) { return order.indexOf(d.key)})
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.activities[d.key];
       });
-      */
     chart.render();
   }
 
@@ -499,13 +524,10 @@ function getClientsRange(n) {
       })
       .dimension(dimension)
       .group(group)
-      .ordering(function(d) {return order.indexOf(d.key)});
-      /*
-      .ordering(function(d) { return order.indexOf(d)})
+      .ordering(function(d) {return order.indexOf(d.key)})
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.chiffre[d.key];
       });
-      */
     chart.render();
   }
 
@@ -547,13 +569,10 @@ function getClientsRange(n) {
       })
       .dimension(dimension)
       .group(group)
-      .ordering(function(d) { return order.indexOf(d.key)});
-      /*
-      .ordering(function(d) { return order.indexOf(d)})
+      .ordering(function(d) { return order.indexOf(d.key)})
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.depenses[d.key];
       });
-      */
     chart.render();
   }
 
@@ -583,12 +602,6 @@ function getClientsRange(n) {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
-      .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
-      })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -597,6 +610,9 @@ function getClientsRange(n) {
       })
       .title(function (d) {
           return d.key + ': ' + d.value;
+      })
+      .colorCalculator(function(d, i) {
+        return vuedata.colors.default;
       })
       .elasticX(true)
       .xAxis().ticks(4);
@@ -636,13 +652,10 @@ function getClientsRange(n) {
       })
       .dimension(dimension)
       .group(group)
-      .ordering(function(d) { return order.indexOf(d.key)});
-      /*
-      .ordering(function(d) { return order.indexOf(d)})
+      .ordering(function(d) { return order.indexOf(d.key)})
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.lobbyists[d.key];
       });
-      */
     chart.render();
   }
 
@@ -679,12 +692,10 @@ function getClientsRange(n) {
       })
       .dimension(dimension)
       .group(group)
-      .ordering(function(d) { return order.indexOf(d.key)});
-      /*
+      .ordering(function(d) { return order.indexOf(d.key)})
       .colorCalculator(function(d, i) {
-        return vuedata.colors.parties[d.key];
+        return vuedata.colors.clients[d.key];
       });
-      */
     chart.render();
   }
 
@@ -714,12 +725,9 @@ function getClientsRange(n) {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
       .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
+        return vuedata.colors.default;
       })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
