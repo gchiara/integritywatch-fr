@@ -91,6 +91,9 @@ var vuedata = {
       "FI":"#ff4541",
       "GDR":"#c21410",
       "NI":"#656565",
+      "LFI":"#dd0000",
+      "RN":"#5599ee",
+      "UDRL":"#4c2082",
       "":"#BBBBBB"
     },
     activities: {
@@ -262,6 +265,15 @@ var resizeGraphs = function() {
         .innerRadius(sizes.innerRadius)
         .radius(sizes.radius)
         .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
+      if(charts[c].divId == 'party_chart') {
+        charts[c].chart.legend(dc.legend().x(0).y(sizes.legendY).horizontal(true).autoItemWidth(true).legendWidth(sizes.width).gap(10).legendText(function(d) { 
+          var thisKey = d.name;
+          if(thisKey.length > 40){
+            return thisKey.substring(0,40) + '...';
+          }
+          return thisKey;
+        }));
+      }
       charts[c].chart.redraw();
     } else if(charts[c].type == 'cloud') {
       charts[c].chart.size(recalcWidthWordcloud());
@@ -418,7 +430,7 @@ function getPhoto(name,type) {
     var photourl = "http://www.nosdeputes.fr/depute/photo/"+slug+"/180";
     copyr = "©Assemblée-nationale – 2015";
   } else {
-    console.log(name + ' ' + type);
+    //console.log(name + ' ' + type);
   }
   return photourl;
   return "<img src=\""+photourl+"\" /><br />"+copyr;
@@ -462,12 +474,19 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
   }
 });
 
+//Generate random parameter for dynamic dataset loading (to avoid caching)
+var randomPar = '';
+var randomCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+for ( var i = 0; i < 5; i++ ) {
+  randomPar += randomCharacters.charAt(Math.floor(Math.random() * randomCharacters.length));
+}
+
 //Load data and generate charts
 json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
-      csv('./data/parties-names.csv', (err, partiesnames) => {
-        csv('./data/list-final-201219.csv', (err, listfinal) => {
+      csv('./data/parties-names.csv?'+ randomPar, (err, partiesnames) => {
+        csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
     
             //var declarations = dataDeclarations.declarations.declaration;
@@ -609,12 +628,12 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
               d.parti_group_m = d.parti_group;
               d.parti_acronym = '';
               //Find party acronym
-              var pacronym = _.find(partiesnames, function (m) {return cleanstringSpecial(m.party)==cleanstringSpecial(d.parti);});
+              var pacronym = _.find(partiesnames, function (m) {return cleanstringSpecial(m.party).toLowerCase()==cleanstringSpecial(d.parti).toLowerCase();});
               if(pacronym){
                 d.parti_acronym = pacronym.abbreviation;
               }
               //Set party name that will be used in the parties pie chart
-              var partiespielist = ['rem','lr','modem','lc','ng','fi','gdr','ni','ps'];
+              var partiespielist = ['rem','lr','modem','lc','ng','fi','gdr','ps','eelv','rn','lfi','udrl'];
               if(partiespielist.indexOf(d.parti_acronym.toLowerCase()) < 0){
                 d.parti_pie = 'Autres';
                 //d.parti_pie = d.parti_acronym;
@@ -926,7 +945,7 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
                 .cy(sizes.cy)
                 .innerRadius(sizes.innerRadius)
                 .radius(sizes.radius)
-                .legend(dc.legend().x(0).y(sizes.legendY).gap(10).legendText(function(d) { 
+                .legend(dc.legend().x(0).y(sizes.legendY).horizontal(true).autoItemWidth(true).legendWidth(sizes.width).gap(10).legendText(function(d) { 
                   var thisKey = d.name;
                   if(thisKey.length > 40){
                     return thisKey.substring(0,40) + '...';
