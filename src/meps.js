@@ -423,10 +423,10 @@ function getPhoto(name,type) {
     slug = 'Pierre-Yves-Le-Borgn';
   }
   var copyr = "";
-  if(type && type[0] == 'S'){
+  if(type && type[0].toLowerCase() == 's'){
     var photourl = "http://www.nossenateurs.fr/senateur/photo/"+slug+"/180";
     copyr = "©Sénat – 2015";
-  } else if(type && type[0] == 'D'){
+  } else if(type && type[0].toLowerCase() == 'd'){
     var photourl = "http://www.nosdeputes.fr/depute/photo/"+slug+"/180";
     copyr = "©Assemblée-nationale – 2015";
   } else {
@@ -607,8 +607,9 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
                 d.name_show = thispartydata.name;
                 d.departement_n = thispartydata.departement.trim();
                 if(!d.general.qualiteMandat.typeMandat){
-                  d.mandat2 = thispartydata.mandatHATPV;
+                  d.mandat2 = thispartydata.type_mandat;
                 }
+                d.mandat2 = thispartydata.type_mandat;
               }
               if(d.mandat2 == 'depute'){
                 d.mandat2 = 'Député';
@@ -618,6 +619,7 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
               if(d.mandat == "Député ou sénateur"){
                 d.mandat = d.mandat2;
               }
+
               if(!d.department || d.department == '' || d.department == undefined){
                 //Find department name from department names csv if missing
                 var thisdepname = _.find(departmentnames, function (m) {return d.departement_n==m.code;});
