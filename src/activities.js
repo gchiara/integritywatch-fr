@@ -760,12 +760,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
-      .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
-      })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -774,6 +768,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       })
       .title(function (d) {
           return d.key + ': ' + d.value;
+      })
+      .colorCalculator(function(d, i) {
+        return vuedata.colors.default;
       })
       .elasticX(true)
       .xAxis().ticks(4);
@@ -832,12 +829,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
-      .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
-      })
-      */
       .label(function (d) {
           if(d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -846,6 +837,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       })
       .title(function (d) {
           return d.key + ': ' + d.value;
+      })
+      .colorCalculator(function(d, i) {
+        return vuedata.colors.default2;
       })
       .elasticX(true)
       .xAxis().ticks(4);
@@ -881,12 +875,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
-      .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
-      })
-      */
       .label(function (d) {
           if(d.key && d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -895,6 +883,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       })
       .title(function (d) {
           return d.key + ': ' + d.value;
+      })
+      .colorCalculator(function(d, i) {
+        return vuedata.colors.default;
       })
       .elasticX(true)
       .xAxis().ticks(4);
@@ -928,12 +919,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .margins({top: 0, left: 0, right: 0, bottom: 20})
       .group(filteredGroup)
       .dimension(dimension)
-      /*
-      .colorCalculator(function(d, i) {
-        var level = getPolicyLevel(d.key);
-        return vuedata.colors.ecPolicy[level];
-      })
-      */
       .label(function (d) {
           if(d.key && d.key.length > charsLength){
             return d.key.substring(0,charsLength) + '...';
@@ -942,6 +927,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       })
       .title(function (d) {
           return d.key + ': ' + d.value;
+      })
+      .colorCalculator(function(d, i) {
+        return vuedata.colors.default2;
       })
       .elasticX(true)
       .xAxis().ticks(4);
