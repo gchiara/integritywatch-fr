@@ -237,10 +237,21 @@ var resizeGraphs = function() {
     var newWidth = recalcWidth(charts[c].divId);
     var charsLength = recalcCharsLength(newWidth);
     if(charts[c].type == 'map') {
-      var newProjection = d3.geoMercator()
+      if(window.innerWidth <= 768) {
+        var newProjection = d3.geoMercator()
         .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-        .translate([newWidth - 50, 220])
-        .scale(newWidth*3);
+        .translate([newWidth - 30, 270])
+        .scale(newWidth*3.2);
+        charts[c].chart.height(500);
+      } else {
+        var newProjection = d3.geoMercator()
+        .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+        .scale(newWidth*3.7)
+        .translate([newWidth + 40, 420]);
+        //.translate([newWidth - 50, 220])
+        //.scale(newWidth*3);
+        charts[c].chart.height(800);
+      }
       charts[c].chart.width(newWidth);
       charts[c].chart.projection(newProjection);
       charts[c].chart.redraw();
@@ -866,17 +877,23 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
                 var width = recalcWidth(charts.map.divId);
                 var group = mapDimension.group().reduceSum(function (d) { return 1; });
                 var dpt = topojson.feature(jsonmap, jsonmap.objects.departements).features;
+                var scale = width*3.7;
+                var translate = [width + 40, 420];
+                if(window.innerWidth <= 678) {
+                  scale = width*3.2;
+                  translate = [width - 30, 270];
+                }
                 var projection = d3.geoMercator()
                   .center([11,45])
-                  .scale(width*2.9)
-                  .translate([width - 50, 220]);
+                  .scale(scale)
+                  .translate(translate);
                 var centered;
                 function clicked(d) {
                 }
             
                 chart
                   .width(width)
-                  .height(400)
+                  .height(function(d){ return window.innerWidth <= 678 ? 500 : 800 })
                   .dimension(mapDimension)
                   .group(group)
                   .projection(projection)

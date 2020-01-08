@@ -103,7 +103,8 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <div class="modal-title">
-                <div class="lobbyist-name">{{ selectedElement.nomUsage }}</div>
+                <div class="lobbyist-name" v-if="selectedElement.nomUsage">{{ selectedElement.nomUsage }}</div>
+                <div class="lobbyist-name" v-else>{{ selectedElement.denomination }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>
@@ -157,7 +158,7 @@
                       </tbody>
                     </table>
                     <div class="details-line"><span class="details-line-title">Date de dernière mise à jour: </span> {{ selectedElement.dateDernierePublicationActivite }}</div>
-                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV: </span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation='+selectedElement.identifiantNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.identifiantNational }}</a></div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV: </span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation='+selectedElement.identifiantNational" target="_blank">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.identifiantNational }}</a></div>
                      
                   </div>
                 </div>

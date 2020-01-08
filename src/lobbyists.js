@@ -83,7 +83,7 @@ var vuedata = {
       "> = 100 000 euros et < 500 000 euros": "#42b983",
       "> = 500 000 euros et < 1 000 000 euros": "#229983",
       "> = 1 000 000 euros": "#1a8883",
-      "/": "#ccc"
+      "Sans chiffre d'affaires": "#ccc"
     },
     depenses: {
       "/": "#ccc",
@@ -91,7 +91,8 @@ var vuedata = {
       "> = 10.000€ - < 500.000€": "#42b983",
       "> = 500.000€ - < 1.000.000€": "#229983",
       "> = 1.000.000€ - <5.000.000€": "#1a8883",
-      "> = 5.000.000€ - < 10.000.000 €": "#127983"
+      "> = 5.000.000€ - < 10.000.000 €": "#127983",
+      "Déclaration à venir": "#ccc"
     },
     lobbyists: {
       "1 lobbyiste": "#52c993",
@@ -415,11 +416,17 @@ function getClientsRange(n) {
   //$('body').html(repTypesList.sort().join('<br />'));
   _.each(activities.publications, function (d) {
     d.latestPub = d.exercices[0].publicationCourante;
-    //Get correct publicationCourante publicationDate
+    var latestPubFound = false;
+    d.totalActivitiesNum = 0;
+    //Get latest filled publicationCourante publicationDate and add up all activities
     for (var i = 0; i < d.exercices.length; i++) {
-      if (d.exercices[i].publicationCourante.publicationDate){
+      if (d.exercices[i].publicationCourante.publicationDate && latestPubFound == false){
         d.latestPub = d.exercices[i].publicationCourante;
-        break;
+        latestPubFound = true;
+      }
+      //Add activities
+      if(d.exercices[i].publicationCourante.nombreActivite) {
+        d.totalActivitiesNum += d.exercices[i].publicationCourante.nombreActivite;
       }
     }
     //Get activities sectors list
@@ -428,14 +435,15 @@ function getClientsRange(n) {
       d.sectors.push(s.label);
     });
     d.activitiesNumRange = getActivitiesNumRange(d.latestPub.nombreActivite);
+    d.activitiesNumRangeTot = getActivitiesNumRange(d.totalActivitiesNum);
     //Store number of collaborators and clients and related ranges
     d.collabNum = d.collaborateurs.length;
     d.collabNumRange = getCollabRange(d.collabNum);
     d.clientsNum = d.clients.length;
     d.clientsNumRange = getClientsRange(d.clientsNum);
-    d.searchstring = d.nomUsage + "";
+    d.searchstring = d.nomUsage + " " + d.nomUsage;
     //Streamline montant depense
-    d.montantDepenseStreamlined = "/";
+    d.montantDepenseStreamlined = "Déclaration à venir";
     if(d.latestPub.montantDepense) {
       d.montantDepenseStreamlined = vuedata.categories.depenses[d.latestPub.montantDepense];
     }
@@ -451,7 +459,7 @@ function getClientsRange(n) {
   var createActivitiesNumChart = function() {
     var chart = charts.activitiesNum.chart;
     var dimension = ndx.dimension(function (d) {
-      return d.activitiesNumRange; 
+      return d.activitiesNumRangeTot; 
     });
     var group = dimension.group().reduceSum(function (d) { return 1; });
     var sizes = calcPieSize(charts.activitiesNum.divId);
@@ -494,12 +502,12 @@ function getClientsRange(n) {
       if(d.latestPub.chiffreAffaire) {
         return d.latestPub.chiffreAffaire;
       } else {
-        return "/";
+        return "Sans chiffre d'affaires";
       }
     });
     var group = dimension.group().reduceSum(function (d) { return 1; });
     var sizes = calcPieSize(charts.chiffreAffaire.divId);
-    var order = ["< 100 000 euros", "> = 100 000 euros et < 500 000 euros", "> = 500 000 euros et < 1 000 000 euros", "> = 1 000 000 euros", "/"];
+    var order = ["< 100 000 euros", "> = 100 000 euros et < 500 000 euros", "> = 500 000 euros et < 1 000 000 euros", "> = 1 000 000 euros", "Sans chiffre d'affaires"];
     chart
       .width(sizes.width)
       .height(sizes.height)
@@ -543,7 +551,7 @@ function getClientsRange(n) {
     });
     var group = dimension.group().reduceSum(function (d) { return 1; });
     var sizes = calcPieSize(charts.montantDepense.divId);
-    var order = ["/", "< 10.000 €", "> = 10.000€ - < 500.000€", "> = 500.000€ - < 1.000.000€", "> = 1.000.000€ - <5.000.000€", "> = 5.000.000€ - < 10.000.000 €", "> = 10.000.000 €"];
+    var order = ["< 10.000 €", "> = 10.000€ - < 500.000€", "> = 500.000€ - < 1.000.000€", "> = 1.000.000€ - <5.000.000€", "> = 5.000.000€ - < 10.000.000 €", "> = 10.000.000 €", "Déclaration à venir"];
     chart
       .width(sizes.width)
       .height(sizes.height)
@@ -753,7 +761,11 @@ function getClientsRange(n) {
           "targets": 0,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.nomUsage;
+            if(d.nomUsage) {
+              return d.nomUsage;
+            } else {
+              return d.denomination;
+            }
           }
         },
         {
@@ -771,7 +783,7 @@ function getClientsRange(n) {
           "targets": 2,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.latestPub.nombreActivite;
+            return d.totalActivitiesNum;
           }
         },
         {

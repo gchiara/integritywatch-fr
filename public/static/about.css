@@ -429,7 +429,12 @@ div.dc-html-legend {
   height: auto;
 }
 .chart-container.tabA_1 {
-  height: auto;
+  height: 962px;
+}
+@media only screen and (max-width: 768px) {
+  .chart-container.tabA_1 {
+    height: 500px;
+  }
 }
 .chart-container.tabA_2 {
   height: auto;
