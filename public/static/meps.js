@@ -47253,11 +47253,13 @@ for (var i = 0; i < 5; i++) {
 } //Load data and generate charts
 
 
-(0, _d3Request.json)('./data/declarations-filtered-201219.json', function (err, dataDeclarations) {
+(0, _d3Request.json)('./data/declarations-filtered-100120.json', function (err, dataDeclarations) {
+  //json('./data/declarations-191219.json', (err, dataDeclarations) => {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv?' + randomPar, function (err, partiesnames) {
-        (0, _d3Request.csv)('./data/list-final-201219.csv?' + randomPar, function (err, listfinal) {
+        //csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
+        (0, _d3Request.csv)('./data/list-final-100120.csv?' + randomPar, function (err, listfinal) {
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
           //var declarations = dataDeclarations.declarations.declaration;
           var declarations = dataDeclarations;
@@ -47281,6 +47283,8 @@ for (var i = 0; i < 5; i++) {
             if (d.date_depot == "No digital dec" || d.date_depot == "") {
               if (d.type_mandat == "senateur") {
                 missingsenators.push(d);
+              } else {
+                console.log(d.Full_name);
               }
             } else if (d.date_depot && d.date_depot.length > 1) {
               timestamps.push(d.date_depot);
@@ -47291,14 +47295,15 @@ for (var i = 0; i < 5; i++) {
             return timestamps.indexOf(dec.dateDepot) > -1;
           });
 
-          declarations = declarationsFiltered; //console.log(declarations);
-          //Add missing senators from missing-senators csv to the declarations json structure
+          declarations = declarationsFiltered; //console.log(JSON.stringify(declarations));
+
+          console.log(declarations.length); //Add missing senators from missing-senators csv to the declarations json structure
 
           missingsenators.forEach(function (d) {
-            //var thisname = d.name.split(' ')[0];
-            //var thislastname = d.name.split(' ')[1];
-            var thisname = d.prenom;
-            var thislastname = d.nom;
+            var thisname = d.Full_name.split(' ')[0];
+            var thislastname = d.Full_name.split(' ')[1]; //var thisname = d.prenom;
+            //var thislastname = d.nom;
+
             var newObj = {
               "general": {
                 "mandat": {
@@ -47423,8 +47428,14 @@ for (var i = 0; i < 5; i++) {
             d.parti_group_m = d.parti_group;
             d.parti_acronym = ''; //Find party acronym
 
+            var partiToLower = '';
+
+            if (d.parti) {
+              partiToLower = cleanstringSpecial(d.parti).toLowerCase();
+            }
+
             var pacronym = _.find(partiesnames, function (m) {
-              return cleanstringSpecial(m.party).toLowerCase() == cleanstringSpecial(d.parti).toLowerCase();
+              return cleanstringSpecial(m.party).toLowerCase() == partiToLower;
             });
 
             if (pacronym) {
@@ -48178,7 +48189,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63071" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49617" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

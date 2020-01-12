@@ -493,11 +493,13 @@ for ( var i = 0; i < 5; i++ ) {
 }
 
 //Load data and generate charts
-json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
+json('./data/declarations-filtered-100120.json', (err, dataDeclarations) => {
+  //json('./data/declarations-191219.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
       csv('./data/parties-names.csv?'+ randomPar, (err, partiesnames) => {
-        csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
+        //csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
+        csv('./data/list-final-100120.csv?'+ randomPar, (err, listfinal) => {
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
     
             //var declarations = dataDeclarations.declarations.declaration;
@@ -524,25 +526,28 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
               if(d.date_depot == "No digital dec" || d.date_depot == "") {
                 if( d.type_mandat == "senateur") {
                   missingsenators.push(d);
+                } else {
+                  console.log(d.Full_name);
                 }
               } else if(d.date_depot && d.date_depot.length > 1) {
                 timestamps.push(d.date_depot);
               }
             });
-
+            
             //Get declarations from listed timestamps by filtering the declarations json
             var declarationsFiltered = _.filter(declarations, function(dec, index) {
               return timestamps.indexOf(dec.dateDepot) > -1;
             });
             declarations = declarationsFiltered;
-            //console.log(declarations);
+            //console.log(JSON.stringify(declarations));
+            console.log(declarations.length);
 
             //Add missing senators from missing-senators csv to the declarations json structure
             missingsenators.forEach(function (d) {
-              //var thisname = d.name.split(' ')[0];
-              //var thislastname = d.name.split(' ')[1];
-              var thisname = d.prenom;
-		          var thislastname = d.nom;
+              var thisname = d.Full_name.split(' ')[0];
+              var thislastname = d.Full_name.split(' ')[1];
+              //var thisname = d.prenom;
+		          //var thislastname = d.nom;
               var newObj = {
                 "general": {
                   "mandat": { "label": "Député ou sénateur" },
@@ -641,7 +646,11 @@ json('./data/declarations-filtered-201219.json', (err, dataDeclarations) => {
               d.parti_group_m = d.parti_group;
               d.parti_acronym = '';
               //Find party acronym
-              var pacronym = _.find(partiesnames, function (m) {return cleanstringSpecial(m.party).toLowerCase()==cleanstringSpecial(d.parti).toLowerCase();});
+              var partiToLower = '';
+              if(d.parti) {
+                partiToLower = cleanstringSpecial(d.parti).toLowerCase();
+              }
+              var pacronym = _.find(partiesnames, function (m) {return cleanstringSpecial(m.party).toLowerCase()==partiToLower});
               if(pacronym){
                 d.parti_acronym = pacronym.abbreviation;
               }
