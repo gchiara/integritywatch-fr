@@ -47253,8 +47253,8 @@ for (var i = 0; i < 5; i++) {
 } //Load data and generate charts
 
 
-(0, _d3Request.json)('./data/declarations-filtered-130120.json', function (err, dataDeclarations) {
-  //json('./data/declarations-191219.json', (err, dataDeclarations) => {
+(0, _d3Request.json)('./data/declarations-filtered-130120b.json', function (err, dataDeclarations) {
+  //json('./data/declarations-130120.json', (err, dataDeclarations) => {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv?' + randomPar, function (err, partiesnames) {

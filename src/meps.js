@@ -493,8 +493,8 @@ for ( var i = 0; i < 5; i++ ) {
 }
 
 //Load data and generate charts
-json('./data/declarations-filtered-130120.json', (err, dataDeclarations) => {
-  //json('./data/declarations-191219.json', (err, dataDeclarations) => {
+json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
+  //json('./data/declarations-130120.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
       csv('./data/parties-names.csv?'+ randomPar, (err, partiesnames) => {
