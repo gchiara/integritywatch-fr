@@ -97,6 +97,7 @@
                       <th class="header">Activités annexes conservées</th>
                       <th class="header">Détention de participations financières</th>
                       <th class="header">Activités annexes des collaborateurs</th>	
+                      <th class="header">Nombre de déclarations déposées</th>
                       <th class="header">Date de dépôt de la dernière déclaration</th>
                     </tr>
                   </thead>

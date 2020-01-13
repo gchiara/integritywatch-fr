@@ -47253,13 +47253,13 @@ for (var i = 0; i < 5; i++) {
 } //Load data and generate charts
 
 
-(0, _d3Request.json)('./data/declarations-filtered-100120.json', function (err, dataDeclarations) {
+(0, _d3Request.json)('./data/declarations-filtered-130120.json', function (err, dataDeclarations) {
   //json('./data/declarations-191219.json', (err, dataDeclarations) => {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv?' + randomPar, function (err, partiesnames) {
         //csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
-        (0, _d3Request.csv)('./data/list-final-100120.csv?' + randomPar, function (err, listfinal) {
+        (0, _d3Request.csv)('./data/list-final-130120.csv?' + randomPar, function (err, listfinal) {
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
           //var declarations = dataDeclarations.declarations.declaration;
           var declarations = dataDeclarations;
@@ -47334,8 +47334,20 @@ for (var i = 0; i < 5; i++) {
 
             if (d.name == 'Robert Del') {
               d.name = 'Robert Del Picchia';
+            } //Get list info
+
+
+            var thislistentry = _.find(listfinal, function (m) {
+              return m.date_depot == d.dateDepot;
+            });
+
+            if (!thislistentry) {
+              thislistentry = _.find(listfinal, function (m) {
+                return m.Full_name == d.name;
+              });
             }
 
+            d.listInfo = thislistentry;
             d.name_show = d.name;
             d.civilite = cleanstring(d.general.declarant.civilite);
 
@@ -47379,29 +47391,25 @@ for (var i = 0; i < 5; i++) {
             d.activcons = "NON";
             d.partsoc = "NON";
             d.collabNum = 0;
-            d.name_url = ''; //Get party info
+            d.name_url = ''; //Get party and other info from main list
 
-            var thispartydata = _.find(listfinal, function (m) {
-              return m.date_depot == d.dateDepot;
-            });
+            if (thislistentry) {
+              d.name_url = thislistentry.file.split('-dia')[0];
 
-            if (thispartydata) {
-              d.name_url = thispartydata.file.split('-dia')[0];
-
-              if (thispartydata.file.indexOf('romeiro-dias-laetitia') > -1) {
+              if (thislistentry.file.indexOf('romeiro-dias-laetitia') > -1) {
                 d.name_url = 'romeiro-dias-laetitia';
               }
 
-              d.parti = thispartydata.parti.trim();
-              d.parti_group = thispartydata.groupe.trim();
-              d.name_show = thispartydata.name;
-              d.departement_n = thispartydata.departement.trim();
+              d.parti = thislistentry.parti.trim();
+              d.parti_group = thislistentry.groupe.trim();
+              d.name_show = thislistentry.name;
+              d.departement_n = thislistentry.departement.trim();
 
               if (!d.general.qualiteMandat.typeMandat) {
-                d.mandat2 = thispartydata.type_mandat;
+                d.mandat2 = thislistentry.type_mandat;
               }
 
-              d.mandat2 = thispartydata.type_mandat;
+              d.mandat2 = thislistentry.type_mandat;
             }
 
             if (d.mandat2 == 'depute') {
@@ -47987,6 +47995,18 @@ for (var i = 0; i < 5; i++) {
                 "searchable": false,
                 "orderable": true,
                 "targets": 9,
+                "defaultContent": "N/A",
+                "data": function data(d) {
+                  if (d.listInfo) {
+                    return d.listInfo.declarations_num;
+                  }
+
+                  return "";
+                }
+              }, {
+                "searchable": false,
+                "orderable": true,
+                "targets": 10,
                 "defaultContent": "N/A",
                 "type": "date-eu",
                 "data": function data(d) {
