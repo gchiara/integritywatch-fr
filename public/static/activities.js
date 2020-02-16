@@ -46769,7 +46769,7 @@ var vuedata = {
   organizations: {},
   charts: {
     repPublique: {
-      title: 'Nombre d’activités par type de responsable publique ciblé',
+      title: 'Nombre d\'activités par type de responsable public visé',
       info: ''
     },
     topReps: {
@@ -46805,7 +46805,7 @@ var vuedata = {
       info: ''
     },
     actions: {
-      title: 'Nombre d’activités par type d’actions mis-en-oeuvre',
+      title: 'Nombre d\'activités par type d\'actions mises en œuvre',
       info: ''
     },
     autoritiesAgencies: {
@@ -47127,6 +47127,20 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     return a < b ? -1 : a > b ? 1 : 0;
   },
   "date-eu-desc": function dateEuDesc(a, b) {
+    return a < b ? 1 : a > b ? -1 : 0;
+  }
+}); //Custom date order for declaration period in dataTables
+
+var dmyDash = d3.timeParse("%d-%m-%Y");
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+  "date-range-pre": function dateRangePre(date) {
+    var iniDate = date.split(" /")[0];
+    return dmyDash(iniDate);
+  },
+  "date-range-asc": function dateRangeAsc(a, b) {
+    return a < b ? -1 : a > b ? 1 : 0;
+  },
+  "date-range-desc": function dateRangeDesc(a, b) {
     return a < b ? 1 : a > b ? -1 : 0;
   }
 }); //Load data and generate charts
@@ -47655,7 +47669,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
         "orderable": true,
         "targets": 3,
         "defaultContent": "N/A",
-        "type": "date-eu",
+        "type": "date-range",
         "data": function data(d) {
           //return d.publicationCourante.publicationDate;
           return d.dateDebut + ' / ' + d.dateFin;
@@ -47879,7 +47893,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49617" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -491,6 +491,10 @@ $color_lobby: #42b983;
 .dc-chart g.row text {
   fill: #000;
 }
+#map_chart.dc-chart path {
+  stroke-width: 1;
+  stroke: #eee;
+}
 .dc-chart .selected path, .dc-chart .selected circle {
   stroke: #fff;
   stroke-width: 5;
@@ -684,6 +688,16 @@ table.dataTable tbody tr:hover {
 }
 
 .tabA-page {
+  .reset-btn {
+    @media only screen and (min-width: 1024px) {
+      right: 170px;
+    }
+  }
+  .download-data-btn {
+    @media only screen and (max-width: 1024px) {
+      display: none;
+    }
+  }
   .footer-bar .footer-counts .count-box .filter-count {
     &.nbmin, &.nbmax {
       font-size: 18px;
@@ -858,7 +872,7 @@ table.dataTable tbody tr:hover {
     margin-bottom: 20px;
   }
   &.tabB_6 {
-    height: 580px;
+    height: 600px;
   }
   &.tabB_7 {
     height: 800px;

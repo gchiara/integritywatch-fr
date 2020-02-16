@@ -24,7 +24,7 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Activités de lobbying</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des activités de lobbying entreprises en France par les organisations enregis-trés sur le registre des représentants d’intérêts de la Haute-Autorité pour la transparence dans la vie publique (HATVP).</p> 
+                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des activités de lobbying entreprises en France par les organisations enregistrés sur le registre des représentants d’intérêts de la Haute-Autorité pour la transparence dans la vie publique (HATVP).</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
@@ -64,7 +64,7 @@
               </div>
               <div class="col-md-6 chart-col">
                 <div class="boxed-container chart-container tabC_4">
-                  <chart-header :title="charts.topOrgs.title" :info="charts.topOrgs.info" :customclass="'smaller'" ></chart-header>
+                  <chart-header :title="charts.orgsCats.title" :info="charts.orgsCats.info" :customclass="'smaller'" ></chart-header>
                   <div class="chart-inner" id="orgscats_chart"></div>
                 </div> 
               </div>
@@ -110,7 +110,7 @@
           </div>
           <!-- TOGGLE BUTTONS FOR 4TH ROW -->
           <div class="col-md-12 toggle-btn-container">
-            <button class="toggle-btn" id="charts-toggle-btn" @click="showAllCharts = !showAllCharts">Autres graphs</button>
+            <button class="toggle-btn" id="charts-toggle-btn" @click="showAllCharts = !showAllCharts">Voir d'autres graphiques</button>
           </div>
           <!-- CHARTS - FOURTH ROW - CAN BE TOGGLED -->
           <div class="col-md-6 chart-col" v-show="showAllCharts">
@@ -139,7 +139,7 @@
                       <th class="header">Période de déclaration</th>
                       <th class="header">Responsable (s) public visé</th> 
                       <th class="header">Domaines d'intervention</th>
-                      <th class="header">Case facultative rem-plie ?</th> 
+                      <th class="header">Case facultative remplie ?</th> 
                       <th class="header">Activité effectué pour tiers?</th> 
                     </tr>
                   </thead>
@@ -157,7 +157,7 @@
             <div class="modal-header">
               <div class="modal-title">
                 <div class="date" v-if="selectedElement.publicationCourante">{{ selectedElement.publicationCourante.identifiantFiche }} - {{ selectedElement.publicationCourante.publicationDate }}</div>
-                <div class="subject" v-if="selectedElement.publicationCourante">Sujet: {{ selectedElement.publicationCourante.objet }}</div>
+                <div class="subject" v-if="selectedElement.publicationCourante">Sujet : {{ selectedElement.publicationCourante.objet }}</div>
               </div>
               <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>
             </div>
@@ -167,35 +167,35 @@
                 <div class="row">
                   <div class="col-md-6 details-left">
                     <div class="details-title details-title-left">POUVOIRS PUBLICS</div>
-                    <div class="details-line"><span class="details-line-title">Responsables publics visé (s):</span> 
+                    <div class="details-line"><span class="details-line-title">Responsable (s) public (s) visés :</span> 
                       <span v-if="selectedElement.repType && selectedElement.repType.length > 0">{{ selectedElement.repType.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
-                    <div class="details-line"><span class="details-line-title">Type de décisions publiques:</span>
+                    <div class="details-line"><span class="details-line-title">Type de décisions publiques :</span>
                       <span v-if="selectedElement.decisions && selectedElement.decisions.length > 0">{{ selectedElement.decisions.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
-                    <div class="details-line"><span class="details-line-title">Domaines d'intervention field:</span>
+                    <div class="details-line"><span class="details-line-title">Domaines d'intervention field :</span>
                       <span v-if="selectedElement.publicationCourante && selectedElement.publicationCourante.domainesIntervention && selectedElement.publicationCourante.domainesIntervention.length > 0">{{ selectedElement.publicationCourante.domainesIntervention.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
                   </div>
                   <div class="col-md-6 details-right">
                     <div class="details-title details-title-right">LOBBYISTE</div>
-                    <div class="details-line"><span class="details-line-title">Nom de l’organisation:</span> {{ selectedElement.orgName }}</div>
-                    <div class="details-line"><span class="details-line-title">Categorie:</span> {{ selectedElement.catOrg }}</div>
-                    <div class="details-line"><span class="details-line-title">Nombre d’activités déclarés:</span> {{ selectedElement.actNum }}</div>
-                    <div class="details-line"><span class="details-line-title">Montant des dépenses:</span><br /><span v-html="selectedElement.amount"></span></div>
-                    <div class="details-line"><span class="details-line-title">Chiffre d’affaires:</span><br /><span v-html="selectedElement.chiffre"></span></div>
-                    <div class="details-line"><span class="details-line-title">Nombre d’employés:</span> {{ selectedElement.collab }}</div>
-                    <div class="details-line"><span class="details-line-title">Observations sur l'activité:</span> <span v-html="selectedElement.observationsText"></span></div>
-                    <div class="details-line"><span class="details-line-title">Lien déclaration HATVP:</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
+                    <div class="details-line"><span class="details-line-title">Nom de l’organisation :</span> {{ selectedElement.orgName }}</div>
+                    <div class="details-line"><span class="details-line-title">Categorie :</span> {{ selectedElement.catOrg }}</div>
+                    <div class="details-line"><span class="details-line-title">Nombre d'activités déclarées :</span> {{ selectedElement.actNum }}</div>
+                    <div class="details-line"><span class="details-line-title">Montant des dépenses :</span><br /><span v-html="selectedElement.amount"></span></div>
+                    <div class="details-line"><span class="details-line-title">Chiffre d’affaires :</span><br /><span v-html="selectedElement.chiffre"></span></div>
+                    <div class="details-line"><span class="details-line-title">Nombre d’employés :</span> {{ selectedElement.collab }}</div>
+                    <div class="details-line"><span class="details-line-title">Observations sur l'activité :</span> <span v-html="selectedElement.observationsText"></span></div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATVP :</span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation=' + selectedElement.idNational">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.idNational }}</a></div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
                     <div class="details-tables-buttons">
-                      <button @click="modalShowTable = 'a'" :class="{ active: modalShowTable == 'a' }">Action de lobbying effectuées</button>
+                      <button @click="modalShowTable = 'a'" :class="{ active: modalShowTable == 'a' }">Actions de lobbying effectuées</button>
                       <button @click="modalShowTable = 'b'" v-if="selectedElement.publicationCourante" :class="{ active: modalShowTable == 'b' }">Domaines d’intervention</button>
                       <button @click="modalShowTable = 'c'" :class="{ active: modalShowTable == 'c' }">Intérêts représentés</button>
                     </div>

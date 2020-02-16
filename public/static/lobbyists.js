@@ -47185,7 +47185,7 @@ function getClientsRange(n) {
     d.collabNumRange = getCollabRange(d.collabNum);
     d.clientsNum = d.clients.length;
     d.clientsNumRange = getClientsRange(d.clientsNum);
-    d.searchstring = d.nomUsage + " " + d.nomUsage; //Streamline montant depense
+    d.searchstring = d.nomUsage + " " + d.denomination + " " + d.categorieOrganisation.label; //Streamline montant depense
 
     d.montantDepenseStreamlined = "Déclaration à venir";
 
@@ -47221,7 +47221,7 @@ function getClientsRange(n) {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
-    }).label(function (d) {
+    }).minAngleForLabel(0.1).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
         return a + v.value;
       }, 0);
@@ -47261,7 +47261,7 @@ function getClientsRange(n) {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
-    }).label(function (d) {
+    }).minAngleForLabel(0.1).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
         return a + v.value;
       }, 0);
@@ -47302,7 +47302,7 @@ function getClientsRange(n) {
       var thisKey = d.key;
       console.log(d.key);
       return thisKey + ': ' + d.value;
-    }).label(function (d) {
+    }).minAngleForLabel(0.1).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
         return a + v.value;
       }, 0);
@@ -47379,7 +47379,7 @@ function getClientsRange(n) {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
-    }).label(function (d) {
+    }).minAngleForLabel(0.1).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
         return a + v.value;
       }, 0);
@@ -47415,7 +47415,7 @@ function getClientsRange(n) {
     })).title(function (d) {
       var thisKey = d.key;
       return thisKey + ': ' + d.value;
-    }).label(function (d) {
+    }).minAngleForLabel(0).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
         return a + v.value;
       }, 0);
@@ -47555,7 +47555,7 @@ function getClientsRange(n) {
       "bPaginate": true,
       "bLengthChange": true,
       "bFilter": false,
-      "order": [[0, "desc"]],
+      "order": [[0, "asc"]],
       "bSort": true,
       "bInfo": true,
       "bAutoWidth": false,
@@ -47729,7 +47729,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49617" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

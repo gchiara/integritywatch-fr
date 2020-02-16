@@ -77,6 +77,17 @@
               </div>
             </div>
           </div>
+          <!-- TOGGLE BUTTONS FOR 4TH ROW -->
+          <div class="col-md-12 toggle-btn-container">
+            <button class="toggle-btn" id="charts-toggle-btn" @click="showAllCharts = !showAllCharts">Voir d'autres graphiques</button>
+          </div>
+          <!-- CHARTS - FOURTH ROW - CAN BE TOGGLED -->
+          <div class="col-md-6 chart-col" v-show="showAllCharts">
+            <div class="boxed-container chart-container tabA_6">
+              <chart-header :title="charts.declarationsNumber.title" :info="charts.declarationsNumber.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="declarationsnumber_chart"></div>
+            </div>
+          </div>
           <!-- TABLE -->
           <div class="col-12 chart-col">
             <div class="boxed-container chart-container chart-container-table">
@@ -123,12 +134,12 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-8">
-                    <div class="details-line"><span class="details-line-title">Mandat:</span> {{ selectedElement.mandat }}</div>
-                    <div class="details-line" v-if="selectedElement.departement"><span class="details-line-title">Département:</span> {{ selectedElement.departement }} ({{ selectedElement.departement_n }})</div>
-                    <div class="details-line" v-else><span class="details-line-title">Département:</span> {{ selectedElement.departement_n }}</div>
-                    <div class="details-line" v-if="selectedElement.convertedFromCSV"><span class="details-line-title">Activités annexes conservées:</span> Pas de données open data disponibles</div>
-                    <div class="details-line" v-else><span class="details-line-title">Activités annexes conservées:</span> {{ selectedElement.activities }}</div>
-                    <div class="details-line"><span class="details-line-title">Déclaration originale:</span> <a :href="selectedElement.hatvp" target="_blank">Profil sur le site de la Haute Autorité pour la Transparence de la Vie Publique (HATVP)</a></div>
+                    <div class="details-line"><span class="details-line-title">Mandat :</span> {{ selectedElement.mandat }}</div>
+                    <div class="details-line" v-if="selectedElement.departement"><span class="details-line-title">Département :</span> {{ selectedElement.departement }} ({{ selectedElement.departement_n }})</div>
+                    <div class="details-line" v-else><span class="details-line-title">Département :</span> {{ selectedElement.departement_n }}</div>
+                    <div class="details-line" v-if="selectedElement.convertedFromCSV"><span class="details-line-title">Activités annexes conservées :</span> Pas de données open data disponibles</div>
+                    <div class="details-line" v-else><span class="details-line-title">Activités annexes conservées :</span> {{ selectedElement.activities }}</div>
+                    <div class="details-line"><span class="details-line-title">Déclaration originale :</span> <a :href="selectedElement.hatvp" target="_blank">Profil sur le site de la Haute Autorité pour la Transparence de la Vie Publique (HATVP)</a></div>
                   </div>
                   <div class="col-md-4">
                     <img :src="selectedElement.photoUrl" />
@@ -237,6 +248,7 @@
         <button class="reset-btn"><i class="material-icons">settings_backup_restore</i></button>
         <div class="footer-buttons-right">
           <!-- <button><i class="material-icons">cloud_download</i></button> -->
+          <button class="download-data-btn" @click="downloadDataset"><i class="material-icons">cloud_download</i></button>
           <button class="btn-twitter" @click="share('twitter')"><img src="./images/twitter.png" /></button>
           <button class="btn-fb" @click="share('facebook')"><img src="./images/facebook.png" /></button>
         </div>

@@ -29,20 +29,22 @@ var vuedata = {
   loader: true,
   showInfo: true,
   showShare: true,
+  showAllCharts: true,
+  maxDeclarationsDeclated: 0,
   chartMargin: 40,
   organizations: {},
   charts: {
     map: {
       title: 'DEPARTEMENTS',
-      info: 'Nombre de parlementaires par département, à l’exception de l’Île-de-France et des DOM-TOM (nombres totaux). Passez la souris sur le département qui vous intéresse pour voir le nombre de parlementaires concernés.'
+      info: 'Nombre de parlementaires par département, à l’exception de l’Île-de-France et des DOM-TOM (nombres totaux). Cliquez sur le département qui vous intéresse pour voir le nombre de parlementaires concernés.'
     },
     party: {
       title: 'PARTI POLITIQUE',
-      info: 'Répartition des parlementaires en fonction de leur appartenance politique. Passez la souris sur les différents secteurs pour voir le nombre de parlementaires concernés.'
+      info: 'Répartition des parlementaires en fonction de leur appartenance politique. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     activities: {
       title: 'ACTIVITÉS ANNEXES',
-      info: 'Nombre de mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par le parlementaire. Passez la souris sur les différents secteurs pour voir le nombre de parlementaires concernés.'
+      info: 'Nombre de mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par le parlementaire. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     mandate: {
       title: 'FONCTION',
@@ -50,6 +52,10 @@ var vuedata = {
     },
     gender: {
       title: 'HOMMES/FEMMES',
+      info: ''
+    },
+    declarationsNumber: {
+      title: 'Nombre de déclarations déposées',
       info: ''
     },
     mainTable: {
@@ -119,6 +125,11 @@ new Vue({
   data: vuedata,
   methods: {
     //Share
+    downloadDataset: function () {
+      console.log('download');
+      window.open('./data/list-final-130120.csv');
+      return;
+    },
     share: function (platform) {
       if(platform == 'twitter'){
         var thisPage = window.location.href.split('?')[0];
@@ -187,6 +198,11 @@ var charts = {
     type: 'pie',
     divId: 'gender_chart'
   },
+  declarationsNumber: {
+    chart: dc.barChart("#declarationsnumber_chart"),
+    type: 'bar',
+    divId: 'declarationsnumber_chart'
+  },
   mainTable: {
     chart: null,
     type: 'table',
@@ -233,62 +249,66 @@ var calcPieSize = function(divId) {
 };
 var resizeGraphs = function() {
   for (var c in charts) {
-    var sizes = calcPieSize(charts[c].divId);
-    var newWidth = recalcWidth(charts[c].divId);
-    var charsLength = recalcCharsLength(newWidth);
-    if(charts[c].type == 'map') {
-      if(window.innerWidth <= 768) {
-        var newProjection = d3.geoMercator()
-        .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-        .translate([newWidth - 30, 270])
-        .scale(newWidth*3.2);
-        charts[c].chart.height(500);
-      } else {
-        var newProjection = d3.geoMercator()
-        .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
-        .scale(newWidth*3.7)
-        .translate([newWidth + 40, 420]);
-        //.translate([newWidth - 50, 220])
-        //.scale(newWidth*3);
-        charts[c].chart.height(800);
-      }
-      charts[c].chart.width(newWidth);
-      charts[c].chart.projection(newProjection);
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'row'){
-      charts[c].chart.width(newWidth);
-      charts[c].chart.label(function (d) {
-        var thisKey = d.key;
-        if(thisKey.indexOf('###') > -1){
-          thisKey = thisKey.split('###')[0];
+    if((c == 'declarationsNumber') && vuedata.showAllCharts == false){
+    
+    } else {
+      var sizes = calcPieSize(charts[c].divId);
+      var newWidth = recalcWidth(charts[c].divId);
+      var charsLength = recalcCharsLength(newWidth);
+      if(charts[c].type == 'map') {
+        if(window.innerWidth <= 768) {
+          var newProjection = d3.geoMercator()
+          .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+          .translate([newWidth - 30, 270])
+          .scale(newWidth*3.2);
+          charts[c].chart.height(500);
+        } else {
+          var newProjection = d3.geoMercator()
+          .center([11,45]) //theorically, 50°7′2.23″N 9°14′51.97″E but this works
+          .scale(newWidth*3.7)
+          .translate([newWidth + 40, 420]);
+          //.translate([newWidth - 50, 220])
+          //.scale(newWidth*3);
+          charts[c].chart.height(800);
         }
-        if(thisKey.length > charsLength){
-          return thisKey.substring(0,charsLength) + '...';
-        }
-        return thisKey;
-      })
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'pie') {
-      charts[c].chart
-        .width(sizes.width)
-        .height(sizes.height)
-        .cy(sizes.cy)
-        .innerRadius(sizes.innerRadius)
-        .radius(sizes.radius)
-        .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
-      if(charts[c].divId == 'party_chart') {
-        charts[c].chart.legend(dc.legend().x(0).y(sizes.legendY).horizontal(true).autoItemWidth(true).legendWidth(sizes.width).gap(10).legendText(function(d) { 
-          var thisKey = d.name;
-          if(thisKey.length > 40){
-            return thisKey.substring(0,40) + '...';
+        charts[c].chart.width(newWidth);
+        charts[c].chart.projection(newProjection);
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'row'){
+        charts[c].chart.width(newWidth);
+        charts[c].chart.label(function (d) {
+          var thisKey = d.key;
+          if(thisKey.indexOf('###') > -1){
+            thisKey = thisKey.split('###')[0];
+          }
+          if(thisKey.length > charsLength){
+            return thisKey.substring(0,charsLength) + '...';
           }
           return thisKey;
-        }));
+        })
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'pie') {
+        charts[c].chart
+          .width(sizes.width)
+          .height(sizes.height)
+          .cy(sizes.cy)
+          .innerRadius(sizes.innerRadius)
+          .radius(sizes.radius)
+          .legend(dc.legend().x(0).y(sizes.legendY).gap(10));
+        if(charts[c].divId == 'party_chart') {
+          charts[c].chart.legend(dc.legend().x(0).y(sizes.legendY).horizontal(true).autoItemWidth(true).legendWidth(sizes.width).gap(10).legendText(function(d) { 
+            var thisKey = d.name;
+            if(thisKey.length > 40){
+              return thisKey.substring(0,40) + '...';
+            }
+            return thisKey;
+          }));
+        }
+        charts[c].chart.redraw();
+      } else if(charts[c].type == 'cloud') {
+        charts[c].chart.size(recalcWidthWordcloud());
+        charts[c].chart.redraw();
       }
-      charts[c].chart.redraw();
-    } else if(charts[c].type == 'cloud') {
-      charts[c].chart.size(recalcWidthWordcloud());
-      charts[c].chart.redraw();
     }
   }
 };
@@ -583,6 +603,9 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                 thislistentry = _.find(listfinal, function (m) {return m.Full_name == d.name;});
               }
               d.listInfo = thislistentry;
+              if(d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
+                vuedata.maxDeclarationsDeclated = parseInt(d.listInfo.declarations_num);
+              }
               d.name_show = d.name;
               d.civilite = cleanstring(d.general.declarant.civilite);
               if(cleanstringSpecial(d.civilite) == "m"){
@@ -1081,6 +1104,9 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
             var createGenderChart = function() {
               var chart = charts.gender.chart;
               var dimension = ndx.dimension(function (d) {
+                if(d.civilite == 'm') {
+                  return 'h';
+                }
                 return d.civilite;  
               });
               var group = dimension.group().reduceSum(function (d) { return 1; });
@@ -1111,6 +1137,34 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                 .group(group);
               chart.render();
             }
+
+            //CHART 5
+            var createDeclarationsNumberChart = function() {
+              var chart = charts.declarationsNumber.chart;
+              var dimension = ndx.dimension(function (d) {
+                return parseInt(d.listInfo.declarations_num);
+              });
+              var group = dimension.group().reduceSum(function (d) {
+                return 1;
+              });
+              var width = recalcWidth(charts.declarationsNumber.divId);
+              var charsLength = recalcCharsLength(width);
+              chart
+                .width(width)
+                .height(440)
+                .margins({top: 0, left: 0, right: 0, bottom: 20})
+                .group(group)
+                .dimension(dimension)
+                .brushOn(true)
+                .yAxisLabel("Reponsables publics")
+                .on("preRender",(function(chart,filter){
+                }))
+                .margins({top: 0, right: 10, bottom: 20, left: 40})
+                .x(d3.scaleLinear().domain([0,vuedata.maxDeclarationsDeclated + 1]))
+                .gap(15)
+                .elasticY(true);
+              chart.render();
+            }
             
             //TABLE
             var createTable = function() {
@@ -1133,8 +1187,9 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "data": function(d) {
                       if (d.name) {
                         var name1 = d.name.substr(0,d.name.indexOf(' '));
+                        name1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
                         var name2 = d.name.substr(d.name.indexOf(' ')+1);
-                        return name1 + ' <b>'+name2+'</b>';
+                        return name2.toUpperCase() + ' ' + name1;
                       }
                     }
                   },
@@ -1327,9 +1382,18 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
             createActivitiesChart();
             createMandateChart();
             createGenderChart();
+            createDeclarationsNumberChart();
             createTable();
 
             $('.dataTables_wrapper').append($('.dataTables_length'));
+
+            //Toggle last charts functionality and fix for responsiveness
+            vuedata.showAllCharts = false;
+            $('#charts-toggle-btn').click(function(){
+              if(vuedata.showAllCharts){
+                resizeGraphs();
+              }
+            })
 
             //Hide loader
             vuedata.loader = false;

@@ -24,30 +24,36 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Lobbyistes</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des organisations inscrites sur le registre des représentants de la haute-autorité pour la Transparency dans la vie publique (HATPV).</p> 
+                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des organisations inscrites sur le registre des représentants de la haute-autorité pour la Transparency dans la vie publique (HATVP).</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
             </div>
           </div>
           <!-- CHARTS - FIRST ROW -->
-          <div class="col-md-4 chart-col">
+          <div class="col-md-3 chart-col">
             <div class="boxed-container chart-container tabB_1">
               <chart-header :title="charts.activitiesNum.title" :info="charts.activitiesNum.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="activitiesnum_chart"></div>
             </div> 
           </div>
-          <div class="col-md-4 chart-col">
+          <div class="col-md-3 chart-col">
             <div class="boxed-container chart-container tabB_2">
               <chart-header :title="charts.chiffreAffaire.title" :info="charts.chiffreAffaire.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="chiffreaffaire_chart"></div>
             </div> 
           </div>
-          <div class="col-md-4 chart-col">
+          <div class="col-md-3 chart-col">
             <div class="boxed-container chart-container tabB_3">
               <chart-header :title="charts.montantDepense.title" :info="charts.montantDepense.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="montantdepense_chart"></div>
             </div> 
+          </div>
+          <div class="col-md-3 chart-col">
+            <div class="boxed-container chart-container tabB_5">
+              <chart-header :title="charts.lobbyists.title" :info="charts.lobbyists.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="lobbyists_chart"></div>
+            </div>
           </div>
           <!-- CHARTS - SECOND ROW -->
           <div class="col-md-4 chart-col">
@@ -57,10 +63,6 @@
             </div> 
           </div>
           <div class="col-md-4 chart-col">
-            <div class="boxed-container chart-container tabB_5">
-              <chart-header :title="charts.lobbyists.title" :info="charts.lobbyists.info" :customclass="'smaller'" ></chart-header>
-              <div class="chart-inner" id="lobbyists_chart"></div>
-            </div> 
             <div class="boxed-container chart-container tabB_6">
               <chart-header :title="charts.clients.title" :info="charts.clients.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="clients_chart"></div>
@@ -80,7 +82,7 @@
                 <table class="table table-hover dc-data-table" id="dc-data-table">
                   <thead>
                     <tr class="header">
-                      <th class="header">Nom de l’or-ganisation</th>
+                      <th class="header">Nom de l’organisation</th>
                       <th class="header">Catégorie</th>
                       <th class="header">Nombre d’activitées déclarées</th>
                       <th class="header">Nombre de personnes dédiées à la représentation d’intérêt</th>
@@ -113,19 +115,19 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="details-line" v-if="selectedElement.categorieOrganisation"><span class="details-line-title">Catégorie: </span> {{ selectedElement.categorieOrganisation.label }}</div>
-                    <div class="details-line" v-else><span class="details-line-title">Catégorie: </span> /</div>
-                    <div class="details-line"><span class="details-line-title">Secteurs d’activités déclarés: </span>
+                    <div class="details-line" v-if="selectedElement.categorieOrganisation"><span class="details-line-title">Catégorie : </span> {{ selectedElement.categorieOrganisation.label }}</div>
+                    <div class="details-line" v-else><span class="details-line-title">Catégorie : </span> /</div>
+                    <div class="details-line"><span class="details-line-title">Secteurs d’activités déclarés : </span>
                       <ul>
                         <li v-for="s in selectedElement.sectors">
                           {{ s }}
                         </li>
                       </ul>
                     </div>
-                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Nombre d’activités déclarés: </span> {{ selectedElement.latestPub.nombreActivite }}</div>
-                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Montant des dépenses: </span> {{ selectedElement.latestPub.montantDepense }}</div>
-                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Chiffre d’affaires: </span> {{ selectedElement.latestPub.chiffreAffaire }}</div>
-                    <div class="details-line"><span class="details-line-title">Nombre d’employés: </span> {{ selectedElement.collabNum }}</div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Nombre d’activités déclarés : </span> {{ selectedElement.latestPub.nombreActivite }}</div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Montant des dépenses : </span> {{ selectedElement.latestPub.montantDepense }}</div>
+                    <div class="details-line" v-if="selectedElement.latestPub"><span class="details-line-title">Chiffre d’affaires : </span> {{ selectedElement.latestPub.chiffreAffaire }}</div>
+                    <div class="details-line"><span class="details-line-title">Nombre d’employés : </span> {{ selectedElement.collabNum }}</div>
                     <div class="details-tables-buttons">
                       <button @click="showClientsTable = !showClientsTable">Organisations connectées</button>
                     </div>
@@ -157,8 +159,8 @@
                         </tr>
                       </tbody>
                     </table>
-                    <div class="details-line"><span class="details-line-title">Date de dernière mise à jour: </span> {{ selectedElement.dateDernierePublicationActivite }}</div>
-                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV: </span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation='+selectedElement.identifiantNational" target="_blank">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.identifiantNational }}</a></div>
+                    <div class="details-line"><span class="details-line-title">Date de dernière mise à jour : </span> {{ selectedElement.dateDernierePublicationActivite }}</div>
+                    <div class="details-line"><span class="details-line-title">Lien déclaration HATPV : </span> <a :href="'https://www.hatvp.fr/fiche-organisation/?organisation='+selectedElement.identifiantNational" target="_blank">https://www.hatvp.fr/fiche-organisation/?organisation={{ selectedElement.identifiantNational }}</a></div>
                      
                   </div>
                 </div>

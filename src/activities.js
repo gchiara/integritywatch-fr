@@ -34,7 +34,7 @@ var vuedata = {
   organizations: {},
   charts: {
     repPublique: {
-      title: 'Nombre d’activités par type de responsable publique ciblé',
+      title: 'Nombre d\'activités par type de responsable public visé',
       info: ''
     },
     topReps: {
@@ -70,7 +70,7 @@ var vuedata = {
       info: ''
     },
     actions: {
-      title: 'Nombre d’activités par type d’actions mis-en-oeuvre',
+      title: 'Nombre d\'activités par type d\'actions mises en œuvre',
       info: ''
     },
     autoritiesAgencies: {
@@ -409,12 +409,26 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     if(date.indexOf("Cancelled") > -1){
       date = date.split(" ")[0];
     }
-      return dmy(date);
+    return dmy(date);
   },
   "date-eu-asc": function ( a, b ) {
       return ((a < b) ? -1 : ((a > b) ? 1 : 0));
   },
   "date-eu-desc": function ( a, b ) {
+      return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+  }
+});
+//Custom date order for declaration period in dataTables
+var dmyDash = d3.timeParse("%d-%m-%Y");
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+  "date-range-pre": function (date) {
+    var iniDate = date.split(" /")[0];
+    return dmyDash(iniDate);
+  },
+  "date-range-asc": function ( a, b ) {
+      return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+  },
+  "date-range-desc": function ( a, b ) {
       return ((a < b) ? 1 : ((a > b) ? -1 : 0));
   }
 });
@@ -976,7 +990,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "orderable": true,
           "targets": 3,
           "defaultContent":"N/A",
-          "type":"date-eu",
+          "type":"date-range",
           "data": function(d) {
             //return d.publicationCourante.publicationDate;
             return d.dateDebut + ' / ' + d.dateFin;
