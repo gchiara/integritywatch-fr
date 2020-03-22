@@ -57,6 +57,10 @@ var vuedata = {
       title: 'Nombre de clients et mandants pour lesquels des activités ont été effectuées',
       info: ''
     },
+    years: {
+      title: 'Nombre d\'activités par période de déclaration',
+      info: ''
+    },
     category: {
       title: 'Nombre d’organisations de lobbying par catégorie',
       info: ''
@@ -205,6 +209,11 @@ var charts = {
     chart: dc.pieChart("#clients_chart"),
     type: 'pie',
     divId: 'clients_chart'
+  },
+  years: {
+    chart: dc.barChart("#years_chart"),
+    type: 'bar',
+    divId: 'years_chart'
   },
   category: {
     chart: dc.rowChart("#category_chart"),
@@ -418,6 +427,9 @@ function getClientsRange(n) {
     d.latestPub = d.exercices[0].publicationCourante;
     var latestPubFound = false;
     d.totalActivitiesNum = 0;
+    //Store activities num per year
+    d.actYears = {};
+    d.actYearsArray = [];
     //Get latest filled publicationCourante publicationDate and add up all activities
     for (var i = 0; i < d.exercices.length; i++) {
       if (d.exercices[i].publicationCourante.publicationDate && latestPubFound == false){
@@ -428,6 +440,19 @@ function getClientsRange(n) {
       if(d.exercices[i].publicationCourante.nombreActivite) {
         d.totalActivitiesNum += d.exercices[i].publicationCourante.nombreActivite;
       }
+      if(d.exercices[i].publicationCourante.dateDebut) {
+        var thisYear = d.exercices[i].publicationCourante.dateDebut.split("-")[2];
+        var thisActAmt = d.exercices[i].publicationCourante.nombreActivite;
+        if(d.actYears[thisYear]) {
+          d.actYears[thisYear] += thisActAmt;
+        } else {
+          d.actYears[thisYear] = thisActAmt;
+        }
+        for (var n = 0; n < thisActAmt; n++) {
+          d.actYearsArray.push(thisYear);
+        }
+      }
+      //console.log(d.actYears);
     }
     //Get activities sectors list
     d.sectors = [];
@@ -755,6 +780,32 @@ function getClientsRange(n) {
       chart.render();
   }
 
+  //CHART 8
+  var createYearsChart = function() {
+    var chart = charts.years.chart;
+    var dimension = ndx.dimension(function (d) {
+        return d.actYearsArray;
+    }, true);
+    var group = dimension.group().reduceSum(function (d) {
+        return 1;
+    });
+    var width = recalcWidth(charts.years.divId);
+    chart
+      .width(width)
+      .height(300)
+      .group(group)
+      .dimension(dimension)
+      .on("preRender",(function(chart,filter){
+      }))
+      .margins({top: 0, right: 10, bottom: 20, left: 20})
+      .x(d3.scaleBand().domain(["2017", "2018", "2019"]))
+      .xUnits(dc.units.ordinal)
+      .gap(10)
+      .elasticY(true)
+      .ordinalColors(vuedata.colors.default)
+    chart.render();
+  }
+
   //TABLE
   var createTable = function() {
     var count=0;
@@ -953,6 +1004,7 @@ function getClientsRange(n) {
   createLobbyistsNumChart();
   createClientsNumChart();
   createCategoryChart();
+  createYearsChart();
 
   $('.dataTables_wrapper').append($('.dataTables_length'));
 

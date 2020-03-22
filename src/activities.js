@@ -34,7 +34,7 @@ var vuedata = {
   organizations: {},
   charts: {
     repPublique: {
-      title: 'Nombre d\'activités par type de responsable public visé',
+      title: 'Nombre d\'activités par types de responsables public visés',
       info: ''
     },
     topReps: {
@@ -46,7 +46,7 @@ var vuedata = {
       info: ''
     },
     orgsCats: {
-      title: 'Nombre d’activités par catégories de lobbyiste',
+      title: 'Nombre d’activités par catégories de lobbyistes',
       info: ''
     },
     repCat: {
@@ -66,7 +66,7 @@ var vuedata = {
       info: ''
     },
     periode: {
-      title: 'Nombre d’activités par période de déclaration:',
+      title: 'Nombre d’activités par période de déclaration',
       info: ''
     },
     actions: {
@@ -809,7 +809,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       .on("preRender",(function(chart,filter){
       }))
       .margins({top: 0, right: 10, bottom: 20, left: 20})
-      .x(d3.scaleBand().domain(["N/A", "2017", "2018", "2019"]))
+      .x(d3.scaleBand().domain(["2017", "2018", "2019"]))
       .xUnits(dc.units.ordinal)
       .gap(10)
       .elasticY(true)

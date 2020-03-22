@@ -39,7 +39,7 @@ var vuedata = {
       info: 'Nombre de parlementaires par département, à l’exception de l’Île-de-France et des DOM-TOM (nombres totaux). Cliquez sur le département qui vous intéresse pour voir le nombre de parlementaires concernés.'
     },
     party: {
-      title: 'PARTI POLITIQUE',
+      title: 'PARTIS POLITIQUES',
       info: 'Répartition des parlementaires en fonction de leur appartenance politique. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     activities: {
@@ -126,8 +126,34 @@ new Vue({
   methods: {
     //Share
     downloadDataset: function () {
-      console.log('download');
-      window.open('./data/list-final-130120.csv');
+      var datatable = charts.mainTable.chart;
+      var filteredData = datatable.DataTable().rows( { filter : 'applied'} ).data();
+      var entries = [["Nom","Département","Fonction","Parti politique de rattachement","Groupe parlementaire de rattachement","Activités annexes conservées","Détention de participations financières","Activités annexes des collaborateurs","Nombre de déclarations déposées","Date de dépôt de la dernière déclaration"]];
+      _.each(filteredData, function (d) {
+        var entry = [
+          '"' + d.tableInfo.name + '"',
+          d.tableInfo.department,
+          '"' + d.tableInfo.function + '"',
+          '"' + d.tableInfo.party + '"',
+          '"' + d.tableInfo.group + '"',
+          d.tableInfo.activities,
+          d.tableInfo.participations,
+          d.tableInfo.collabActivities,
+          d.tableInfo.declarationsNumber,
+          d.tableInfo.declatationDate];
+        entries.push(entry);
+      });
+      var csvContent = "data:text/csv;charset=utf-8,";
+      entries.forEach(function(rowArray) {
+        var row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "IW_FR_responsables_publics_filtered.csv");
+      document.body.appendChild(link);
+      link.click(); 
       return;
     },
     share: function (platform) {
@@ -892,6 +918,39 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
               totact += parseInt(d.activities);
               totrev += parseFloat(d.revenue_n);
 
+              //Parse data for table display
+              d.tableInfo = {
+                name: "",
+                department: d.departement_n,
+                function: d.mandat,
+                party: d.parti,
+                group: d.parti_group,
+                activities: "",
+                participations: "",
+                collabActivities: "",
+                declarationsNumber: "",
+                declatationDate: ""
+              }
+              if (d.name) {
+                var name1 = d.name.substr(0,d.name.indexOf(' '));
+                name1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
+                var name2 = d.name.substr(d.name.indexOf(' ')+1);
+                d.tableInfo.name = name2.toUpperCase() + ' ' + name1;
+              }
+              if (d.convertedFromCSV) {
+                d.tableInfo.participations = "Pas de données open data disponibles";
+              } else { 
+                d.tableInfo.activities = d.activities; 
+                d.tableInfo.participations = d.partsoc;
+                d.tableInfo.collabActivities = d.collabNum;
+              }
+              if(d.listInfo) {
+                d.tableInfo.declarationsNumber = d.listInfo.declarations_num;
+              }
+              if(d.dateDepot){
+                d.tableInfo.declatationDate = d.dateDepot.split(' ')[0];
+              }
+
             });
 
             //Set dc main vars
@@ -1185,12 +1244,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 1,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      if (d.name) {
-                        var name1 = d.name.substr(0,d.name.indexOf(' '));
-                        name1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
-                        var name2 = d.name.substr(d.name.indexOf(' ')+1);
-                        return name2.toUpperCase() + ' ' + name1;
-                      }
+                      return d.tableInfo.name;
                     }
                   },
                   {
@@ -1199,7 +1253,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 2,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      return d.departement_n;
+                      return d.tableInfo.department;
                     }
                   },
                   {
@@ -1208,7 +1262,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 3,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      return d.mandat;
+                      return d.tableInfo.function;
                     }
                   },
                   {
@@ -1217,7 +1271,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 4,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      return d.parti;
+                      return d.tableInfo.party;
                     }
                   },
                   {
@@ -1226,7 +1280,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 5,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      return d.parti_group;
+                      return d.tableInfo.group;
                     }
                   },
                   {
@@ -1235,11 +1289,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 6,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      if (d.convertedFromCSV) {
-                        return "";
-                      } else {
-                        return d.activities;
-                      }
+                      return d.tableInfo.activities;
                     }
                   },
                   {
@@ -1248,11 +1298,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 7,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      if (d.convertedFromCSV) {
-                        return "Pas de données open data disponibles";
-                      } else {
-                        return d.partsoc;
-                      }
+                      return d.tableInfo.participations;
                     }
                   },
                   {
@@ -1261,11 +1307,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 8,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      if (d.convertedFromCSV) {
-                        return "";
-                      } else {
-                        return d.collabNum;
-                      }
+                      return d.tableInfo.collabActivities;
                     }
                   },
                   {
@@ -1274,10 +1316,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 9,
                     "defaultContent":"N/A",
                     "data": function(d) {
-                      if(d.listInfo) {
-                        return d.listInfo.declarations_num;
-                      }
-                      return "";
+                      return d.tableInfo.declarationsNumber;
                     }
                   },
                   {
@@ -1287,11 +1326,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "defaultContent":"N/A",
                     "type":"date-eu",
                     "data": function(d) {
-                      if(d.dateDepot){
-                        return d.dateDepot.split(' ')[0];
-                      } else {
-                        return '';
-                      }
+                      return d.tableInfo.declatationDate;
                     }
                   }
                 ],

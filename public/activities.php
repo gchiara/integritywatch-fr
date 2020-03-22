@@ -175,7 +175,7 @@
                       <span v-if="selectedElement.decisions && selectedElement.decisions.length > 0">{{ selectedElement.decisions.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
-                    <div class="details-line"><span class="details-line-title">Domaines d'intervention field :</span>
+                    <div class="details-line"><span class="details-line-title">Domaines d'intervention :</span>
                       <span v-if="selectedElement.publicationCourante && selectedElement.publicationCourante.domainesIntervention && selectedElement.publicationCourante.domainesIntervention.length > 0">{{ selectedElement.publicationCourante.domainesIntervention.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>

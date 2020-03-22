@@ -46769,7 +46769,7 @@ var vuedata = {
   organizations: {},
   charts: {
     repPublique: {
-      title: 'Nombre d\'activités par type de responsable public visé',
+      title: 'Nombre d\'activités par types de responsables public visés',
       info: ''
     },
     topReps: {
@@ -46781,7 +46781,7 @@ var vuedata = {
       info: ''
     },
     orgsCats: {
-      title: 'Nombre d’activités par catégories de lobbyiste',
+      title: 'Nombre d’activités par catégories de lobbyistes',
       info: ''
     },
     repCat: {
@@ -46801,7 +46801,7 @@ var vuedata = {
       info: ''
     },
     periode: {
-      title: 'Nombre d’activités par période de déclaration:',
+      title: 'Nombre d’activités par période de déclaration',
       info: ''
     },
     actions: {
@@ -47502,7 +47502,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
       right: 10,
       bottom: 20,
       left: 20
-    }).x(d3.scaleBand().domain(["N/A", "2017", "2018", "2019"])).xUnits(dc.units.ordinal).gap(10).elasticY(true).ordinalColors(vuedata.colors.default);
+    }).x(d3.scaleBand().domain(["2017", "2018", "2019"])).xUnits(dc.units.ordinal).gap(10).elasticY(true).ordinalColors(vuedata.colors.default);
     chart.render();
   }; //CHART 10
 
@@ -47893,7 +47893,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60617" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

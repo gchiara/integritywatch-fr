@@ -46774,7 +46774,7 @@ var vuedata = {
       info: 'Nombre de parlementaires par département, à l’exception de l’Île-de-France et des DOM-TOM (nombres totaux). Cliquez sur le département qui vous intéresse pour voir le nombre de parlementaires concernés.'
     },
     party: {
-      title: 'PARTI POLITIQUE',
+      title: 'PARTIS POLITIQUES',
       info: 'Répartition des parlementaires en fonction de leur appartenance politique. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     activities: {
@@ -46862,8 +46862,28 @@ new _vue.default({
   methods: {
     //Share
     downloadDataset: function downloadDataset() {
-      console.log('download');
-      window.open('./data/list-final-130120.csv');
+      var datatable = charts.mainTable.chart;
+      var filteredData = datatable.DataTable().rows({
+        filter: 'applied'
+      }).data();
+      var entries = [["Nom", "Département", "Fonction", "Parti politique de rattachement", "Groupe parlementaire de rattachement", "Activités annexes conservées", "Détention de participations financières", "Activités annexes des collaborateurs", "Nombre de déclarations déposées", "Date de dépôt de la dernière déclaration"]];
+
+      _.each(filteredData, function (d) {
+        var entry = ['"' + d.tableInfo.name + '"', d.tableInfo.department, '"' + d.tableInfo.function + '"', '"' + d.tableInfo.party + '"', '"' + d.tableInfo.group + '"', d.tableInfo.activities, d.tableInfo.participations, d.tableInfo.collabActivities, d.tableInfo.declarationsNumber, d.tableInfo.declatationDate];
+        entries.push(entry);
+      });
+
+      var csvContent = "data:text/csv;charset=utf-8,";
+      entries.forEach(function (rowArray) {
+        var row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "IW_FR_responsables_publics_filtered.csv");
+      document.body.appendChild(link);
+      link.click();
       return;
     },
     share: function share(platform) {
@@ -47702,7 +47722,43 @@ for (var i = 0; i < 5; i++) {
 
             totpeople++;
             totact += parseInt(d.activities);
-            totrev += parseFloat(d.revenue_n);
+            totrev += parseFloat(d.revenue_n); //Parse data for table display
+
+            d.tableInfo = {
+              name: "",
+              department: d.departement_n,
+              function: d.mandat,
+              party: d.parti,
+              group: d.parti_group,
+              activities: "",
+              participations: "",
+              collabActivities: "",
+              declarationsNumber: "",
+              declatationDate: ""
+            };
+
+            if (d.name) {
+              var name1 = d.name.substr(0, d.name.indexOf(' '));
+              name1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
+              var name2 = d.name.substr(d.name.indexOf(' ') + 1);
+              d.tableInfo.name = name2.toUpperCase() + ' ' + name1;
+            }
+
+            if (d.convertedFromCSV) {
+              d.tableInfo.participations = "Pas de données open data disponibles";
+            } else {
+              d.tableInfo.activities = d.activities;
+              d.tableInfo.participations = d.partsoc;
+              d.tableInfo.collabActivities = d.collabNum;
+            }
+
+            if (d.listInfo) {
+              d.tableInfo.declarationsNumber = d.listInfo.declarations_num;
+            }
+
+            if (d.dateDepot) {
+              d.tableInfo.declatationDate = d.dateDepot.split(' ')[0];
+            }
           }); //Set dc main vars
 
 
@@ -47969,12 +48025,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 1,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  if (d.name) {
-                    var name1 = d.name.substr(0, d.name.indexOf(' '));
-                    name1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
-                    var name2 = d.name.substr(d.name.indexOf(' ') + 1);
-                    return name2.toUpperCase() + ' ' + name1;
-                  }
+                  return d.tableInfo.name;
                 }
               }, {
                 "searchable": false,
@@ -47982,7 +48033,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 2,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  return d.departement_n;
+                  return d.tableInfo.department;
                 }
               }, {
                 "searchable": false,
@@ -47990,7 +48041,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 3,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  return d.mandat;
+                  return d.tableInfo.function;
                 }
               }, {
                 "searchable": false,
@@ -47998,7 +48049,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 4,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  return d.parti;
+                  return d.tableInfo.party;
                 }
               }, {
                 "searchable": false,
@@ -48006,7 +48057,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 5,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  return d.parti_group;
+                  return d.tableInfo.group;
                 }
               }, {
                 "searchable": false,
@@ -48014,11 +48065,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 6,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  if (d.convertedFromCSV) {
-                    return "";
-                  } else {
-                    return d.activities;
-                  }
+                  return d.tableInfo.activities;
                 }
               }, {
                 "searchable": false,
@@ -48026,11 +48073,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 7,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  if (d.convertedFromCSV) {
-                    return "Pas de données open data disponibles";
-                  } else {
-                    return d.partsoc;
-                  }
+                  return d.tableInfo.participations;
                 }
               }, {
                 "searchable": false,
@@ -48038,11 +48081,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 8,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  if (d.convertedFromCSV) {
-                    return "";
-                  } else {
-                    return d.collabNum;
-                  }
+                  return d.tableInfo.collabActivities;
                 }
               }, {
                 "searchable": false,
@@ -48050,11 +48089,7 @@ for (var i = 0; i < 5; i++) {
                 "targets": 9,
                 "defaultContent": "N/A",
                 "data": function data(d) {
-                  if (d.listInfo) {
-                    return d.listInfo.declarations_num;
-                  }
-
-                  return "";
+                  return d.tableInfo.declarationsNumber;
                 }
               }, {
                 "searchable": false,
@@ -48063,11 +48098,7 @@ for (var i = 0; i < 5; i++) {
                 "defaultContent": "N/A",
                 "type": "date-eu",
                 "data": function data(d) {
-                  if (d.dateDepot) {
-                    return d.dateDepot.split(' ')[0];
-                  } else {
-                    return '';
-                  }
+                  return d.tableInfo.declatationDate;
                 }
               }],
               "iDisplayLength": 25,
@@ -48270,7 +48301,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57794" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60617" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

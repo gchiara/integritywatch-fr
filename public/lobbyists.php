@@ -24,7 +24,7 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Lobbyistes</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des organisations inscrites sur le registre des représentants de la haute-autorité pour la Transparency dans la vie publique (HATVP).</p> 
+                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des organisations inscrites sur le registre des représentants de la Haute-autorité pour la Transparence dans la Vie Publique (HATVP).</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
@@ -66,6 +66,10 @@
             <div class="boxed-container chart-container tabB_6">
               <chart-header :title="charts.clients.title" :info="charts.clients.info" :customclass="'smaller'" ></chart-header>
               <div class="chart-inner" id="clients_chart"></div>
+            </div>
+            <div class="boxed-container chart-container tabB_6b">
+              <chart-header :title="charts.years.title" :info="charts.years.info" :customclass="'smaller'" ></chart-header>
+              <div class="chart-inner" id="years_chart"></div>
             </div> 
           </div>
           <div class="col-md-4 chart-col">
