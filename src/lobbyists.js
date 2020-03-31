@@ -46,7 +46,7 @@ var vuedata = {
       info: ''
     },
     sectors: {
-      title: 'Secteurs d’activités',
+      title: 'Secteurs d\'activité',
       info: ''
     },
     lobbyists: {
@@ -153,6 +153,35 @@ new Vue({
   el: '#app',
   data: vuedata,
   methods: {
+    downloadDataset: function () {
+      var datatable = charts.mainTable.chart;
+      var filteredData = datatable.DataTable().rows( { filter : 'applied'} ).data();
+      var entries = [["Nom de l’organisation", "Catégorie", "Nombre d'activités déclarées", "Nombre de personnes dédiées à la représentation d’intérêt", "Nombre de secteurs d'activité", "Nombre de clients ou mandants", "Nombre d’organisations d’appartenance", "Déclaration à jour ?"]];
+      _.each(filteredData, function (d) {
+        var entry = [
+          '"' + d.tableInfo.name + '"',
+          '"' + d.tableInfo.category + '"',
+          d.tableInfo.num_activities,
+          d.tableInfo.num_people,
+          d.tableInfo.num_sectors,
+          d.tableInfo.num_clients,
+          d.tableInfo.num_orgs,
+          d.tableInfo.ajour];
+        entries.push(entry);
+      });
+      var csvContent = "data:text/csv;charset=utf-8,";
+      entries.forEach(function(rowArray) {
+        var row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "IW_FR_lobbyists_filtered.csv");
+      document.body.appendChild(link);
+      link.click(); 
+      return;
+    },
     //Share
     share: function (platform) {
       if(platform == 'twitter'){
@@ -471,6 +500,28 @@ function getClientsRange(n) {
     d.montantDepenseStreamlined = "Déclaration à venir";
     if(d.latestPub.montantDepense) {
       d.montantDepenseStreamlined = vuedata.categories.depenses[d.latestPub.montantDepense];
+    }
+    //Parse data for table display
+    //"Nom de l’organisation", "Catégorie", "Nombre d'activités déclarées", "Nombre de personnes dédiées à la représentation d’intérêt",
+    //"Nombre de secteurs d'activité", "Nombre de clients ou mandants", "Nombre d’organisations d’appartenance", "Déclaration à jour ?"
+    d.tableInfo = {
+      name: d.denomination,
+      category: d.categorieOrganisation.label,
+      num_activities: d.totalActivitiesNum,
+      num_people: d.collabNum,
+      num_sectors: "/",
+      num_clients: d.clientsNum,
+      num_orgs: d.affiliations.length,
+      ajour: "OUI",
+    }
+    if(d.nomUsage) {
+      d.tableInfo.name = d.nomUsage;
+    }
+    if(d.activites) {
+      d.tableInfo.num_sectors = d.activites.listSecteursActivites.length;
+    }
+    if(d.latestPub.defautDeclaration == true) {
+      d.tableInfo.ajour = "NON";
     }
   });
 
@@ -817,11 +868,7 @@ function getClientsRange(n) {
           "targets": 0,
           "defaultContent":"N/A",
           "data": function(d) {
-            if(d.nomUsage) {
-              return d.nomUsage;
-            } else {
-              return d.denomination;
-            }
+            return d.tableInfo.name;
           }
         },
         {
@@ -830,7 +877,7 @@ function getClientsRange(n) {
           "targets": 1,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.categorieOrganisation.label;
+            return d.tableInfo.category;
           }
         },
         {
@@ -839,7 +886,7 @@ function getClientsRange(n) {
           "targets": 2,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.totalActivitiesNum;
+            return d.tableInfo.num_activities;
           }
         },
         {
@@ -848,7 +895,7 @@ function getClientsRange(n) {
           "targets": 3,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.collabNum;
+            return d.tableInfo.num_people;
           }
         },
         {
@@ -857,10 +904,7 @@ function getClientsRange(n) {
           "targets": 4,
           "defaultContent":"N/A",
           "data": function(d) {
-            if(d.activites) {
-              return d.activites.listSecteursActivites.length;
-            }
-            return "/";
+            return d.tableInfo.num_sectors;
           }
         },
         {
@@ -869,7 +913,7 @@ function getClientsRange(n) {
           "targets": 5,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.clientsNum;
+            return d.tableInfo.num_clients;
           }
         },
         {
@@ -878,7 +922,7 @@ function getClientsRange(n) {
           "targets": 6,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.affiliations.length;
+            return d.tableInfo.num_orgs;
           }
         },
         {
@@ -887,11 +931,7 @@ function getClientsRange(n) {
           "targets": 7,
           "defaultContent":"N/A",
           "data": function(d) {
-            if(d.latestPub.defautDeclaration == true) {
-              return "NON";
-            } else {
-              return "OUI";
-            }
+            return d.tableInfo.ajour;
           }
         }
       ],

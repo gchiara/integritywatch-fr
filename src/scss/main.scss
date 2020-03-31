@@ -319,6 +319,9 @@ $color_lobby: #42b983;
       background: rgb(206, 74, 88);
       outline: none;
     }
+    @media only screen and (min-width: 1024px) {
+      right: 170px;
+    }
     @media only screen and (max-width: 767px) {
       //right: auto;
       //left: 30px;
@@ -688,11 +691,6 @@ table.dataTable tbody tr:hover {
 }
 
 .tabA-page {
-  .reset-btn {
-    @media only screen and (min-width: 1024px) {
-      right: 170px;
-    }
-  }
   .download-data-btn {
     @media only screen and (max-width: 1024px) {
       display: none;

@@ -137,7 +137,7 @@
                       <th class="header">Nom de l’organisation</th>
                       <th class="header">Catégorie(s)</th> 
                       <th class="header">Période de déclaration</th>
-                      <th class="header">Responsable (s) public visé</th> 
+                      <th class="header">Responsable(s) public(s) visé(s)</th> 
                       <th class="header">Domaines d'intervention</th>
                       <th class="header">Case facultative remplie ?</th> 
                       <th class="header">Activité effectué pour tiers?</th> 
@@ -167,7 +167,7 @@
                 <div class="row">
                   <div class="col-md-6 details-left">
                     <div class="details-title details-title-left">POUVOIRS PUBLICS</div>
-                    <div class="details-line"><span class="details-line-title">Responsable (s) public (s) visés :</span> 
+                    <div class="details-line"><span class="details-line-title">Responsable(s) public(s) visé(s) :</span> 
                       <span v-if="selectedElement.repType && selectedElement.repType.length > 0">{{ selectedElement.repType.join(', ') }}</span>
                       <span v-else> / </span>
                     </div>
@@ -183,7 +183,7 @@
                   <div class="col-md-6 details-right">
                     <div class="details-title details-title-right">LOBBYISTE</div>
                     <div class="details-line"><span class="details-line-title">Nom de l’organisation :</span> {{ selectedElement.orgName }}</div>
-                    <div class="details-line"><span class="details-line-title">Categorie :</span> {{ selectedElement.catOrg }}</div>
+                    <div class="details-line"><span class="details-line-title">Catégorie :</span> {{ selectedElement.catOrg }}</div>
                     <div class="details-line"><span class="details-line-title">Nombre d'activités déclarées :</span> {{ selectedElement.actNum }}</div>
                     <div class="details-line"><span class="details-line-title">Montant des dépenses :</span><br /><span v-html="selectedElement.amount"></span></div>
                     <div class="details-line"><span class="details-line-title">Chiffre d’affaires :</span><br /><span v-html="selectedElement.chiffre"></span></div>
@@ -239,6 +239,7 @@
         <button class="reset-btn"><i class="material-icons">settings_backup_restore</i></button>
         <div class="footer-buttons-right">
           <!-- <button><i class="material-icons">cloud_download</i></button> -->
+          <button class="download-data-btn" @click="downloadDataset"><i class="material-icons">cloud_download</i></button>
           <button class="btn-twitter" @click="share('twitter')"><img src="./images/twitter.png" /></button>
           <button class="btn-fb" @click="share('facebook')"><img src="./images/facebook.png" /></button>
         </div>

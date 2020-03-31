@@ -583,6 +583,11 @@ div.dc-html-legend {
   background: #ce4a58;
   outline: none;
 }
+@media only screen and (min-width: 1024px) {
+  .footer-bar .reset-btn {
+    right: 170px;
+  }
+}
 @media only screen and (max-width: 767px) {
   .footer-bar .reset-btn .reset-btn-text {
     display: none;
@@ -941,11 +946,6 @@ table.dataTable tbody tr:hover {
   background: #2a7aae;
 }
 
-@media only screen and (min-width: 1024px) {
-  .tabA-page .reset-btn {
-    right: 170px;
-  }
-}
 @media only screen and (max-width: 1024px) {
   .tabA-page .download-data-btn {
     display: none;

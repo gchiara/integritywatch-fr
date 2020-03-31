@@ -88,9 +88,9 @@
                     <tr class="header">
                       <th class="header">Nom de l’organisation</th>
                       <th class="header">Catégorie</th>
-                      <th class="header">Nombre d’activitées déclarées</th>
+                      <th class="header">Nombre d'activités déclarées</th>
                       <th class="header">Nombre de personnes dédiées à la représentation d’intérêt</th>
-                      <th class="header">Nombre de secteurs d’activités</th>
+                      <th class="header">Nombre de secteurs d'activité</th>
                       <th class="header">Nombre de clients ou mandants</th>
                       <th class="header">Nombre d’organisations d’appartenance</th>
                       <th class="header">Déclaration à jour ?</th>
@@ -121,7 +121,7 @@
                   <div class="col-md-12">
                     <div class="details-line" v-if="selectedElement.categorieOrganisation"><span class="details-line-title">Catégorie : </span> {{ selectedElement.categorieOrganisation.label }}</div>
                     <div class="details-line" v-else><span class="details-line-title">Catégorie : </span> /</div>
-                    <div class="details-line"><span class="details-line-title">Secteurs d’activités déclarés : </span>
+                    <div class="details-line"><span class="details-line-title">Secteurs d'activité déclarés : </span>
                       <ul>
                         <li v-for="s in selectedElement.sectors">
                           {{ s }}
@@ -192,6 +192,7 @@
         <button class="reset-btn"><i class="material-icons">settings_backup_restore</i></button>
         <div class="footer-buttons-right">
           <!-- <button><i class="material-icons">cloud_download</i></button> -->
+          <button class="download-data-btn" @click="downloadDataset"><i class="material-icons">cloud_download</i></button>
           <button class="btn-twitter" @click="share('twitter')"><img src="./images/twitter.png" /></button>
           <button class="btn-fb" @click="share('facebook')"><img src="./images/facebook.png" /></button>
         </div>

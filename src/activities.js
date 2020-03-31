@@ -34,11 +34,11 @@ var vuedata = {
   organizations: {},
   charts: {
     repPublique: {
-      title: 'Nombre d\'activités par types de responsables public visés',
+      title: 'Nombre d\'activités par types de Responsable(s) public(s) visé(s) :',
       info: ''
     },
     topReps: {
-      title: 'Top 10 des responsables publics visés',
+      title: 'Top 10 des Responsable(s) public(s) visé(s) :',
       info: ''
     },
     topOrgs: {
@@ -46,7 +46,7 @@ var vuedata = {
       info: ''
     },
     orgsCats: {
-      title: 'Nombre d’activités par catégories de lobbyistes',
+      title: 'Nombre d’activités par catégorie de lobbyistes',
       info: ''
     },
     repCat: {
@@ -177,6 +177,34 @@ new Vue({
   el: '#app',
   data: vuedata,
   methods: {
+    downloadDataset: function () {
+      var datatable = charts.mainTable.chart;
+      var filteredData = datatable.DataTable().rows( { filter : 'applied'} ).data();
+      var entries = [["Objet","Nom de l’organisation","Catégorie(s)","Période de déclaration","Responsable(s) public(s) visé(s)","Domaines d'intervention","Case facultative remplie?","Activité effectué pour tiers?",]];
+      _.each(filteredData, function (d) {
+        var entry = [
+          '"' + d.tableInfo.object + '"',
+          '"' + d.tableInfo.org_name + '"',
+          '"' + d.tableInfo.dec_period + '"',
+          '"' + d.tableInfo.public_rep + '"',
+          '"' + d.tableInfo.domains + '"',
+          '"' + d.tableInfo.case_remplie + '"',
+          '"' + d.tableInfo.act_tiers + '"'];
+        entries.push(entry);
+      });
+      var csvContent = "data:text/csv;charset=utf-8,";
+      entries.forEach(function(rowArray) {
+        var row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "IW_FR_activities_filtered.csv");
+      document.body.appendChild(link);
+      link.click(); 
+      return;
+    },
     //Share
     share: function (platform) {
       if(platform == 'twitter'){
@@ -449,6 +477,23 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
     //console.log(d.repTypeAgencies);
     //console.log(d.publicationCourante.domainesIntervention);
+    d.tableInfo = {
+      object: d.publicationCourante.objet,
+      org_name: d.orgName,
+      category: d.catOrg,
+      dec_period: d.dateDebut + ' / ' + d.dateFin,
+      public_rep: d.repType,
+      domains: "/",
+      case_remplie: d.observations,
+      act_tiers: d.tiers
+    }
+    if(d.org){
+      d.tableInfo.org_name = d.org;
+    }
+    if(d.publicationCourante && d.publicationCourante.domainesIntervention && d.publicationCourante.domainesIntervention.length > 0) {
+      d.tableInfo.domains = d.publicationCourante.domainesIntervention.join(', ');
+    }
+
   });
 
   //Set dc main vars
@@ -961,7 +1006,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 0,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.publicationCourante.objet;
+            return d.tableInfo.object;
           }
         },
         {
@@ -970,10 +1015,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 1,
           "defaultContent":"N/A",
           "data": function(d) {
-            if(d.org){
-              return d.org;
-            }
-            return d.orgName;
+            return d.tableInfo.org_name;
           }
         },
         {
@@ -982,7 +1024,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 2,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.catOrg;
+            return d.tableInfo.category;
           }
         },
         {
@@ -993,7 +1035,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "type":"date-range",
           "data": function(d) {
             //return d.publicationCourante.publicationDate;
-            return d.dateDebut + ' / ' + d.dateFin;
+            return d.tableInfo.dec_period;
           }
         },
         {
@@ -1002,7 +1044,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 4,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.repType;
+            return d.tableInfo.public_rep;
           }
         },
         {
@@ -1011,10 +1053,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 5,
           "defaultContent":"N/A",
           "data": function(d) {
-            if(d.publicationCourante && d.publicationCourante.domainesIntervention && d.publicationCourante.domainesIntervention.length > 0) {
-              return d.publicationCourante.domainesIntervention.join(', ');
-            }
-            return "/";
+            return d.tableInfo.domains;
           }
         },
         {
@@ -1023,7 +1062,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 6,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.observations;
+            return d.tableInfo.case_remplie;
           }
         },
         {
@@ -1032,7 +1071,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "targets": 7,
           "defaultContent":"N/A",
           "data": function(d) {
-            return d.tiers;
+            return d.tableInfo.act_tiers;
           }
         }
       ],
