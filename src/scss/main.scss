@@ -237,6 +237,9 @@ $color_lobby: #42b983;
     -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
+    @media only screen and (max-width: 500px) {
+      width: 100%;
+    }
     i {
       vertical-align: middle;
       position: absolute;
@@ -303,7 +306,7 @@ $color_lobby: #42b983;
   }
   .reset-btn {
     position: absolute;
-    right: 125px;
+    right: 170px;
     top: 50%;
     -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
@@ -322,9 +325,9 @@ $color_lobby: #42b983;
     @media only screen and (min-width: 1024px) {
       right: 170px;
     }
-    @media only screen and (max-width: 767px) {
-      //right: auto;
-      //left: 30px;
+    @media only screen and (max-width: 500px) {
+      right: 20px;
+      top: 40px;
     }
     .reset-btn-text {
       @media only screen and (max-width: 767px) {
@@ -346,6 +349,12 @@ $color_lobby: #42b983;
     -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
+    @media only screen and (max-width: 500px) {
+      position: relative;
+      width: 100%;
+      right: auto;
+      top: 10px;
+    }
     button {
       color: #fff;
       background: none;
@@ -783,6 +792,27 @@ table.dataTable tbody tr:hover {
   }
   .footer-bar .footer-counts .count-box {
     width: 180px;
+  }
+  .chart-table {
+    td, th {
+      &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7) {
+        @media only screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.tabC-page {
+  .chart-table {
+    td, th {
+      &:nth-child(3), &:nth-child(5), &:nth-child(6), &:nth-child(7), &:nth-child(8) {
+        @media only screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
   }
 }
 

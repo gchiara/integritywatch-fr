@@ -35,7 +35,7 @@ var vuedata = {
   charts: {
     repPublique: {
       title: 'Nombre d\'activités par types de Responsable(s) public(s) visé(s) :',
-      info: ''
+      info: 'Plusieurs responsables publics peuvent être visés par la même activité déclarée'
     },
     topReps: {
       title: 'Top 10 des Responsable(s) public(s) visé(s) :',
@@ -50,7 +50,7 @@ var vuedata = {
       info: ''
     },
     repCat: {
-      title: 'Lobbying ciblant le gouvernant : répartition des activités par portefeuilles ministériels',
+      title: 'Lobbying ciblant le gouvernement : répartition des activités par portefeuilles ministériels',
       info: ''
     },
     objet: {

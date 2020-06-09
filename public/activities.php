@@ -24,7 +24,7 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Activités de lobbying</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des activités de lobbying entreprises en France par les organisations enregistrés sur le registre des représentants d’intérêts de la Haute-Autorité pour la transparence dans la vie publique (HATVP).</p> 
+                  <p>Les activités de lobbying sont déclarées annuellement et peuvent regrouper plusieurs actions (communication, rencontre, correspondance régulière…) auprès de plusieurs interlocuteurs (cabinets ministériels, députés, sénateurs…). Les obligations déclaratives actuelles ne sont malheureusement ni exhaustives (les contacts à l'initiative des députés ne sont pas déclarés par exemple) ni suffisamment précises (décision publique visée, interlocuteurs visés, position promue...).</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>

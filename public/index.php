@@ -24,10 +24,10 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Responsables publics</h1>
-                  <p>Integrity Watch France est une base de données interactive qui offre un aperçu unique des intérêts et activités déclarés par les parlementaires. Cet outil doit permettre de mieux identifier les activités susceptibles de générer des conflits d’intérêts. 
-                  <br />Seules les activités exercées en parallèle du mandat de député ou de sénateur ont été prises en compte (mandats électifs, activités conservées, fonctions bénévoles). 
-                  <br />Simple d’utilisation, il suffit de cliquer sur les éléments des infographies pour filtrer, trier et classer les informations. Veillez à bien enlever les filtres en cas de recherches successives. 
-                  <br /><a href="./about.php?section=1">En savoir plus</a></p> 
+                  <p>Integrity Watch France est une base de données interactive qui offre un aperçu unique des intérêts et activités déclarés par les parlementaires. Cet outil doit permettre de mieux identifier les activités susceptibles de générer des conflits d’intérêts.</p>
+                  <p>Les parlementaires déclarent leurs activités annexes dans les deux mois suivant leur prise de fonction. Seules les activités exercées en parallèle du mandat de député ou de sénateur ont été prises en compte (mandats électifs, activités conservées, fonctions bénévoles).</p>
+                  <p>Simple d’utilisation, il suffit de cliquer sur les éléments des infographies pour filtrer, trier et classer les informations. Veillez à bien enlever les filtres en cas de recherches successives.</p>
+                  <a href="./about.php?section=1">En savoir plus</a></p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>

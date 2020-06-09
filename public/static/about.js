@@ -46669,11 +46669,11 @@ exports.default = _default;
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "chart-header row" }, [
-    _c("div", { class: ["chart-title", "col-9", _vm.customclass] }, [
+    _c("div", { class: ["chart-title", "col-10", _vm.customclass] }, [
       _vm._v(_vm._s(_vm.title))
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "chart-header-buttons col-3" }, [
+    _c("div", { staticClass: "chart-header-buttons col-2" }, [
       _vm.info
         ? _c(
             "button",
@@ -46820,7 +46820,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53855" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60983" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

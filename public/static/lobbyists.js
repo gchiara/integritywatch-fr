@@ -46664,11 +46664,11 @@ exports.default = _default;
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "chart-header row" }, [
-    _c("div", { class: ["chart-title", "col-9", _vm.customclass] }, [
+    _c("div", { class: ["chart-title", "col-10", _vm.customclass] }, [
       _vm._v(_vm._s(_vm.title))
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "chart-header-buttons col-3" }, [
+    _c("div", { staticClass: "chart-header-buttons col-2" }, [
       _vm.info
         ? _c(
             "button",
@@ -46770,23 +46770,23 @@ var vuedata = {
   charts: {
     activitiesNum: {
       title: 'Nombre d’activités déclarées',
-      info: ''
+      info: '<p>Trois types d’actions sont considérés comme des communications susceptibles de constituer des actions de représentation d’intérêts : une rencontre physique, quel que soit le contexte dans lequel elle se déroule ; une conversation téléphonique, par vidéo-conférence ou par l’intermédiaire d’un service de communication électronique ; l’envoi d’un courrier, d’un courrier électronique ou d’un message privé par l’intermédiaire d’un service de communication électronique. Il en va de même de l’interpellation directe et nominative d’un responsable public sur un réseau social.</p><p>Lorsque ces actions sont effectuées de manière répétée sur un court laps de temps, pour un même objet et auprès d’une même catégorie de responsables publics, elles constituent une unique communication.</p>'
     },
     chiffreAffaire: {
       title: 'Chiffre d’affaires',
-      info: ''
+      info: 'Répartition des représentants d\'intérêts selon le niveau de chiffre d\'affaires de leur organisme d\'appartenance.'
     },
     montantDepense: {
       title: 'Montant des dépenses',
-      info: ''
+      info: 'Montant de l’ensemble des moyens humains, matériels et financiers mobilisés pour mener les activités de représentation d’intérêts, tels que les rémunérations des personnes chargées des activités de représentation d\'intérêt, les frais liés à l\'organisation d\'évènements, les frais d\'expertise, les achats de prestation de conseil, les cotisations à des organisations professionnelles...'
     },
     sectors: {
       title: 'Secteurs d\'activité',
-      info: ''
+      info: 'Plusieurs activités peuvent être choisies par le même représentant d\'intérêts'
     },
     lobbyists: {
       title: 'Nombre de lobbyistes par organisation',
-      info: ''
+      info: 'Les personnes employées dans le cadre des activités de représentation d\'intérêt sont déclarées si elles exercent cette activité de manière principale (plus de 50 % du temps) et régulière (plus de 10 actions de représentation dans l\'année). Ainsi, un représentant d’intérêts qui a deux salariés remplissant ces conditions et trois autres salariés qui participent aux activités de représentation d’intérêts sans atteindre les seuils fixés ne mentionnera que deux personnes dans sa déclaration annuelle.'
     },
     clients: {
       title: 'Nombre de clients et mandants pour lesquels des activités ont été effectuées',
@@ -47816,7 +47816,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53855" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60983" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

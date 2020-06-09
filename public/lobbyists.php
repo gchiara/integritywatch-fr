@@ -24,7 +24,7 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Lobbyistes</h1>
-                  <p>Integrity Watch France est une base de données interactive sur le lobbying qui offre un aperçu unique des organisations inscrites sur le registre des représentants de la Haute-autorité pour la Transparence dans la Vie Publique (HATVP).</p> 
+                  <p>Les lobbyistes se déclarent annuellement à la Haute Autorité pour la Transparence de la Vie Publique (HATVP) s'ils exercent une activité principale et régulière de lobbying, une limitation qui restreint le champ de déclaration. L'obligation de s'enregistrer et les données devant être déclarées répondent à des règles complexes et doivent nous conduire à ce stade à une certaine prudence dans l'analyse des données.</p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>

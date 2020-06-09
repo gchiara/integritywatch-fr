@@ -497,6 +497,11 @@ div.dc-html-legend {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+@media only screen and (max-width: 500px) {
+  .footer-bar .footer-input {
+    width: 100%;
+  }
+}
 .footer-bar .footer-input i {
   vertical-align: middle;
   position: absolute;
@@ -566,7 +571,7 @@ div.dc-html-legend {
 }
 .footer-bar .reset-btn {
   position: absolute;
-  right: 125px;
+  right: 170px;
   top: 50%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -586,6 +591,12 @@ div.dc-html-legend {
 @media only screen and (min-width: 1024px) {
   .footer-bar .reset-btn {
     right: 170px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .footer-bar .reset-btn {
+    right: 20px;
+    top: 40px;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -609,6 +620,14 @@ div.dc-html-legend {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+@media only screen and (max-width: 500px) {
+  .footer-bar .footer-buttons-right {
+    position: relative;
+    width: 100%;
+    right: auto;
+    top: 10px;
+  }
 }
 .footer-bar .footer-buttons-right button {
   color: #fff;
@@ -1024,6 +1043,17 @@ table.dataTable tbody tr:hover {
 .tabB-page .footer-bar .footer-counts .count-box {
   width: 180px;
 }
+@media only screen and (max-width: 768px) {
+  .tabB-page .chart-table td:nth-child(4), .tabB-page .chart-table td:nth-child(5), .tabB-page .chart-table td:nth-child(6), .tabB-page .chart-table td:nth-child(7), .tabB-page .chart-table th:nth-child(4), .tabB-page .chart-table th:nth-child(5), .tabB-page .chart-table th:nth-child(6), .tabB-page .chart-table th:nth-child(7) {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .tabC-page .chart-table td:nth-child(3), .tabC-page .chart-table td:nth-child(5), .tabC-page .chart-table td:nth-child(6), .tabC-page .chart-table td:nth-child(7), .tabC-page .chart-table td:nth-child(8), .tabC-page .chart-table th:nth-child(3), .tabC-page .chart-table th:nth-child(5), .tabC-page .chart-table th:nth-child(6), .tabC-page .chart-table th:nth-child(7), .tabC-page .chart-table th:nth-child(8) {
+    display: none;
+  }
+}
 
 .table-info-cell {
   padding-right: 60px !important;
@@ -1213,7 +1243,7 @@ table.dataTable tbody tr:hover {
   color: #205d85;
 }
 .chart-header .chart-title.smaller[data-v-8e8799] {
-  font-size: 18px;
+  font-size: 17px;
 }
 @media only screen and (max-width: 1400px) {
 .chart-header .chart-title[data-v-8e8799] {
