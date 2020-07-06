@@ -35,20 +35,20 @@ var vuedata = {
   organizations: {},
   charts: {
     map: {
-      title: 'DEPARTEMENTS',
+      title: 'DÉPARTEMENTS',
       info: 'Nombre de parlementaires par département, à l’exception de l’Île-de-France et des DOM-TOM (nombres totaux). Cliquez sur le département qui vous intéresse pour voir le nombre de parlementaires concernés.'
     },
     party: {
       title: 'PARTIS POLITIQUES',
-      info: 'Répartition des parlementaires en fonction de leur appartenance politique. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
+      info: 'Répartition des responsables publics en fonction de leur appartenance politique, selon les données des parlements français et européens au 3 juillet 2020. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
     },
     activities: {
-      title: 'ACTIVITÉS ANNEXES',
-      info: 'Nombre de mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par le parlementaire. Cliquez sur les différents secteurs pour voir le nombre de parlementaires concernés.'
+      title: 'ACTIVITÉS ANNEXES CONSERVÉES',
+      info: 'Répartition des mandats électifs, activités professionnelles conservées et fonctions bénévoles toujours en cours déclarées par les responsables publics. La mise à jour par les responsables publics de la mention "conservée" est malheureusement rare ce qui peut rendre certaines déclarations obsolètes.'
     },
     mandate: {
       title: 'FONCTION',
-      info: 'Type de mandat occupé par le parlementaire.'
+      info: 'Type de mandat occupé par le décideur public.'
     },
     gender: {
       title: 'HOMMES/FEMMES',
@@ -61,7 +61,7 @@ var vuedata = {
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'ACTIVITÉS ANNEXES DES REPONSABLES PUBLICS',
+      title: 'ACTIVITÉS ANNEXES DES RESPONSABLES PUBLICS',
       info: 'Click on any meeting for additional information.'
     }
   },
@@ -539,13 +539,16 @@ for ( var i = 0; i < 5; i++ ) {
 }
 
 //Load data and generate charts
-json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
-  //json('./data/declarations-130120.json', (err, dataDeclarations) => {
+//json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
+  json('./data/declarations-filtered-160620.json', (err, dataDeclarations) => {
+  //json('./data/declarations-150620.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
       csv('./data/parties-names.csv?'+ randomPar, (err, partiesnames) => {
         //csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
-        csv('./data/list-final-130120.csv?'+ randomPar, (err, listfinal) => {
+        //csv('./data/list-final-130120.csv?'+ randomPar, (err, listfinal) => {
+        csv('./data/list-final-160620.csv?'+ randomPar, (err, listfinal) => {
+          
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
     
             //var declarations = dataDeclarations.declarations.declaration;
@@ -561,6 +564,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
             //Get the list of correct declarations timestamps from the list-final csv file
             var timestamps = [];
             var missingsenators = [];
+            var missingothers = [];
 
             /*
             listfinal.forEach(function (d) {
@@ -573,6 +577,7 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                 if( d.type_mandat == "senateur") {
                   missingsenators.push(d);
                 } else {
+                  missingothers.push(d);
                   console.log(d.Full_name);
                 }
               } else if(d.date_depot && d.date_depot.length > 1) {
@@ -590,8 +595,8 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
 
             //Add missing senators from missing-senators csv to the declarations json structure
             missingsenators.forEach(function (d) {
-              var thisname = d.Full_name.split(' ')[0];
-              var thislastname = d.Full_name.split(' ')[1];
+              var thisname = d.name;
+              var thislastname = d.lastname;
               //var thisname = d.prenom;
 		          //var thislastname = d.nom;
               var newObj = {
@@ -613,6 +618,35 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                 "departement_n": d.departement,
                 "convertedFromCSV": true
               };
+              newObj.customDateText = "Pas de données open data disponibles";
+              declarations.push(newObj);
+            });
+
+            missingothers.forEach(function (d) {
+              var thisname = d.name;
+              var thislastname = d.lastname;
+              //var thisname = d.prenom;
+		          //var thislastname = d.nom;
+              var newObj = {
+                "general": {
+                  "mandat": { "label": d.type_mandat },
+                  "qualiteMandat": {
+                    "typeMandat": d.type_mandat
+                  },
+                  "declarant": {
+                    "civilite": d.civilite,
+                    "nom": thislastname,
+                    "prenom": thisname,
+                    "dateNaissance": "",
+                  }
+                },
+                "parti": d.parti,
+                "parti_group": d.groupe,
+                "departement": d.departement,
+                "departement_n": d.departement,
+                "convertedFromCSV": true
+              };
+              newObj.customDateText = "Publication à venir";
               declarations.push(newObj);
             });
 
@@ -623,13 +657,22 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
               if(d.name == 'Robert Del'){
                 d.name = 'Robert Del Picchia';
               }
+              if(d.name == 'DEL PICCHIA'){
+                d.name = 'Robert DEL PICCHIA';
+              }
               //Get list info
               var thislistentry = _.find(listfinal, function (m) {return m.date_depot == d.dateDepot;});
               if(!thislistentry) {
-                thislistentry = _.find(listfinal, function (m) {return m.Full_name == d.name;});
+                thislistentry = _.find(listfinal, function (m) {
+                  return m.Full_name == d.name || (m.name + ' ' + m.lastname) == d.name;
+                });
               }
               d.listInfo = thislistentry;
-              if(d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
+              if(!d.listInfo) {
+                console.log("missing list entry:");
+                console.log(d);
+              }
+              if(d.listInfo && d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
                 vuedata.maxDeclarationsDeclated = parseInt(d.listInfo.declarations_num);
               }
               d.name_show = d.name;
@@ -689,6 +732,17 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
               if(d.mandat == "Député ou sénateur"){
                 d.mandat = d.mandat2;
               }
+              if(d.mandat == "gouvernement") {
+                d.mandat = "Membre du Gouvernement"
+              }
+              if(d.mandat == "depute") {
+                d.mandat = "Député"
+              }
+              if(d.mandat == "europe") {
+                d.mandat = "Député européen"
+              }
+
+              
 
               if(!d.department || d.department == '' || d.department == undefined){
                 //Find department name from department names csv if missing
@@ -1262,7 +1316,19 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "targets": 3,
                     "defaultContent":"N/A",
                     "data": function(d) {
+                      if(d.civilite == "f") {
+                        if(d.tableInfo.function == "Député") {
+                          return "Députée";
+                        }
+                        if(d.tableInfo.function == "Sénateur") {
+                          return "Sénatrice";
+                        }
+                        if(d.tableInfo.function == "Député européen") {
+                          return "Députée européenne";
+                        }
+                      }
                       return d.tableInfo.function;
+                      
                     }
                   },
                   {
@@ -1326,6 +1392,9 @@ json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
                     "defaultContent":"N/A",
                     "type":"date-eu",
                     "data": function(d) {
+                      if(d.customDateText) {
+                        return d.customDateText;
+                      }
                       return d.tableInfo.declatationDate;
                     }
                   }

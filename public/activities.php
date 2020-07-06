@@ -24,7 +24,9 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Activités de lobbying</h1>
-                  <p>Les activités de lobbying sont déclarées annuellement et peuvent regrouper plusieurs actions (communication, rencontre, correspondance régulière…) auprès de plusieurs interlocuteurs (cabinets ministériels, députés, sénateurs…). Les obligations déclaratives actuelles ne sont malheureusement ni exhaustives (les contacts à l'initiative des députés ne sont pas déclarés par exemple) ni suffisamment précises (décision publique visée, interlocuteurs visés, position promue...).</p> 
+                  <p><i>Quelles activités de lobbying ont visé quelle décision publique ? Quels sont les type de décideurs plublics les plus souvent visés ? Quels sont les lobbyistes les plus actifs ?</i></p>
+                  <p>Les statistiques issues des déclarations sont doivent être utilisées avec prudence, le critère de l'initiative et les effets de seuils biaisent en effet l'analyse.</p>
+                  <a href="./about.php">En savoir plus...</a></p>
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>

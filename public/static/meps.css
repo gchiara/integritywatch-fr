@@ -268,6 +268,9 @@ div.dc-html-legend {
 #iw-nav a.active, #iw-nav a:hover {
   color: #205d85;
 }
+#iw-nav .nav-link-main {
+  font-size: 14px;
+}
 #iw-nav .icon-btn {
   vertical-align: middle;
   cursor: pointer;
@@ -437,10 +440,10 @@ div.dc-html-legend {
   }
 }
 .chart-container.tabA_2 {
-  height: auto;
+  height: 490px;
 }
 .chart-container.tabA_3 {
-  height: auto;
+  height: 490px;
 }
 .chart-container.tabA_4 {
   height: 450px;
@@ -1025,11 +1028,14 @@ table.dataTable tbody tr:hover {
   text-align: left;
 }
 .tabA-page .chart-table th {
-  font-size: 14px;
+  font-size: 13px;
   border: 1px solid #eee;
 }
 .tabA-page .chart-table th:nth-child(2) {
   width: 22%;
+}
+.tabA-page .chart-table td {
+  font-size: 13px;
 }
 @media only screen and (max-width: 768px) {
   .tabA-page .chart-table td:nth-child(1), .tabA-page .chart-table td:nth-child(3), .tabA-page .chart-table td:nth-child(5), .tabA-page .chart-table td:nth-child(6), .tabA-page .chart-table td:nth-child(8), .tabA-page .chart-table td:nth-child(9), .tabA-page .chart-table th:nth-child(1), .tabA-page .chart-table th:nth-child(3), .tabA-page .chart-table th:nth-child(5), .tabA-page .chart-table th:nth-child(6), .tabA-page .chart-table th:nth-child(8), .tabA-page .chart-table th:nth-child(9) {
@@ -1120,27 +1126,25 @@ table.dataTable tbody tr:hover {
   height: 620px;
 }
 .chart-container.tabB_1 {
-  height: 580px;
+  height: 510px;
 }
 .chart-container.tabB_2 {
-  height: 580px;
+  height: 510px;
 }
 .chart-container.tabB_3 {
-  height: 580px;
+  height: 510px;
 }
 .chart-container.tabB_4 {
   height: 800px;
 }
 .chart-container.tabB_5 {
-  height: 580px;
-  margin-bottom: 20px;
+  height: 510px;
 }
 .chart-container.tabB_6 {
-  height: 600px;
+  height: 510px;
 }
 .chart-container.tabB_6b {
-  height: 400px;
-  margin-top: 20px;
+  height: 510px;
 }
 .chart-container.tabB_7 {
   height: 800px;

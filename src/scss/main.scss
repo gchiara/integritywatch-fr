@@ -19,6 +19,9 @@ $color_lobby: #42b983;
       color: $color_TI_darker;
     }
   }
+  .nav-link-main {
+    font-size: 14px;
+  }
   .icon-btn {
     vertical-align: middle;
     cursor: pointer;
@@ -179,10 +182,10 @@ $color_lobby: #42b983;
     }
   }
   &.tabA_2 {
-    height: auto;
+    height: 490px;
   }
   &.tabA_3 {
-    height: auto;
+    height: 490px;
   }
   &.tabA_4 {
     height: 450px;
@@ -770,11 +773,14 @@ table.dataTable tbody tr:hover {
   //Hide some table columns on mobile and tweaks to the headers look
   .chart-table {
     th {
-      font-size: 14px;
+      font-size: 13px;
       border: 1px solid #eee;
       &:nth-child(2) {
         width: 22%;
       }
+    }
+    td {
+      font-size: 13px;
     }
     td, th {
       &:nth-child(1), &:nth-child(3), &:nth-child(5), &:nth-child(6), &:nth-child(8), &:nth-child(9) {
@@ -884,27 +890,25 @@ table.dataTable tbody tr:hover {
     height: 620px;
   }
   &.tabB_1 {
-    height: 580px;
+    height: 510px;
   }
   &.tabB_2 {
-    height: 580px;
+    height: 510px;
   }
   &.tabB_3 {
-    height: 580px;
+    height: 510px;
   }
   &.tabB_4 {
     height: 800px;
   }
   &.tabB_5 {
-    height: 580px;
-    margin-bottom: 20px;
+    height: 510px;
   }
   &.tabB_6 {
-    height: 600px;
+    height: 510px;
   }
   &.tabB_6b {
-    height: 400px;
-    margin-top: 20px;
+    height: 510px;
   }
   &.tabB_7 {
     height: 800px;

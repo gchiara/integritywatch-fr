@@ -24,10 +24,9 @@
               <div class="col-md-8 chart-col" v-if="showInfo">
                 <div class="boxed-container description-container">
                   <h1>Responsables publics</h1>
-                  <p>Integrity Watch France est une base de données interactive qui offre un aperçu unique des intérêts et activités déclarés par les parlementaires. Cet outil doit permettre de mieux identifier les activités susceptibles de générer des conflits d’intérêts.</p>
-                  <p>Les parlementaires déclarent leurs activités annexes dans les deux mois suivant leur prise de fonction. Seules les activités exercées en parallèle du mandat de député ou de sénateur ont été prises en compte (mandats électifs, activités conservées, fonctions bénévoles).</p>
-                  <p>Simple d’utilisation, il suffit de cliquer sur les éléments des infographies pour filtrer, trier et classer les informations. Veillez à bien enlever les filtres en cas de recherches successives.</p>
-                  <a href="./about.php?section=1">En savoir plus</a></p> 
+                  <p><i>Quelles sont les activités annexes de vos responsables publics, parlementaires ou membres du gouvernement, dans un département, un parti politique ou selon leur mandat ? Lesquels n'ont pas mis à jour leur déclaration depuis leur prise de fonction ? Combien d'activités annexes sont conservées ?</i></p>
+                  <p>Simple d’utilisation, il suffit de cliquer sur les éléments des infographies pour filtrer, trier et produire les statistiques qui vous intéressent.</p>
+                  <a href="./about.php?section=1">En savoir plus...</a></p> 
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
@@ -103,11 +102,11 @@
                       <th class="header">Nom</th> 
                       <th class="header">Département</th>
                       <th class="header">Fonction</th>
-                      <th class="header table-info-cell">Parti politique de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
-                      <th class="header table-info-cell">Groupe parlementaire de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<a href='/about.php?section=5'>Sources des données</a>">i</button></th>
-                      <th class="header">Activités annexes conservées</th>
+                      <th class="header table-info-cell">Parti politique de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="Données du parlement au 3/07/2020">i</button></th>
+                      <th class="header table-info-cell">Groupe parlementaire de rattachement <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="Données du parlement au 3/07/2020">i</button></th>
+                      <th class="header table-info-cell">Activités annexes conservées <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="La mention &#34;conservée&#34; déclarées par les responsables publics n'est pas systématiquement mise à jour, les activités abandonnées apparaissent donc parfois comme conservées alors qu'elles sont terminées.">i</button></th>
                       <th class="header">Détention de participations financières</th>
-                      <th class="header">Activités annexes des collaborateurs</th>	
+                      <th class="header table-info-cell">Activités annexes des collaborateurs <button class="table-info-btn" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="Attention, de nombreux responsables publics indiquent erronément la nature de l'activité de leurs collaborateurs au lieu de simplement déclarer s'ils ont des activités annexes ou non, ce qui peut fausser la lecture.">i</button></th>	
                       <th class="header">Nombre de déclarations déposées</th>
                       <th class="header">Date de dépôt de la dernière déclaration</th>
                     </tr>

@@ -9,16 +9,19 @@
         <a href="./">Integrity Watch France</a>
       </li>
       <li class="nav-item">
-        <a href="./" class="nav-link" :class="{active: page == 'meps'}">Responsables publics</a>
+        <a href="./" class="nav-link nav-link-main" :class="{active: page == 'meps'}">Responsables publics</a>
       </li>
       <li class="nav-item">
-        <a href="./lobbyists.php" class="nav-link" :class="{active: page == 'lobbyists'}">Lobbyistes</a>
+        <a href="./lobbyists.php" class="nav-link nav-link-main" :class="{active: page == 'lobbyists'}">Lobbyistes</a>
       </li>
       <li class="nav-item">
-        <a href="./activities.php" class="nav-link" :class="{active: page == 'activities'}">Activités de lobbying</a>
+        <a href="./activities.php" class="nav-link nav-link-main" :class="{active: page == 'activities'}">Activités de lobbying</a>
+      </li>
+      <li class="nav-item">
+        <a href="./old_version/index.html" class="nav-link nav-link-main">XIVe législature</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle nav-link-main " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Versions nationales
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -31,7 +34,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a href="./about" class="nav-link">A propos</a>
+        <a href="./about" class="nav-link nav-link-main">A propos</a>
       </li>
       <li class="nav-item">
         <i class="material-icons nav-link icon-btn info-btn" @click="showInfo = !showInfo">info</i>

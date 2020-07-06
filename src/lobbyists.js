@@ -35,7 +35,7 @@ var vuedata = {
   charts: {
     activitiesNum: {
       title: 'Nombre d’activités déclarées',
-      info: '<p>Trois types d’actions sont considérés comme des communications susceptibles de constituer des actions de représentation d’intérêts : une rencontre physique, quel que soit le contexte dans lequel elle se déroule ; une conversation téléphonique, par vidéo-conférence ou par l’intermédiaire d’un service de communication électronique ; l’envoi d’un courrier, d’un courrier électronique ou d’un message privé par l’intermédiaire d’un service de communication électronique. Il en va de même de l’interpellation directe et nominative d’un responsable public sur un réseau social.</p><p>Lorsque ces actions sont effectuées de manière répétée sur un court laps de temps, pour un même objet et auprès d’une même catégorie de responsables publics, elles constituent une unique communication.</p>'
+      info: '<p>Selon la HATVP, trois types d’actions sont considérés comme des communications susceptibles de constituer des actions de représentation d’intérêts : une rencontre physique ; une conversation téléphonique ; l’envoi d’un courrier, d’un courrier électronique ou d’un message privé par l’intermédiaire d’un service de communication électronique. Il en va de même de l’interpellation directe et nominative d’un responsable public sur un réseau social.</p><p>Lorsque ces actions sont effectuées de manière répétée sur un court laps de temps, pour un même objet et auprès d’une même catégorie de responsables publics, elles constituent une unique communication (source HATVP)</p>'
     },
     chiffreAffaire: {
       title: 'Chiffre d’affaires',
@@ -47,7 +47,7 @@ var vuedata = {
     },
     sectors: {
       title: 'Secteurs d\'activité',
-      info: 'Plusieurs activités peuvent être choisies par le même représentant d\'intérêts'
+      info: 'Plusieurs secteurs d\'activités peuvent être selectionnés'
     },
     lobbyists: {
       title: 'Nombre de lobbyistes par organisation',
@@ -59,7 +59,7 @@ var vuedata = {
     },
     years: {
       title: 'Nombre d\'activités par période de déclaration',
-      info: ''
+      info: 'Puce à ajouter : "Attention :<br />Exercice 2017 : 6 mois (1/07/17 au 31/12/17)<br />Exercice 2019 : report de la date limite de déclaration au mois d\'aout 2020'
     },
     category: {
       title: 'Nombre d’organisations de lobbying par catégorie',
@@ -843,7 +843,7 @@ function getClientsRange(n) {
     var width = recalcWidth(charts.years.divId);
     chart
       .width(width)
-      .height(300)
+      .height(390)
       .group(group)
       .dimension(dimension)
       .on("preRender",(function(chart,filter){
