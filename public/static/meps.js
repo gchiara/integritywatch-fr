@@ -46796,7 +46796,7 @@ var vuedata = {
     mainTable: {
       chart: null,
       type: 'table',
-      title: 'ACTIVITÉS ANNEXES DES RESPONSABLES PUBLICS',
+      title: 'Activités annexes conservées des responsables publics',
       info: 'Click on any meeting for additional information.'
     }
   },
@@ -46845,7 +46845,8 @@ var vuedata = {
       "1": "#8ed3fb",
       "2 - 5": "#68add4",
       "6 - 10": "#4388ad",
-      "> 10": "#1a6287"
+      "> 10": "#1a6287",
+      "Pas de données open data / publication à venir": "#aaa"
     },
     party: ["#3b95d0"]
   } //Set vue components and Vue app
@@ -47289,17 +47290,16 @@ var randomCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 for (var i = 0; i < 5; i++) {
   randomPar += randomCharacters.charAt(Math.floor(Math.random() * randomCharacters.length));
 } //Load data and generate charts
-//json('./data/declarations-filtered-130120b.json', (err, dataDeclarations) => {
+//json('./data/declarations-filtered-160620.json', (err, dataDeclarations) => {
 
 
-(0, _d3Request.json)('./data/declarations-filtered-160620.json', function (err, dataDeclarations) {
+(0, _d3Request.json)('./data/declarations-filtered-080720.json', function (err, dataDeclarations) {
   //json('./data/declarations-150620.json', (err, dataDeclarations) => {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv?' + randomPar, function (err, partiesnames) {
-        //csv('./data/list-final-201219.csv?'+ randomPar, (err, listfinal) => {
-        //csv('./data/list-final-130120.csv?'+ randomPar, (err, listfinal) => {
-        (0, _d3Request.csv)('./data/list-final-160620.csv?' + randomPar, function (err, listfinal) {
+        //csv('./data/list-final-160620.csv?'+ randomPar, (err, listfinal) => {
+        (0, _d3Request.csv)('./data/list-final-080720.csv?' + randomPar, function (err, listfinal) {
           //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
           //var declarations = dataDeclarations.declarations.declaration;
           var declarations = dataDeclarations;
@@ -47325,8 +47325,7 @@ for (var i = 0; i < 5; i++) {
               if (d.type_mandat == "senateur") {
                 missingsenators.push(d);
               } else {
-                missingothers.push(d);
-                console.log(d.Full_name);
+                missingothers.push(d); //console.log(d.Full_name);
               }
             } else if (d.date_depot && d.date_depot.length > 1) {
               timestamps.push(d.date_depot);
@@ -47426,8 +47425,7 @@ for (var i = 0; i < 5; i++) {
             d.listInfo = thislistentry;
 
             if (!d.listInfo) {
-              console.log("missing list entry:");
-              console.log(d);
+              console.log("missing list entry:"); //console.log(d);
             }
 
             if (d.listInfo && d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
@@ -47739,6 +47737,11 @@ for (var i = 0; i < 5; i++) {
               d.activities_range = "6 - 10";
             } else if (d.activitiestot > 10) {
               d.activities_range = "> 10";
+            } //If no declaration (no date in list) assign separate category for activities graph
+
+
+            if (!d.listInfo || !d.listInfo.date_depot || d.listInfo.date_depot == "") {
+              d.activities_range = "Pas de données open data / publication à venir";
             } //Set revenues range
 
 
@@ -48042,6 +48045,10 @@ for (var i = 0; i < 5; i++) {
           var createDeclarationsNumberChart = function createDeclarationsNumberChart() {
             var chart = charts.declarationsNumber.chart;
             var dimension = ndx.dimension(function (d) {
+              if (!d.listInfo.declarations_num) {
+                return 0;
+              }
+
               return parseInt(d.listInfo.declarations_num);
             });
             var group = dimension.group().reduceSum(function (d) {
@@ -48374,7 +48381,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50255" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49412" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

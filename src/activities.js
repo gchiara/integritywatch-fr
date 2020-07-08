@@ -735,7 +735,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     .ordinalColors(vuedata.colors.colorSchemeCloud)
     .size([recalcWidth(charts.objet.divId),550])
     .font("Impact")
-    .stopWords(/^(au|ou|un|une|que|aux)$/)
+    .stopWords(/^(au|ou|un|une|que|aux|entre|sur|Réf d’accompagnement|d'un|du|le|les|la|qui|et|afin|à|plus|en|rdv|place|longue|l'association|d'expérimentation|contre|insérer|l'offre|grand|mise|1er|Inscrire|Soutenir|Contre|son|Lutte|«|»|tout|répit|notamment|l'atteinte|ne|par|parcours|personnes|perdants|50|l'aide|dérogatoire|créer|faveur|mode|avec|M|matière|Groupe|actions|méthodes|Faire|cible|Commission|l'évolution|quant|enjeux|part|œuvre|Demande|sensibiliser|visant|thème|amendement|d'un|d'une|non)$/)
     .onClick(function(d){setword(d.key);})
     .textAccessor(function(d) {return d.publicationCourante.objet;});
     chart.size(recalcWidthWordcloud(charts.objet.divId));

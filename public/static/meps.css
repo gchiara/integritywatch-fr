@@ -432,7 +432,7 @@ div.dc-html-legend {
   height: auto;
 }
 .chart-container.tabA_1 {
-  height: 962px;
+  height: 981px;
 }
 @media only screen and (max-width: 768px) {
   .chart-container.tabA_1 {
@@ -440,10 +440,10 @@ div.dc-html-legend {
   }
 }
 .chart-container.tabA_2 {
-  height: 490px;
+  height: 510px;
 }
 .chart-container.tabA_3 {
-  height: 490px;
+  height: 510px;
 }
 .chart-container.tabA_4 {
   height: 450px;

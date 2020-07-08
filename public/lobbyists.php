@@ -25,7 +25,7 @@
                 <div class="boxed-container description-container">
                   <h1>Integrity Watch France - Lobbyistes</h1>
                   <p><i>Quels sont les moyens consacrés au lobbying ? Quelle est la taille et le type des acteurs impliqués selon les secteurs d'activité ? Quelle part travaille pour des mandants ou en propre ?</i></p>
-                  <p>Les lobbyistes ne doivent se déclarer à la Haute Autorité pour la Transparence de la Vie Publique (HATVP) que s'ils exercent une activité principale et régulière de lobbying, une limitation qui restreint le champ de déclaration. L'obligation de s'enregistrer et les données devant être déclarées répondent à des règles complexes pouvant biaiser les données, <a href="./about.php">En savoir plus...</a></p>
+                  <p>Les lobbyistes ne doivent se déclarer à la Haute Autorité pour la Transparence de la Vie Publique (HATVP) que s'ils exercent une activité principale et régulière de lobbying, une limitation qui restreint le champ de déclaration. L'obligation de s'enregistrer et les données devant être déclarées répondent à des règles complexes pouvant biaiser la lecture, <a href="./about.php">En savoir plus...</a></p>
                   <i class="material-icons close-btn" @click="showInfo = false">close</i>
                 </div>
               </div>
