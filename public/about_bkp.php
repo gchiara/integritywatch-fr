@@ -56,20 +56,19 @@
             </div>
             <div id="collapse2" class="panel-collapse collapse in">
               <div class="panel-body">
-              <h3 style="margin-top:0px;">Responsables publics :</h3> 
-              <p>Depuis le 11 octobre 2013, la loi sur la transparence de la vie publique oblige les parlementaires à publier leur déclaration d’intérêts auprès de la HATVP. Cette disposition correspond à une recommandation ancienne de Transparency International France.</p>
-              <p>La première version d’Integrity Watch France portait sur la XIVème législature (2012-2017) et avait permis de visualiser numériquement les premières déclarations d’intérêts. L’outil s’était notamment intéressé aux revenus liés aux activités annexes des parlementaires. Sur les 925 parlementaires, nous avions ainsi identifié 1 987 activités exercées en parallèle du mandat parlementaire, générant un total de 19,8 millions d’euros de revenus par an. Integrity Watch avait également permis d’évaluer l’étendue de la pratique des emplois familiaux par les parlementaires : 14% des sénateurs et députés employaient un collaborateur ayant le même patronyme qu’eux.</p>
-              <p>Ces enseignements ont été intégrés dans les recommandations de Transparency International France, et ont nourri notre plaidoyer. L’association s’est mobilisée lors de la préparation de la loi pour la confiance dans la vie politique promulguée le 15 septembre 2017, et a obtenu que des réformes importantes soient adoptées : interdiction pour les députés et sénateurs de recruter dans leur équipe parlementaire leurs conjoints, ascendants, descendants et conjoints de ceux-ci, obligation de déclarer tout autre lien de parenté (cousin, neveu, beau-frère, etc.), meilleur encadrement des activités de conseil et de lobbying exercées par les parlementaires en parallèle à leur mandat.</p>
-              <p>Si la déclaration exhaustive de ses liens d’intérêts est désormais une pratique ancrée dans la classe politique française, l’absence d’actualisation depuis 2017 de 26 % des députés et 58 % des sénateurs fait craindre que certaines modifications substantielles aient pu ne pas être déclarées. Ce manque d’actualisation produit des résultats erronés lorsque par exemple une activité annexe est déclarée conservée bien qu’elle ait en réalité cessé, ou à l’inverse qu’une nouvelle activité a été initiée sans que le responsable public n’ait transmis de déclaration modificative.</p>
+              <h3 style="margin-top:0px;">Parlementaires :</h3> 
+              <p>Depuis le 11 octobre 2013, la loi sur la transparence de la vie publique oblige les parlementaires à publier leur déclaration d’intérêts auprès de la HATVP. Cette disposition correspond à une recommandation ancienne de Transparency International France.</p> 
+              <p>La première version d’Integrity Watch France portait sur la XIV législature (2012-2017) et avait permis de visualiser numériquement les premières déclarations d’intérêts. Ces déclarations avaient été effectuées à la main et n’étaient pas exploitables sans un fastidieux processus de saisie manuelle des données. L’outil s’était notamment intéressé aux revenus liés aux activités annexes des parlementaires. Sur les 925 parlementaires, nous avions ainsi identifié 1 987 activités exercées en parallèle du mandat parlementaire, générant un total de 19,8 millions d’euros par an. Integrity Watch avait également permis d’évaluer l’étendue de la pratique des emplois familiaux par les parlementaires : 14% des sénateurs et députés employaient un collaborateur ayant le même patronyme qu’eux.</p> 
+              <p>Ces enseignements ont été intégrés dans les recommandations de Transparency International France, et ont nourri notre plaidoyer. L’association s’est mobilisée lors de la préparation de la loi pour la confiance dans la vie politique promulguée le 15 septembre 2017, et a obtenu que des réformes importantes soient adoptées : interdiction pour les députés et sénateurs de recruter dans leur équipe parlementaire leurs conjoints, ascendants, descendants et conjoints de ceux-ci, obligation de déclarer tout autre lien de parenté (cousin, neveu, beau-frère, etc.), meilleur encadrement des activités de conseil et de lobbying exercées par les parlementaires en parallèle à leur mandat.</p> 
               <p>Grâce à un <a href="https://www.legifrance.gouv.fr/affichTexte.do;jsessionid=A3025C98926944C09BCADDF8DD4DFAE1.tpdila17v_2?cidTexte=JORFTEXT000032519467&dateTexte=&oldAction=rechJO&categorieLien=id&idJO=JORFCONT000032519462" target="_blank">décret de mai 2016</a> les données sont désormais disponibles en Open Data, et téléchargeables sur le site de la HATVP.</p>  
               <p>En savoir plus :<br />
               <a href="https://www.integritywatch.fr/old_version/index.html" target="_blank">Integrity Watch sous la XIVème législature</a> (2012-2017)
               <a href="https://transparency-france.org/wp-content/uploads/2017/05/Rapport-parlementexemplaire.pdf" target="_blank">Rapport pour un parlement exemplaire</a> (Mai 2017)
-              <a href="https://transparency-france.org/renforcer-notre-democratie/suivi-legislatif/lois-pour-la-confiance-dans-la-vie-politique/" target="_blank">Recommandations</a> de Transparency International France pendant les débats parlementaires relatifs à la loi rétablissant la confiance dans la vie politique.</p>
-              <h3 style="margin-top:0px;">Représentants d'intérêts :</h3> 
-              <p>Le répertoire des représentants d'intérêts a été mis en place pour donner suite à la loi Sapin 2 votée en 2016, créant l'obligation pour les lobbyistes de s'enregistrer et déclarer leurs activités conformément au décret d'application n°2017-867 du 9 mai 2017. Les déclarations reçues et contrôlées par la HATVP permettent d'évaluer, dans une certaine mesure, les activités de représentation d'intérêt, leur nature, leurs cibles et leurs origines.</p>
-              <p>Transparency International France a mené de nombreuses actions de plaidoyer afin que les règles de déclarations soient plus claires, plus exhaustives, et mieux adaptées à la finalité de la création du répertoire. En effet, les limites des déclarations actuelles ne permettent pas d'établir quels intérêts privés ont contribué à la fabrique de la loi : les lois visées par les activités de représentation d'intérêt ainsi que les nombreuses exclusions d'obligations déclaratives ne permettant à ce jour qu'une appréciation partielle de leur influence sur le travail législatif.</p>
-              <p>Le volume d'activités déclarées a connu une forte progression en 2018, première, et unique année complète déclarée, puisque les déclarations 2017, année de la création du répertoire, ne portaient que sur un semestre, et que les déclarations portant sur l'exercice 2019, qui auraient dû être déposées au premier trimestre 2020, ont été repoussées à septembre 2020 en raison de la crise du COVID-19.</p>
+              <a href="https://transparency-france.org/renforcer-notre-democratie/suivi-legislatif/lois-pour-la-confiance-dans-la-vie-politique/" target="_blank">Recommandations</a> de Transparency International France pendant les débats parlementaires relatifs à la loi rétablissant la confiance dans la vie politique.</p> 
+              <h3>Représentants d'intérêts :</h3>
+              <p>Le registre des représentants d'intérêts a été mis en place suite à la loi Sapin 2 votée en 2016, créant l'obligation pour les lobbyistes de s'enregistrer et déclarer leurs activités conformément au décret d'application n°2017-867 du 9 mai 2017. Les déclarations reçues et contrôlées par la HATVP permettent d'évaluer, dans une certaine mesure, les activités de représentation d'intérêt, leur nature, leurs cibles et leurs origines.</p>
+              <p>Transparency International France a mené de nombreuses actions de plaidoyer afin que les règles de déclarations soient plus claires, plus exhaustives, et mieux adaptées à la finalité de la création du registre. En effet, les limites des déclarations actuelles ne permettent pas d'établir les influences ayant contribué à la fabrique de la loi, les lois visées par les activités de représentation d'intérêt ainsi que les nombreuses exclusions d'obligations déclaratives ne permettant à ce jour qu'une appréciation partielle de leur influence sur le travail législatif.</p>
+              <p>Le volume d'activité déclarées a connu un forte progression à mesure que les acteurs appréhendaient leurs nouvelles obligations et que la mise en oeuvre de ces obligations était précisée par la HATVP. Les déclarations portant sur l'exercice 2019, qui auraient du être déposées au premier trimestre 2020, ont été repoussées à septembre 2020 en raison de la crise du COVID-19.</p>
               <p>En savoir plus :<br /> 
               <a href="https://transparency-france.org/actu/rapport-pour-un-meilleur-encadrement-du-lobbying/#.XvILQ2gzbIU" target="_blank">Rapport pour un meilleur encadrement du lobbying</a> (2019)</p>
               </div>
@@ -84,7 +83,7 @@
             </div>
             <div id="collapse3" class="panel-collapse collapse in">
               <div class="panel-body">
-                <p>Les informations présentées dans l’outil dépendent de la qualité des déclarations transmises par les responsables publics. Or, celles-ci sont souvent insuffisamment actualisées (cf infra) ou précisées. Si vous constatez une erreur ou un manquement, vous pouvez nous en faire part via ce <a href="https://transparency-france.org/aider-victimes-de-corruption/cajac/#.XvIMGWgzbIU" target="_blank">formulaire dédié</a>.</p>
+                <p>Integrity Watch se base sur les données disponibles en open data sur le site de la HATVP au 01/06/2020, de l’Assemblée nationale et du Sénat. Par conséquent, les informations présentées dans l’outil dépendent de la qualité des déclarations transmises par les parlementaires. Or, celles-ci sont souvent insuffisamment actualisées (cf infra). Si vous constatez une erreur ou un manquement, vous pouvez nous en faire part via ce <a href="https://transparency-france.org/aider-victimes-de-corruption/cajac/#.XvIMGWgzbIU" target="_blank">formulaire dédié</a>.</p>
               </div>
             </div>
           </div>
@@ -92,7 +91,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h1 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">4) Remarques a l’intention des responsables publics</a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">4) Remarques a l’intention des deputes et senateurs</a>
               </h1>
             </div>
             <div id="collapse4" class="panel-collapse collapse in">
@@ -112,13 +111,12 @@
             </div>
             <div id="collapse5" class="panel-collapse collapse in">
               <div class="panel-body">
-                <ul>
+              <ul>
                 <li>Le contenu des déclarations d’intérêts des parlementaires publiées par la Haute Autorité pour la transparence de la vie publique (HATVP).</li>
                 <li>Les informations sur les députés et sénateurs disponibles sur les sites et portails open data de l’Assemblée nationale et du Sénat.</li>
                 <li>Le contenu des déclarations d'activité des représentants d'intérêts publiées par la Haute autorité pour la transparence de la vie publique.</li>
-                </ul>
-                <p>Le contenu des déclarations d’intérêts est fixé par décret (<a href="https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000034633293&categorieLien=id" target="_blank">décret n°2013-1212</a> du 23 décembre 2013 annexe 3), et détaillé par la HATVP dans son “<a href="https://www.hatvp.fr/wordpress/wp-content/uploads/2020/02/Guide-declarant-oct-2019-web.pdf" target="_blank">guide du déclarant</a>” à destination des décideurs publics.</p>
-                <p>Les obligations de déclarations annuelles des représentants d’intérêts sont fixées par décret (<a href="https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000034633293&categorieLien=id" target="_blank">Décret n° 2017-867</a> du 9 mai 2017), et détaillées par la HATVP dans ses « <a href="https://www.hatvp.fr/wordpress/wp-content/uploads/2018/10/Lignes-directrices-octobre-2018.pdf" target="_blank">lignes directrices</a> » à l’intention des représentants d’intérêts.</p>
+              </ul>
+              <p>Le contenu des déclarations d’intérêts est fixé par décret (<a href="https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000034633293&categorieLien=id" target="_blank">décret n°2013-1212</a> du 23 décembre 2013 annexe 3), et détaillé par la HATVP dans son “<a href="https://www.hatvp.fr/wordpress/wp-content/uploads/2020/02/Guide-declarant-oct-2019-web.pdf" target="_blank">guide du déclarant</a>”.</p>
               </div>
             </div>
           </div>
@@ -133,7 +131,7 @@
               <div class="panel-body">
                 <p>S’agissant des appartenances politiques, Integrity Watch utilise les partis politiques auxquels se sont rattachés les députés et sénateurs dans le cadre de la législation sur le financement de la vie politique. Ce rattachement a des conséquences financières pour le parti politique de rattachement, qui bénéficie d’un financement public proportionnel au nombre de parlementaires affiliés (<a href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/le-depute/le-financement-de-la-vie-politique-partis-et-campagnes-electorales" target="_blank">en savoir plus</a>).</p>
                 <p>Le parti politique de rattachement diffère parfois du groupe parlementaire auquel appartient le député ou le sénateur. C’est notamment le cas pour les partis qui n’ont pas suffisamment de parlementaires pour constituer un groupe parlementaire autonome (il faut au minimum 15 députés ou 10 sénateurs pour pouvoir former un groupe). Ils peuvent alors s’accorder avec un groupe existant pour le rejoindre.</p>
-                <p>Les informations présentées sont issues des bases en Open Data de l'<a href="http:/www2.assemblee-nationale.fr/deputes/liste/partis-politiques/15/(annee)/2019" target="_blank">Assemblée Nationale</a>, du <a href="https://www.senat.fr/fileadmin/Fichiers/Images/sgp/Rattachements_partis_pol/Liste_au_30_novembre_2019_pour_publication_01.pdf" target="_blank">Sénat</a> et du Parlement Européen en date du 15/06/2020.</p>
+                <p>Les informations présentées sont issues des bases en Open Data de <a href="(http://www2.assemblee-nationale.fr/deputes/liste/partis-politiques/15/(annee)/2019" target="_blank">l'Assemblée Nationale</a> et du <a href="https://www.senat.fr/fileadmin/Fichiers/Images/sgp/Rattachements_partis_pol/Liste_au_30_novembre_2019_pour_publication_01.pdf" target="_blank">Sénat</a> en date du 15/06/2020.</p> 
                 <p>A terme, Integrity Watch pourra être enrichi avec des données relatives aux partis politiques et au financement des campagnes.</p>
               </div>
             </div>
@@ -147,15 +145,14 @@
             </div>
             <div id="collapse7" class="panel-collapse collapse in">
               <div class="panel-body">
-                <p>Pour calculer le nombre total d’activités annexes, ont seulement été additionnées les activités explicitement indiquées par les parlementaires dans leurs déclarations d’intérêts comme « conservées ». Elles correspondent aux :</p>
-                <ul>
+              <p>Pour calculer le nombre total d’activités annexes, ont seulement été additionnées les activités explicitement indiquées par les parlementaires dans leurs déclarations d’intérêts comme « conservées ». Elles correspondent aux :</p>
+              <ul>
                 <li>Activités professionnelles donnant lieu à rémunération ou gratification</li>
                 <li>Activités de consultant</li>
                 <li>Participations aux organes dirigeants d’un organisme public ou privé ou d’une société</li>
                 <li>Fonctions bénévoles susceptibles de faire naître un conflit d’intérêts</li>
-                </ul>
-                <p>Les informations concernant les activités conservées ou non par les parlementaires sont visibles sur les fiches individuelles de chaque parlementaire. Le lien vers la déclaration en ligne sur le site de la HATVP permet de consulter les éléments déclarés dans leur intégralité.</p>
-                <p><i>Nous avons constaté que la mention « conservée » n’était pas à jour pour de nombreuses déclaration d’intérêts des responsables publics, ce qui fausse la lecture de leurs activités annexes.</i></p>
+              </ul>
+              <p>Les informations concernant les activités conservées ou non par les parlementaires sont visibles sur les fiches individuelles de chaque parlementaire. Le lien vers la déclaration en ligne sur le site de la HATVP permet de consulter les éléments déclarés dans leur intégralité.</p>
               </div>
             </div>
           </div>
@@ -168,9 +165,9 @@
             </div>
             <div id="collapse8" class="panel-collapse collapse in">
               <div class="panel-body">
-                <p>Depuis la loi de confiance 2013, les parlementaires ont l’obligation de déclarer les participations financières directes qu’ils détiennent dans le capital d'une société à la date de la nomination ainsi que les rémunérations attachées.</p> 
+                <p>Depuis la loi de confiance 2013, les parlementaires ont l’obligation de déclarer les participations financières directes qu’ils détiennent dans le capital d'une société à la date de la nomination. </p>
                 <p>Integrity Watch reprend donc les données de cette rubrique au sein de la déclaration d’intérêt des parlementaires à la HATVP.</p>
-                <p>Les données concernant les revenus tirés de ces participations financières se heurtent toutefois aux mêmes écueils de manque d’actualisation que celles concernant les revenus tirés des activités annexes des parlementaires (cf supra) et ne sont donc pas présentée sous forme de graphique.</p>
+                <p>Les données concernant les revenus tirés de ces participations financières se heurtent toutefois aux mêmes écueils que celles concernant les revenus tirés des activités annexes des parlementaires (cf supra).</p>
               </div>
             </div>
           </div>
@@ -213,7 +210,8 @@
             </div>
             <div id="collapse11" class="panel-collapse collapse in">
               <div class="panel-body">
-                <p>Dans certains cas, le problème est temporaire : il s’agit de parlementaires entrés récemment en fonction (exemple : suppléant d’un député venant d’être nommé au gouvernement) qui n’ont pas encore effectué de déclaration d’intérêts. Pour savoir si le parlementaire a actualisé sa déclaration depuis la dernière mise à jour d’Integrity Watch (données au 01/06/2020), vous pouvez consulter le site de la HATVP (lien disponible dans la page individuelle du parlementaire sur Integrity Watch).</p>
+                <p>Dans certains cas, le problème est temporaire : il s’agit de parlementaires entrés récemment en fonction (exemple : suppléant d’un député venant d’être nommé au gouvernement) qui n’ont pas encore effectué de déclaration d’intérêts. Pour savoir si le parlementaire a actualisé sa déclaration depuis la dernière mise à jour d’Integrity Watch (données au 01/06/2020), vous pouvez consulter le site de la HATVP (lien disponible dans la page individuelle du parlementaire sur Integrity Watch). </p>
+                <p>Dans d’autres cas, il s’agit de déclarations effectuées en 2015, et remplies à la main, antérieurement au décret rendant obligatoire de remplir les déclarations en ligne. Seule la version scannée de ces déclarations est disponible sur le site de la HATVP. </p>
               </div>
             </div>
           </div>
@@ -228,29 +226,15 @@
             </div>
             <div id="collapse13" class="panel-collapse collapse in">
               <div class="panel-body">
-                <p>Les déclarations d’intérêts des parlementaires et membres de gouvernement ont été au cœur de plusieurs scandales qui ont souligné pour les élus l’importance d’une déclaration exhaustive de leurs activités et la difficulté croissante à plaider l’insouciance ou la désinvolture dans la satisfaction de leurs obligations déclaratives. L’examen par la société civile et la presse de ces déclarations est devenu en peu de temps un réflexe systématique, mais certains obstacles rendent cependant l’exercice de vigilance citoyenne inutilement ardu.</p>
-                <ul>
-                <li>Quels sont les revenus conservés par les parlementaires ? <i>Faute d’actualisation régulière de leurs déclarations et d’homogénéité dans les pratiques déclaratives, il n’est pas possible de disposer d’une estimation fiable.</i></li> 
-                <li>Quels sont les secteurs économiques dans lesquels les parlementaires ont des intérêts ? <i>Les structures qui rémunèrent ou font siéger les parlementaires ne sont indiquées que par leur nom, sans une qualification ou codification permettant un travail statistique.</i></li> 
-                <li>Quels sont les actionnaires des structures dans lesquelles les parlementaires ont des intérêts ? <i>Sans vision du bénéficiaire, il est possible que certains intérêts croisés échappent à la transparence.</i></li> 
-                </ul>
-                <p>Nous avons constaté que les déclarations à la HATVP des députés européens indiquent qu’aucune activité annexe n’a été conservée par aucun de ces responsables publics. Ces déclarations ont pour la plupart été faites entre aout et octobre 2019.</p>
-                <p>Concernant les représentants d’intérêts, ou lobbyistes, leurs déclarations d’activité portant sur les années 2017, 2018 et 2019 sont difficilement exploitables. En 2017, année de la création du répertoire, 5 292 activités de lobbying avaient été déclarées, un niveau porté à 9 558 en 2018, première année pleine de déclaration. Les déclarations 2019 qui auraient dû être faites en mars 2020 ont malheureusement dû être décalées en raison de la crise sanitaire. Ces éléments empêchent toute analyse sur l’évolution des volumes d’activités.</p>
-                <p>De plus, les obligations déclaratives telles que fixées par le décret d'application à la loi Sapin 2 du 9 mai 2017 rendent partielle et floue la représentation du lobbying réalisé en France auprès des décideurs publics nationaux.</p>
-                <p><strong>Une vision partielle :</strong> Seule une partie des activités de lobbying est déclarée, en raison des critères d'initiative et des seuils déclaratifs.</p> 
-                <ul>
-                <li>En effet, le décret prévoit que les rencontres entre lobbyistes et décideurs publics n'ont pas à être déclarées si elles sont à l'initiative du décideur public, ce qui est souvent le cas notamment avec les représentants d'intérêts les plus influents et les mieux installés.</li>
-                <li>De plus, le caractère "principal et régulier" de l'activité de lobbying menée, destiné à éviter d'imposer des lourdeurs administratives à des représentants d'intérêts peu actifs, s'avère introduire une complexité regrettable tout en facilitant la sous-déclaration potentielle.</li> 
-                </ul>
-                <p>Il est donc impossible d'établir l'intensité du lobbying sur un sujet donné, une période donnée, une cible donnée etc.</p>
-                <p><strong>Une cible imprécise :</strong> alors que le législateur avait à coeur d'assurer au citoyen une visibilité sur la fabrique de la loi, les déclarations de lobbying n'ont pas à systématiquement préciser la décision publique visée, rendant complexe voire impossible d'évaluer la nature et la diversité des influences ayant pu contribuer à une décision publique.</p>
-                <p><i>Exemple : le G5 Santé, qui représente les laboratoires pharmaceutiques français, ne déclare pas les décisions publiques visées par ses activités de lobbying, tandis qu’une revue de presse indique une communication soutenue sur le PLFSS 2019</i></p>
-                <p><strong>Une vision tardive :</strong> la périodicité annuelle des déclarations et la non datation des activités de lobbying déclarées interdisent de les mettre en rapport avec l'activité législative. Ne sont portées à la connaissance du citoyen que les actions de lobbying "hors sol", déconnectées de la fabrique de la loi.</p> 
-                <p><i>Exemple : les actions de lobbying menées en janvier/février 2020 sur la réforme des retraites ne seront connues qu'au plus tôt en avril 2021, soit près d'un an et demi plus tard, et ne préciseront que l'année de leur réalisation.</i></p>
-                <p><strong>Une vision incomplète :</strong> malgré la présence d'un champ facultatif permettant aux lobbyistes d'expliquer la position et l'orientation de leur action de lobbying ou d'y déposer un lien renvoyant vers les analyses portées à connaissances du décideur public, cette possibilité est très peu utilisée. Il est donc toujours possible pour les lobbyistes qui le voudraient, et l'actualité en offre fréquemment témoignage, de mener un double discours délétère pour la démocratie. Le greenwashing de certaines grandes entreprises par exemple, apparaît parfois au grand jour lorsque la presse (ou un député) apprend que des positions anti-environnement sont tenues auprès des décideurs publics tandis qu'un discours pro-environnement est tenu auprès du grand public.</p>
-                <p><i>Exemple : demandes d’associations patronales de reporter en raison du COVID-19 les mesures environnementales prévues dans la loi économie circulaire votée en 2019</i></p>
+                <p>La première version d'Integrity Watch avait montré les difficultés posées par les déclarations d'intérêts mannuelles et incomplètes de nombreux parlementaires et leurs collaborateurs, que seuls d'importants retraitements mannuels ont permis de surmonter. La complétude des déclarations dans les deux chambres, l'exhaustivité des intérêts et revenus annexes déclarés avaient ainsi pu être évalués, nous permettant de contribuer aux constats ayant poussés à l'amélioration progressive des déclarations.</p>
+                <p>La présente version d'Integrity Watch intègre les déclarations d'activités des lobbyistes sur les années 2017, 2018 et 2019. En 2017, la HATVP avait reçu 5 292 déclarations d'activités de lobbying, un niveau porté à 9 558 en 2018, les habitudes déclaratives et l'appui fourni par la HAVTP aux représentants d'intérêts ayant permis une meilleure appropriation de leurs obligations. Les déclarations 2019 qui auraient du être faites en mars 2020 ont malheureusement du être décalées en raison de la crise sanitaire.</p>
+                <p>L'exploitation des données lobbying mises à disposition par la HATVP se révèle cependant délicate. En effet, les obligations déclaratives telles que fixées par le décret d'application à la loi Sapin 2 du 9 mai 2017 rendent partielle et floue la représentation du lobbying réalisé en France auprès des décideurs publics nationaux.</p>
+                <p>Une vision partielle : Seule une partie des activités de lobbying est déclarée, en raison des critères d'initiative et des seuils déclaratifs. En effet, le décret prévoit que les rencontres entre lobbyistes et décideurs publics n'ont pas à être déclarées si elles sont prises à l'initiative du décideur public, ce qui est souvent le cas notamment avec les représentants d'intérêts les plus influents et les mieux installés. De plus, le caractère "principal et régulier" de l'activité de lobbying menée, destiné à éviter d'imposer des lourdeurs administratives à des représentants d'intérêts peu actifs, s'avère introduire une complexité regrettable tout en faciliant la sous-déclaration potentielle. Il est donc impossible d'établir l'intensité du lobbying sur un sujet donné, une période donnée, une cible donnée etc.</p>
+                <p>Une cible imprécise : alors que le législateur avait à coeur d'assurer au citoyen une visibilité sur la fabrique de la loi, les déclarations de lobbying n'ont pas à systématiquement préciser la décision publique visée, rendant complexe voire impossible d'évaluer la nature et la diversité des influences ayant pu contribuer à une décision publique. Il ressort des processus législatifs comme la loi PACTE, ou la loi EGALIM, pour lesquels l'influence du lobbying dans la rédaction de la loi (amendements copiés-collés notamment) a été avérée, une inadéquation dommageable du registre à ces processus sur lesquels aucune transparence n'est finalement apportée.</p>
+                <p>Une vision tardive : la périodicité annuelle des déclarations et la non datation des activités de lobbying déclarées interdisent de les mettre en rapport avec l'activité législtative. Ne sont portées à la connaissance du citoyen que les actions de lobbying "hors sol", déconnectées de la fabrique de la loi. Par exemple, les actions de lobbying  menées en janvier/février 2020 sur la réforme des retraites ne seront connues qu'au plus tôt en avril 2021, soit près d'un an et demi plus tard, et ne préciseront que l'année de leur réalisation.</p>
+                <p>Une vision incomplète : malgré la présence d'un champ facultatif permettant aux lobbyistes d'expliquer la position et l'orientation de leur action de lobbying ou d'y déposer un lien renvoyant vers les analyses portées à connaissances du décideur public, cette possibilité est très peu utilisée. Il est donc toujours possible pour les lobbyistes qui le voudraient, et l'actualité en offre fréquemment témoignage, de mener un double discours délétère pour la démocratie. Le greenwashing de certaines grandes entreprises par exemple, apparaît parfois au grand jour lorsque la presse (ou un député) apprend que des positions anti-environnement sont tenues auprès des décideurs publics tandis qu'un discours pro-environnement est tenu aurpès du grand public.</p>
                 <p>Les constats pouvant être tirés des données déclarées à la HATVP sont donc pauvres. Nous ne pouvons en effet évaluer l'intensité du lobbying, global ou par secteur économique ; nous ne pouvons assurer que la préparation d'une loi a fait l'objet d'une consultation large plutôt que de seules rencontres avec un lobby particulier et prédominant ; nous ne pouvons vérifier que les analyses transmises à nos représentants soient exactes, factuelles, et cohérentes...</p>
-                <p>Nous avons alerté le Parlement et le gouvernement sur les failles importantes du registre, failles qui seront critiques alors que la crise du COVID-19 impose des décisions publiques très significatives en urgence, occasionnant des activités de lobbying de très forte intensité. Si la tolérance bienveillante à l'égard des déclarants et des insuffisances du répertoire était compréhensible en 2017 lors de l'introduction et du déploiement de celui-ci, continuer à accepter sans réagir les insuffisances du répertoire serait de la part de la classe politique un renoncement fort aux ambitions de lutte contre la corruption et pour la transparence.</p>
+                <p>Nous avons alerté le Parlement et le gouvernement sur les failles importantes du registre, failles qui seront critiques alors que la crise du COVID-19 impose des décisions publiques très significatives en urgence, occasionnant des activités de lobbying de très forte intensité. Si la tolérance à l'égard des déclarants et des insuffisances du répertoire était compréhensible en 2017 lors de l'introduction et du déploiement de celui-ci, laisser en l'état un dispositif notoirement imparfait et inefficace serait une décision incompréhensible.</p>
               </div>
             </div>
           </div>
@@ -265,33 +249,22 @@
               <div class="panel-body">
                 <h3 style="margin-top:0px;">Parlementaires :</h3>
                 <ul>
-                  <li>
-                  Améliorer la qualité et la mise à jour des déclarations d'intérêts et d'activités des parlementaires, au besoin en modifiant la loi du 11 octobre 2013 et/ou le décret du 23 décembre 2013 :
-                    <ul>
-                    <li>Clarifier le fait que les revenus tirés des activités annexes doivent être déclarés sur une base au moins annuelle.</li> 
-                    <li>Associer un numéro SIREN/SIRET aux entreprises et organisations mentionnées dans la déclaration, afin de faciliter le traitement statistique, et - à terme - le croisement avec d’autres bases de données, notamment le registre des représentants d’intérêt de la HATVP.</li>
-                    </ul>
-                  </li>
-                  <li>
-                  Pour renforcer l’exemplarité du Parlement de manière générale, Transparency International France a publié en mai 2017 un rapport contenant des recommandations relatives aux frais de mandat, au statut des collaborateurs parlementaires, et au renforcement de la déontologie :
-                    <ul>
-                    <li>Depuis janvier 2018, les députés et sénateurs doivent justifier leurs dépenses de mandat avec un système de notes de frais. Le contrôle des frais de mandat par le déontologue et en fin de mandat par la HATVP complètent le dispositif.</li>
-                    <li>Le plafonnement des revenus annexes des parlementaires recommandé par Transparency International France n’a pas été mis en œuvre.</li>
-                    <li>Les registres des déports, prévus par la loi pour la confiance dans la vie politique de septembre 2017 ont été mis en place à l’Assemblée nationale par la résolution du 4 juin 2019 ayant introduit un nouvel article 80-1-1 dans son Règlement et par le Sénat  par l’article 91 ter du Règlement du Sénat.</li>
-                    <li>Le statut des collaborateurs parlementaires n’est toujours par clarifié, ni leurs activités formalisées dans une fiche de poste</li>
-                    <li>Les parlementaires, malgré leur engagement dans une tribune du Monde du 9 octobre 2019, sont encore trop rares à avoir adopté la pratique de la publication de leurs rencontres avec les lobbyistes.</li>
-                    </ul>
-                  </li>
+                  <li>Améliorer la qualité et la mise à jour des déclarations d'intérêts et d'activités des parlementaires, au besoin en modifiant la loi du 11 octobre 2013 et/ou le décret du 23 décembre 2013 :</li>
+                  <ul>
+                      <li>Clarifier le fait que les revenus tirés des activités annexes doivent être déclarés sur une base au moins annuelle. Ce système de déclaration annuelle permettrait de s’assurer d'une meilleure actualisation de ces données.</li>
+                      <li>Associer un numéro SIREN/SIRET aux entreprises et organisations mentionnées dans la déclaration, afin de faciliter le traitement statistique, et - à terme - le croisement des données avec d’autres bases de données, notamment le registre des représentants d’intérêt de la HATVP.</li>
+                  </ul>
+                  <li>Pour renforcer l’exemplarité du Parlement de manière générale, <a href="https://transparency-france.org/wp-content/uploads/2017/05/Rapport-parlementexemplaire.pdf" target="_blank">Transparency International France a publié en mai 2017 un rapport</a> contenant des recommandations relatives aux frais de mandat, au statut des collaborateurs parlementaires, et au renforcement de la déontologie.</li>
                 </ul>
                 <h3 style="margin-top:0px;">Représentants d'intérêts :</h3>
-                <p>Le décret du 9 mai 2017 fixant les modalités et obligations déclaratives des représentants d'intérêts comporte plusieurs faiblesses obérant l'efficacité et l'utilité du registre :</p>
+                <p>Le décret du 9 mai 2017 fixant les modalités et obligations déclaratives des représentants d'intérêts comporte plusieurs faiblesses obérant l'efficacité et l'utilité du registre</p>
                 <ul>
-                  <li><strong>périodicité trop faible :</strong> le calendrier déclaratif doit correspondre davantage au calendrier politique en devenant trimestriel ou semestriel ;</li>
-                  <li><strong>aucune obligation de déclarer les positions défendues :</strong> la mise à disposition d'une case facultative pour exposer ou inclure un lien vers les positions défendues est insuffisante et peu utilisée ;</li>
-                  <li><strong>pas de rattachement systématique à une décision publique :</strong> cela rend impossible la compréhension de la fabrique de la loi contrairement à l'ambition du législateur et aux revendications des citoyens ;</li>
-                  <li>L'identité des interlocuteurs n'est pas précisée</li>
-                  <li><strong>distorsions liées au critère du lobbying " à l'initiative du représentant d'intérêt" :</strong> paradoxalement, les groupes d'intérêts les plus installés, interlocuteurs privilégiés des responsables publics et donc à ce titre régulièrement invités, ne sont pas soumis à des obligations déclaratives lorsqu’ils interviennent sur demande des responsables publics</li>
-                  <li><strong>complexité du dispositif :</strong> le jeu complexe de seuils définissant une activité "principale et régulière" devant être déclarée conduit à de réelles difficultés déclaratives et nuisent à la lisibilité du registre.</li>
+                  <li>une périodicité trop faible : le calendrier déclaratif doit correspondre davantage au calendrier politique en devenant trimestriel ou semestriel ;</li>
+                  <li>aucune obligation de délcarer les positions défendues : la mise à disposition d'une case facultative pour exposer ou inclure un lien vers les positions défendues est insuffisante et peu utilisée ;</li>
+                  <li>les activités de lobbying ne sont pas rattachées spécifiquement à une décision publique : cela rend impossible la compréhension de la fabrique de la loi contrairement à l'ambition du législateur de aux revendications des citoyens ;</li>
+                  <li>L'identité des interlocuteurs n'est pas précisées</li>
+                  <li>des distorsions liées au critère du lobbying " à l'initiative du représentant d'intérêt" : paradoxalement, les groupes d'intérêts les plus installés, interlocuteurs privilégiés des responsables publics et donc à ce titre régulièrement invités, peuvent donc être soumis à des obligations déclaratives réduites ;</li>
+                  <li>la complexité du dispositif : le jeu complexe de seuils définissant une activité "principale et régulière" devant être déclarée conduit à de réelles difficultés déclaratives et nuisent à la lisibilité du registre.</li>
                 </ul>
               </div>
             </div>
@@ -321,8 +294,8 @@
               <div class="panel-body">
               <p><a href="mailto:integritywatch@transparency-France.org" target="_blank">integritywatch@transparency-France.org</a><br />+33 (0) 1 84 16 94 68</p>
               <p>
-              Contact presse : <a href="mailto:benjamin.guy@transparency-france.org">benjamin.guy@transparency-france.org</a><br />
-              Contact élus, décideurs publics et représentants d’intérêts : <a href="mailto:elsa.foucraut@transparency-france.org">elsa.foucraut@transparency-france.org</a> 
+              Contact presse : <a href="mailto:Anne.boisse@transparency-france.org">Anne.boisse@transparency-france.org</a><br />
+              Contact élus et décideurs publics : <a href="mailto:elsa.foucraut@transparency-france.org">elsa.foucraut@transparency-france.org</a> 
               </p>
             </div>
             </div>
