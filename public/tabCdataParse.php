@@ -246,6 +246,20 @@ foreach ($publications as $key => $value) {
   } 
 }
 echo sizeof($activities);
+
+/*
+$count = 0;
+$prefix = ''; 
+echo '[';  
+foreach($activities as $row) {
+  $count ++;
+ echo $prefix, json_encode($row, JSON_UNESCAPED_UNICODE);  $prefix = ','; 
+ //echo '   ';
+ //echo $count;
+} 
+echo ']';
+*/
+
 //Save new dataset
 file_put_contents('./data/c/activities.json', json_encode($activities, JSON_UNESCAPED_UNICODE));
 echo 'Done';

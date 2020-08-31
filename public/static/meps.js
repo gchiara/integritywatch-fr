@@ -46890,7 +46890,7 @@ new _vue.default({
     share: function share(platform) {
       if (platform == 'twitter') {
         var thisPage = window.location.href.split('?')[0];
-        var shareText = 'Share text here ' + thisPage;
+        var shareText = 'Quelles sont les activités annexes de vos responsables publics ? #integritywatch FR : un outil inédit de @TI_France pour prévenir les conflits d\'intérêts et renforcer la #transparence de nos élus ' + thisPage;
         var shareURL = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
         window.open(shareURL, '_blank');
         return;
@@ -47290,7 +47290,6 @@ var randomCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 for (var i = 0; i < 5; i++) {
   randomPar += randomCharacters.charAt(Math.floor(Math.random() * randomCharacters.length));
 } //Load data and generate charts
-//json('./data/declarations-filtered-160620.json', (err, dataDeclarations) => {
 
 
 (0, _d3Request.json)('./data/declarations-filtered-080720.json', function (err, dataDeclarations) {
@@ -47298,9 +47297,7 @@ for (var i = 0; i < 5; i++) {
   (0, _d3Request.csv)('./data/parlementaires.csv', function (err, dataParlamentaires) {
     (0, _d3Request.csv)('./data/department-names.csv', function (err, departmentnames) {
       (0, _d3Request.csv)('./data/parties-names.csv?' + randomPar, function (err, partiesnames) {
-        //csv('./data/list-final-160620.csv?'+ randomPar, (err, listfinal) => {
         (0, _d3Request.csv)('./data/list-final-080720.csv?' + randomPar, function (err, listfinal) {
-          //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
           //var declarations = dataDeclarations.declarations.declaration;
           var declarations = dataDeclarations;
           var representatives = dataParlamentaires;
@@ -47314,12 +47311,6 @@ for (var i = 0; i < 5; i++) {
           var timestamps = [];
           var missingsenators = [];
           var missingothers = [];
-          /*
-          listfinal.forEach(function (d) {
-            timestamps.push(d.timestamp);
-          });
-          */
-
           listfinal.forEach(function (d) {
             if (d.date_depot == "No digital dec" || d.date_depot == "") {
               if (d.type_mandat == "senateur") {
@@ -47425,7 +47416,7 @@ for (var i = 0; i < 5; i++) {
             d.listInfo = thislistentry;
 
             if (!d.listInfo) {
-              console.log("missing list entry:"); //console.log(d);
+              console.log("missing list entry:");
             }
 
             if (d.listInfo && d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
@@ -48381,7 +48372,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49411" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

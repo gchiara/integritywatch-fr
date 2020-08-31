@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Parlementaires en France</title>
+    <title>Integrity Watch France | Lobbyistes</title>
     <!-- Add twitter and og meta here -->
+    <meta property="og:url" content="https://www.integritywatch.fr" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Integrity Watch France | Lobbyistes" />
+    <meta property="og:description" content="IntegrityWatch France : un outil interactif inédit pour prévenir les conflits d’intérêts de nos élus et renforcer la transparence du lobbying en France." />
+    <meta property="og:image" content="https://www.integritywatch.fr/images/thumbnail.png" />
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

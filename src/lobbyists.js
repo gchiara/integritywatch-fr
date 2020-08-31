@@ -186,7 +186,7 @@ new Vue({
     share: function (platform) {
       if(platform == 'twitter'){
         var thisPage = window.location.href.split('?')[0];
-        var shareText = 'Share text here ' + thisPage;
+        var shareText = 'Qui fait du #lobbying envers de nos élus ? Combien dépense-t-ils pour défendre leurs intérêts ? #integritywatch FR : un outil inédit de @TI_France pour renforcer la #transparence dans nos institutions ' + thisPage;
         var shareURL = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
         window.open(shareURL, '_blank');
         return;

@@ -160,7 +160,7 @@ new Vue({
     share: function (platform) {
       if(platform == 'twitter'){
         var thisPage = window.location.href.split('?')[0];
-        var shareText = 'Share text here ' + thisPage;
+        var shareText = 'Quelles sont les activités annexes de vos responsables publics ? #integritywatch FR : un outil inédit de @TI_France pour prévenir les conflits d\'intérêts et renforcer la #transparence de nos élus ' + thisPage;
         var shareURL = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
         window.open(shareURL, '_blank');
         return;
@@ -540,17 +540,12 @@ for ( var i = 0; i < 5; i++ ) {
 }
 
 //Load data and generate charts
-  //json('./data/declarations-filtered-160620.json', (err, dataDeclarations) => {
   json('./data/declarations-filtered-080720.json', (err, dataDeclarations) => {
   //json('./data/declarations-150620.json', (err, dataDeclarations) => {
   csv('./data/parlementaires.csv', (err, dataParlamentaires) => {
     csv('./data/department-names.csv', (err, departmentnames) => {
       csv('./data/parties-names.csv?'+ randomPar, (err, partiesnames) => {
-        //csv('./data/list-final-160620.csv?'+ randomPar, (err, listfinal) => {
         csv('./data/list-final-080720.csv?'+ randomPar, (err, listfinal) => {
-          
-          //csv('./data/missing-senators-2019.csv', (err, missingsenators) => {
-    
             //var declarations = dataDeclarations.declarations.declaration;
             var declarations = dataDeclarations;
             var representatives = dataParlamentaires;
@@ -560,18 +555,10 @@ for ( var i = 0; i < 5; i++ ) {
             //Does this need to change? It's used to indicate which revenue year to keep into account from the declarations.
             //At the moment the latest ones seem to be 2017.
             var currentYear = 2017;
-
             //Get the list of correct declarations timestamps from the list-final csv file
             var timestamps = [];
             var missingsenators = [];
             var missingothers = [];
-
-            /*
-            listfinal.forEach(function (d) {
-              timestamps.push(d.timestamp);
-            });
-            */
-            
 
             listfinal.forEach(function (d) {
               if(d.date_depot == "No digital dec" || d.date_depot == "") {
@@ -671,7 +658,6 @@ for ( var i = 0; i < 5; i++ ) {
               d.listInfo = thislistentry;
               if(!d.listInfo) {
                 console.log("missing list entry:");
-                //console.log(d);
               }
               if(d.listInfo && d.listInfo.declarations_num > vuedata.maxDeclarationsDeclated) {
                 vuedata.maxDeclarationsDeclated = parseInt(d.listInfo.declarations_num);
@@ -742,8 +728,6 @@ for ( var i = 0; i < 5; i++ ) {
               if(d.mandat == "europe") {
                 d.mandat = "Député européen"
               }
-
-              
 
               if(!d.department || d.department == '' || d.department == undefined){
                 //Find department name from department names csv if missing

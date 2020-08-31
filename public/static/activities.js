@@ -46915,7 +46915,7 @@ new _vue.default({
     share: function share(platform) {
       if (platform == 'twitter') {
         var thisPage = window.location.href.split('?')[0];
-        var shareText = 'Share text here ' + thisPage;
+        var shareText = 'Qui fait du #lobbying envers de nos élus ? Combien dépense-t-ils pour défendre leurs intérêts ? #integritywatch FR : un outil inédit de @TI_France pour renforcer la #transparence dans nos institutions ' + thisPage;
         var shareURL = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText);
         window.open(shareURL, '_blank');
         return;
@@ -47929,7 +47929,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49411" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
