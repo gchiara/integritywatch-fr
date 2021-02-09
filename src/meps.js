@@ -954,7 +954,48 @@ for ( var i = 0; i < 5; i++ ) {
               d.revenue_n = d.revenue_n.toFixed(2);
 
               //Search string
-              d.searchstring = d.name + " " + d.departement + " " + d.departement_n;
+              var activitiesSearchString = "";
+              if(d.activProfCinqDerniere) {
+                _.each(d.activProfCinqDerniere, function (a) {
+                  activitiesSearchString += a.description + " " + a.employeur + " ";
+                 });
+              }
+              if(d.activConsultant) {
+                _.each(d.activConsultant, function (a) {
+                  activitiesSearchString += a.description + " " + a.employeur + " ";
+                 });
+              }
+              if(d.participationDirigeant) {
+                _.each(d.participationDirigeant, function (a) {
+                  activitiesSearchString += a.activite + " " + a.nomSociete + " ";
+                 });
+              }
+              if(d.participationFinanciere) {
+                _.each(d.participationFinanciere, function (a) {
+                  activitiesSearchString += a.nomSociete + " ";
+                 });
+              }
+              if(d.activProfConjoint) {
+                _.each(d.activProfConjoint, function (a) {
+                  activitiesSearchString += a.activiteProf + " " + a.employeurConjoint + " ";
+                 });
+              }
+              if(d.fonctionBenevole) {
+                _.each(d.fonctionBenevole, function (a) {
+                  activitiesSearchString += a.descriptionActivite + " " + a.nomStructure + " ";
+                 });
+              }
+              if(d.mandatElectif) {
+                _.each(d.mandatElectif, function (a) {
+                  activitiesSearchString += a.descriptionMandat + " ";
+                 });
+              }
+              if(d.activCollaborateur) {
+                _.each(d.activCollaborateur, function (a) {
+                  activitiesSearchString += a.nom + " " + a.descriptionActivite + " " + d.employeur + " ";
+                 });
+              }
+              d.searchstring = d.name + " " + d.departement + " " + d.departement_n + " " + d.parti + activitiesSearchString;
               d.activities_word = d.activities;
               //Totals
               totpeople ++;

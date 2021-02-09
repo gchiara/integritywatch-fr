@@ -481,7 +481,6 @@ function getClientsRange(n) {
           d.actYearsArray.push(thisYear);
         }
       }
-      //console.log(d.actYears);
     }
     //Get activities sectors list
     d.sectors = [];
@@ -495,7 +494,16 @@ function getClientsRange(n) {
     d.collabNumRange = getCollabRange(d.collabNum);
     d.clientsNum = d.clients.length;
     d.clientsNumRange = getClientsRange(d.clientsNum);
-    d.searchstring = d.nomUsage + " " + d.denomination + " " + d.categorieOrganisation.label;
+    var clientsSearchString = "";
+    _.each(d.clients, function (c) {
+      clientsSearchString += c.denomination + " ";
+    })
+    var affiliationsSearchString = "";
+    _.each(d.affiliations, function (c) {
+      affiliationsSearchString += c.denomination + " ";
+    })
+    d.searchstring = d.nomUsage + " " + d.denomination + " " + d.categorieOrganisation.label + " " + d.sectors.join(" ") + " " + clientsSearchString + " " + affiliationsSearchString;
+    //console.log(d.searchstring);
     //Streamline montant depense
     d.montantDepenseStreamlined = "Déclaration à venir";
     if(d.latestPub.montantDepense) {
@@ -645,7 +653,6 @@ function getClientsRange(n) {
       }))
       .title(function(d){
         var thisKey = d.key;
-        console.log(d.key);
         return thisKey + ': ' + d.value;
       })
       .minAngleForLabel(0.1)
@@ -962,7 +969,6 @@ function getClientsRange(n) {
       var data = datatable.DataTable().row( this ).data();
       vuedata.selectedElement = data;
       vuedata.showClientsTable = false;
-      //console.log(vuedata.selectedElement);
       $('#detailsModal').modal();
     });
   }
@@ -1004,7 +1010,6 @@ function getClientsRange(n) {
 
   //Set word for wordcloud
   var setword = function(wd) {
-    //console.log(charts.subject.chart);
     $("#search-input").val(wd);
     var s = wd.toLowerCase();
     searchDimension.filter(function(d) { 

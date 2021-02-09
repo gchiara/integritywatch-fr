@@ -47220,8 +47220,7 @@ function getClientsRange(n) {
         for (var n = 0; n < thisActAmt; n++) {
           d.actYearsArray.push(thisYear);
         }
-      } //console.log(d.actYears);
-
+      }
     } //Get activities sectors list
 
 
@@ -47238,7 +47237,20 @@ function getClientsRange(n) {
     d.collabNumRange = getCollabRange(d.collabNum);
     d.clientsNum = d.clients.length;
     d.clientsNumRange = getClientsRange(d.clientsNum);
-    d.searchstring = d.nomUsage + " " + d.denomination + " " + d.categorieOrganisation.label; //Streamline montant depense
+    var clientsSearchString = "";
+
+    _.each(d.clients, function (c) {
+      clientsSearchString += c.denomination + " ";
+    });
+
+    var affiliationsSearchString = "";
+
+    _.each(d.affiliations, function (c) {
+      affiliationsSearchString += c.denomination + " ";
+    });
+
+    d.searchstring = d.nomUsage + " " + d.denomination + " " + d.categorieOrganisation.label + " " + d.sectors.join(" ") + " " + clientsSearchString + " " + affiliationsSearchString; //console.log(d.searchstring);
+    //Streamline montant depense
 
     d.montantDepenseStreamlined = "Déclaration à venir";
 
@@ -47379,7 +47391,6 @@ function getClientsRange(n) {
       return thisKey;
     })).title(function (d) {
       var thisKey = d.key;
-      console.log(d.key);
       return thisKey + ': ' + d.value;
     }).minAngleForLabel(0.1).label(function (d) {
       var percent = d.value / group.all().reduce(function (a, v) {
@@ -47663,8 +47674,7 @@ function getClientsRange(n) {
     $('#dc-data-table tbody').on('click', 'tr', function () {
       var data = datatable.DataTable().row(this).data();
       vuedata.selectedElement = data;
-      vuedata.showClientsTable = false; //console.log(vuedata.selectedElement);
-
+      vuedata.showClientsTable = false;
       $('#detailsModal').modal();
     });
   }; //REFRESH TABLE
@@ -47709,7 +47719,6 @@ function getClientsRange(n) {
 
 
   var setword = function setword(wd) {
-    //console.log(charts.subject.chart);
     $("#search-input").val(wd);
     var s = wd.toLowerCase();
     searchDimension.filter(function (d) {
@@ -47816,7 +47825,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65025" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

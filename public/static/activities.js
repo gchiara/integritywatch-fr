@@ -47175,7 +47175,8 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
   //console.log(repTypesList.sort());
   //$('body').html(repTypesList.sort().join('<br />'));
   _.each(activities, function (d) {
-    d.searchstring = d.orgName + ' ' + d.publicationCourante.objet + ' ' + d.observationsText;
+    d.searchstring = d.orgName + ' ' + d.publicationCourante.objet + ' ' + d.observationsText + ' ' + d.repType.join(' ') + ' ' + d.decisions.join(' ') + ' ' + d.publicationCourante.domainesIntervention.join(' ') + ' ' + d.catOrg + ' ' + d.actions.join(' ') + ' ' + d.publicationCourante.domainesIntervention.join(' ') + ' ' + d.tiersList.join(' ');
+    console.log(d.searchstring);
     d.repTypeClean = [];
 
     _.each(d.repType, function (r) {
@@ -47929,7 +47930,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65025" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
